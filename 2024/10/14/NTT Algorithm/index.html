@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/Cryptography/" style="color: #03a9f4">
+                <a href="/tags/Cryptography/" style="color: #ffa2c4">
                     Cryptography
                 </a>
             </span>
@@ -199,27 +199,142 @@
     </div>
     
     <div class="content" v-pre>
-        <h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><table>
-<thead>
-<tr>
-<th align="center">Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">__m128</td>
-<td>1</td>
-</tr>
-<tr>
-<td align="center"></td>
-<td></td>
-</tr>
-<tr>
-<td align="center"></td>
-<td></td>
-</tr>
-</tbody></table>
-<h1 id="begin-pmatrix-zeta-0-zeta-1-zeta-2-cdots-zeta-n-1-zeta-3-times-0-zeta-3-times-1-zeta-3-times-2-cdots-zeta-3-times-n-1-vdots-vdots-vdots-ddots-vdots-zeta-2n-1-times-0-zeta-2n-1-times-1-zeta-2n-1-times-2-cdots-zeta-2n-1-times-n-1-end-pmatrix-begin-pmatrix-f-0-f-1-vdots-f-n-1-end-pmatrix"><a href="#begin-pmatrix-zeta-0-zeta-1-zeta-2-cdots-zeta-n-1-zeta-3-times-0-zeta-3-times-1-zeta-3-times-2-cdots-zeta-3-times-n-1-vdots-vdots-vdots-ddots-vdots-zeta-2n-1-times-0-zeta-2n-1-times-1-zeta-2n-1-times-2-cdots-zeta-2n-1-times-n-1-end-pmatrix-begin-pmatrix-f-0-f-1-vdots-f-n-1-end-pmatrix" class="headerlink" title="$$\begin{pmatrix}    \zeta^{0} &amp; \zeta^{1}  &amp; \zeta^{2} &amp; \cdots &amp; \zeta^{n-1} \    \zeta^{3\times 0} &amp; \zeta^{3\times 1}  &amp; \zeta^{3\times 2} &amp; \cdots &amp; \zeta^{3\times (n-1)} \    \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots\    \zeta^{(2n-1)\times 0} &amp; \zeta^{(2n-1)\times 1}  &amp; \zeta^{(2n-1)\times 2} &amp; \cdots &amp; \zeta^{(2n-1)\times (n-1)} \\end{pmatrix}\begin{pmatrix}    f_{0} \    f_{1} \    \vdots \    f_{n-1}\end{pmatrix}"></a>$$<br>\begin{pmatrix}<br>    \zeta^{0} &amp; \zeta^{1}  &amp; \zeta^{2} &amp; \cdots &amp; \zeta^{n-1} \<br>    \zeta^{3\times 0} &amp; \zeta^{3\times 1}  &amp; \zeta^{3\times 2} &amp; \cdots &amp; \zeta^{3\times (n-1)} \<br>    \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots\<br>    \zeta^{(2n-1)\times 0} &amp; \zeta^{(2n-1)\times 1}  &amp; \zeta^{(2n-1)\times 2} &amp; \cdots &amp; \zeta^{(2n-1)\times (n-1)} \<br>\end{pmatrix}<br>\begin{pmatrix}<br>    f_{0} \<br>    f_{1} \<br>    \vdots \<br>    f_{n-1}<br>\end{pmatrix}</h1><p>\begin{pmatrix}<br>    \hat{f_{0}} \<br>    \hat{f_{1}} \<br>    \vdots \<br>    \hat{f_{n-1}}<br>\end{pmatrix}<br>$$</p>
+        <h1 id="NTT"><a href="#NTT" class="headerlink" title="NTT"></a>NTT</h1><p>我们在本小节首先给出标准NTT算法的实现，本文的代码参数以Kyber256参数为例</p>
+<h2 id="Lemma"><a href="#Lemma" class="headerlink" title="Lemma"></a>Lemma</h2><p>对于$\mathcal{R}_q&#x3D;\mathbb{Z}_q[x]&#x2F;(x^n+1)$，如果$2n|q-1$，则有$\zeta\in\mathbb{Z}_q[x]$，满足$ord(\zeta)&#x3D;2n$，即$\zeta^{2n}\equiv 1~~mod~q$，且$k&lt;2n$时$\zeta^{k}\not\equiv 1$</p>
+<h2 id="NTT-Algorithm"><a href="#NTT-Algorithm" class="headerlink" title="NTT Algorithm"></a>NTT Algorithm</h2><p>对于$f\in\mathcal{R_q}$，定义$f&#x3D;(f_0,f_1,\cdots,f_{n-1})$，$NTT(f)&#x3D;(f(\zeta),f(\zeta^{3}),\cdots,f(\zeta^{2n-1}))$，n is power of 2，于是利用矩阵写出点值表示为：<br>$$\begin{pmatrix}\zeta^{0} &amp; \zeta^{1}  &amp; \zeta^{2} &amp; \cdots &amp; \zeta^{n-1} \cr\zeta^{3\times 0} &amp; \zeta^{3\times 1}  &amp; \zeta^{3\times 2} &amp; \cdots &amp; \zeta^{3\times (n-1)} \cr\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots\cr\zeta^{(2n-1)\times 0} &amp; \zeta^{(2n-1)\times 1}  &amp; \zeta^{(2n-1)\times 2} &amp; \cdots &amp; \zeta^{(2n-1)\times (n-1)} \cr\end{pmatrix}\begin{pmatrix}f_{0} \cr f_{1} \cr\vdots \cr f_{n-1}\end{pmatrix}&#x3D;\begin{pmatrix}\hat{f_{0}} \cr\hat{f_{1}} \cr\vdots \cr\hat{f_{n-1}}\end{pmatrix}$$<br>其中<br>$$\begin{equation*}\begin{aligned}\hat{f_{j}}&amp;&#x3D;\sum_{i&#x3D;0}^{n-1}f_{i}\cdot\zeta^{(2j+1)\cdot i}\cr&amp;&#x3D;\sum_{i&#x3D;0}^{n-1}(f_{i}\cdot\zeta^{i})\cdot\omega^{j\cdot i}~~~~(\omega\equiv\zeta^2~~mod~q)\end{aligned}\end{equation*}$$<br>于是上述矩阵可另写作：<br>$$\begin{pmatrix}\omega^{0\times 0} &amp; \omega^{0\times 1}  &amp; \omega^{0\times 2} &amp; \cdots &amp; \omega^{0\times (n-1)} \cr\omega^{1\times 0} &amp; \omega^{1\times 1}  &amp; \omega^{1\times 2} &amp; \cdots &amp; \omega^{1\times (n-1)} \cr\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots\cr\omega^{(n-1)\times 0} &amp; \omega^{(n-1)\times 1}  &amp; \omega^{(n-1)\times 2} &amp; \cdots &amp; \omega^{(n-1)\times (n-1)} \cr\end{pmatrix}\begin{pmatrix}\zeta^{0} &amp; &amp; &amp; &amp; \cr&amp; \zeta^{1} &amp; &amp; &amp; \cr&amp; &amp; \zeta^{2} &amp; &amp; \cr&amp; &amp; &amp; \ddots &amp; \cr&amp; &amp; &amp; &amp; \zeta^{(n-1)} \cr\end{pmatrix}\begin{pmatrix}f_{0} \cr f_{1} \cr\vdots \cr f_{n-1}\end{pmatrix}&#x3D;\begin{pmatrix}\hat{f_{0}} \cr\hat{f_{1}} \cr\vdots \cr\hat{f_{n-1}}\end{pmatrix}$$<br>中国剩余定理（CRT）给出了一种同构关系，我们可以通过下面的树形结构优化时间复杂度：<br><img src="https://ygn1a5g19l.feishu.cn/space/api/box/stream/download/asynccode/?code=Y2I0MDQ5YTZhMTlhY2YwZjc1ZDQ2NmZlMjM2NWNmY2JfVUJsSk9Yc1lvWkl2cmpaMnVrZ1FuWGVKTU9NbVQ0NnFfVG9rZW46VWRFTmJVS1d2b0NkODB4TzRPeWN2OUVzbkRjXzE3Mjg4OTAzOTY6MTcyODg5Mzk5Nl9WNA" alt="NTT"><br>对于最后一层第$i$个叶子节点，其形式为$\mathbb{Z}_q[x]&#x2F;(x-\zeta^{2br(i)+1})$，$br(i)$是$i$的比特翻转结果</p>
+<pre><code class="c">void poly_ntt(uint16_t* r, int dim)
+&#123;
+    uint16_t m, i, j, j_1, V, t, U, j_2;
+    t = dim;
+    //printf(&quot;test:\n&quot;);
+    for (m = 1; m &lt; dim; m = 2 * m)
+    &#123;
+        t = t / 2;
+        //printf(&quot;\n%d:\n&quot;, t);
+        for (i = 0; i &lt; m; i++)
+        &#123;
+            j_1 = 2 * i * t;
+            j_2 = j_1 + t - 1;
+            for (j = j_1; j &lt;= j_2; j++)
+            &#123;
+                U = r[j] % Q;
+                V = r[j + t] * phi[m + i] % Q;
+                r[j] = (U + V) % Q;
+                r[j + t] = (U - V + 4 * Q) % Q;
+            &#125;
+        &#125;
+        /*printf(&quot;\n&quot;);
+        for (int index = 0; index &lt; dim; index++) &#123;
+            printf(&quot;%d,&quot;,r[index]);
+        &#125;*/
+    &#125;
+    // poly_bitrev(r);
+
+&#125;
+</code></pre>
+<h1 id="T-NTT"><a href="#T-NTT" class="headerlink" title="T-NTT"></a>T-NTT</h1><p>有时未必会找到可以彻底分解的$n$，例如当$2n&gt;q$时会出现分解不完全的情况（Kyber256方案中$n&#x3D;256$，$q&#x3D;3329$便仅满足$n|q-1$），考虑$\mathbb{Z_{17}}[x]&#x2F;(x^{16}+1)$，利用第一节的思路我们可以得到：<br><img src="https://ygn1a5g19l.feishu.cn/space/api/box/stream/download/asynccode/?code=Y2I4ODk0ZTRmYzY1MTM2MDk0MjdmZTIyYjQ0N2Q5ZWVfb3Y0ZXBiOFg4WkZrejBxckljRVBLcHNnVTJvQXB6bzFfVG9rZW46SW16amIwN3Bob1ExVWV4Mzh6aGNFek1YbjhjXzE3Mjg4OTEwMzU6MTcyODg5NDYzNV9WNA" alt="T-NTT"><br>对于此种不完全分解的情况，以叶子节点$\mathbb{Z_{17}}[x]&#x2F;(x^{2}-\zeta)$为例，多项式$f$和$g$此时可写作$\hat{f_{0}}+\hat{f_{1}}\cdot x$，$\hat{g_{0}}+\hat{g_{1}}\cdot x$，得到乘积多项式$\hat{f_{0}}\cdot\hat{g_{0}}+\hat{f_{1}}\cdot\hat{g_{1}}\zeta+(\hat{f_{0}}\cdot\hat{g_{1}}+\hat{f_{1}}\cdot\hat{g_{0}})x$，于是$$\hat{h_{0}}&#x3D;\hat{f_{0}}\cdot\hat{g_{0}}+\hat{f_{1}}\cdot\hat{g_{1}}\zeta$$ $$\hat{h_{1}}&#x3D;\hat{f_{0}}\cdot\hat{g_{1}}+\hat{f_{1}}\cdot\hat{g_{0}}$$<br>因此将T-NTT算法表示为$T-NTT(f)&#x3D;(\hat{f_{0}}+\hat{f_{1}}\cdot x,\hat{f_{2}}+\hat{f_{3}}\cdot x,\cdots,\hat{f_{n-2}}+\hat{f_{n-1}}\cdot x)$</p>
+<h1 id="Pt-NTT"><a href="#Pt-NTT" class="headerlink" title="Pt-NTT"></a>Pt-NTT</h1><p>依旧针对T-NTT小节提出的例子，Pt-NTT算法采用了分治的思想处理</p>
+<h2 id="Lemma-1"><a href="#Lemma-1" class="headerlink" title="Lemma"></a>Lemma</h2><p>Karatsuba算法指出在计算$(a_{0}+a_{1}\cdot x)\cdot (b_{0}+b_{1}\cdot x)$时，我们可以通过计算$a_{0}\cdot b_{0}+a_{1}\cdot b_{1}\cdot x^{2}+[(a_{0}+a_{1})\cdot(b_{0}+b_{1})-a_{0}\cdot b_{0}-a_{1}\cdot b_{1}]\cdot x$得到，减少一次大数乘法运算</p>
+<h2 id="Pt-NTT-Algorithm"><a href="#Pt-NTT-Algorithm" class="headerlink" title="Pt-NTT Algorithm"></a>Pt-NTT Algorithm</h2><p>在Pt-NTT算法中（$\alpha&#x3D;1$），我们将多项式$f$写作$f&#x3D;f_{o}(x^{2})+f_{e}(x^{2})\cdot x$，令$y&#x3D;x^{2}$得到，$f&#x3D;f_{o}(y)+f_{e}(y)\cdot x$<br>利用Karatsuba算法得到<br>$$\begin{equation*}\begin{aligned}f\cdot g &amp;&#x3D;f_{o}(y)\cdot g_{o}(y)+f_{e}(y)\cdot g_{e}(y)\cdot y+[f_{o}(y)\cdot g_{e}(y)+f_{e}(y)\cdot g_{o}(y)]\cdot x\cr&amp;&#x3D;h_{o}(y)\cdot h_{e}(y)\cdot x\end{aligned}\end{equation*}$$<br>于是我们将问题转到$\mathbb{Z_{17}}[y]&#x2F;(y^{8}+1)$，可以通过NTT算法求解<br>对于一般形式的参数$\alpha$，我们将多项式$F$写作$F_{0}(y)+F_{1}(y)\cdot x+\cdots+F_{2^{\alpha}-1}(y)\cdot x^{2^{\alpha}-1}$</p>
+<pre><code class="c">void  poly_1ptntt(uint16_t* f, uint16_t* g, uint16_t* h, int dim, int inv_n)
+&#123;
+    uint16_t f_even[N / 2], f_odd[N / 2], g_even[N / 2], g_odd[N / 2], g_odd_1[N / 2], fg_even[N / 2], fg_odd[N / 2], fg_odd_1[N / 2], fg_eo[N / 2], fg_oe[N / 2], h_even[N / 2], h_odd[N / 2];
+    int i;
+
+    //f[dim]
+    for (i = 0; i &lt; dim; i++)
+
+    &#123;
+
+        f_even[i] = f[2 * i];
+        f_odd[i] = f[2 * i + 1];
+        g_even[i] = g[2 * i];
+        g_odd[i] = g[2 * i + 1];
+    &#125;
+
+
+    for (i = 1; i &lt; dim; i++)
+        g_odd_1[i] = g_odd[i - 1];
+    g_odd_1[0] = -g_odd[dim - 1] + Q;
+
+    poly_ntt(f_even, dim);
+    poly_ntt(g_even, dim);
+    poly_pointwise(f_even, g_even, fg_even, dim);
+
+
+    poly_ntt(g_odd_1, dim);
+    poly_ntt(f_odd, dim);
+    poly_pointwise(f_odd, g_odd_1, fg_odd_1, dim);
+
+    for (i = 0; i &lt; dim; i++)
+        h_even[i] = (fg_even[i] + fg_odd_1[i]) % Q;
+
+    poly_invntt(h_even, dim, inv_n);
+
+
+    poly_pointwise(f_odd, g_even, fg_oe, dim);
+
+    poly_ntt(g_odd, dim);
+    poly_pointwise(f_even, g_odd, fg_eo, dim);
+
+
+    for (i = 0; i &lt; dim; i++)
+        h_odd[i] = (fg_oe[i] + fg_eo[i]) % Q;
+
+    poly_invntt(h_odd, dim, inv_n);
+    for (i = 0; i &lt; dim; i++)
+    &#123;
+
+        h[2 * i] = h_even[i];
+        h[2 * i + 1] = h_odd[i];
+
+    &#125;
+
+&#125;
+</code></pre>
+<pre><code class="c">void  poly_1Iptntt_kara(uint16_t* f, uint16_t* g, uint16_t* h, int dim, int inv_n)
+&#123;
+    uint16_t f_even[N / 2], f_odd[N / 2], g_even[N / 2], g_odd[N / 2], fg_even[N / 2], fg_odd[N / 2], fg_odd_1[N / 2], fg_odd_2[N / 2], h_even[N / 2], h_odd[N / 2];
+    int i;
+    //uint16_t temp_1[N/2];
+    //uint16_t temp[N / 2] = &#123; 3844, 3837, 7362, 319, 405, 7276, 4784, 2897, 1996, 5685, 6812, 869, 1633, 6048, 5881, 1800, 4781, 2900, 2063, 5618, 198, 7483, 6094, 1587, 7462, 219, 3501, 4180, 3188, 4493, 6801, 880, 6526, 1155, 5417, 2264, 4608, 3073, 3566, 4115, 1886, 5795, 2573, 5108, 6461, 1220, 2563, 5118, 4556, 3125, 2819, 4862, 3789, 3892, 1402, 6279, 3141, 4540, 4501, 3180, 257, 7424, 6203, 1478, 1003, 6678, 1853, 5828, 3041, 4640, 4837, 2844, 1408, 6273, 6637, 1044, 2722, 4959, 993, 6688, 2880, 4801, 4149, 3532, 6266, 1415, 1682, 5999, 3078, 4603, 2562, 5119, 648, 7033, 4582, 3099, 6974, 707, 2990, 4691, 2681, 5000, 1438, 6243, 3901, 3780, 6556, 1125, 417, 7264, 2593, 5088, 2044, 5637, 5729, 1952, 6090, 1591, 5653, 2028, 5833, 1848, 7131, 550, 1228, 6453, 1097, 6584 &#125;;
+    uint16_t temp[N / 2] = &#123; 17, 3312, 2761, 568, 583, 2746, 2649, 680, 1637, 1692, 723, 2606, 2288, 1041, 1100, 2229, 1409, 1920, 2662, 667, 3281, 48, 233, 3096, 756, 2573, 2156, 1173, 3015, 314, 3050, 279, 1703, 1626, 1651, 1678, 2789, 540, 1789, 1540, 1847, 1482, 952, 2377, 1461, 1868, 2687, 642, 939, 2390, 2308, 1021, 2437, 892, 2388, 941, 733, 2596, 2337, 992, 268, 3061, 641, 2688, 1584, 1745, 2298, 1031, 2037, 1292, 3220, 109, 375, 2954, 2549, 780, 2090, 1239, 1645, 1684, 1063, 2266, 319, 3010, 2773, 556, 757, 2572, 2099, 1230, 561, 2768, 2466, 863, 2594, 735, 2804, 525, 1092, 2237, 403, 2926, 1026, 2303, 1143, 2186, 2150, 1179, 2775, 554, 886, 2443, 1722, 1607, 1212, 2117, 1874, 1455, 1029, 2300, 2110, 1219, 2935, 394, 885, 2444, 2154, 1175 &#125;;
+    uint16_t f_eo[N / 2], g_eo[N / 2], fg_eo[N / 2];
+    for (i = 0; i &lt; dim; i++)
+    &#123;
+        f_even[i] = f[2 * i];
+        f_odd[i] = f[2 * i + 1];
+        g_even[i] = g[2 * i];
+        g_odd[i] = g[2 * i + 1];
+    &#125;
+
+
+    poly_ntt(f_even, dim);
+    poly_ntt(g_even, dim);
+    poly_pointwise(f_even, g_even, fg_even, dim);
+
+    poly_ntt(g_odd, dim);
+    poly_ntt(f_odd, dim);
+    poly_pointwise(f_odd, g_odd, fg_odd_1, dim);
+    poly_pointwise(temp, fg_odd_1, fg_odd_2, dim);
+
+
+    for (i = 0; i &lt; dim; i++)
+        h_even[i] = (fg_even[i] + fg_odd_2[i]) % Q;
+    poly_invntt(h_even, dim, inv_n);
+
+    for (i = 0; i &lt; dim; i++)
+        h_odd[i] = ((f_even[i] + f_odd[i]) * (g_even[i] + g_odd[i]) - fg_even[i] - fg_odd_1[i]) % Q;
+    
+    poly_invntt(h_odd, dim, inv_n);
+    for (i = 0; i &lt; dim; i++)
+    &#123;
+        h[2 * i] = h_even[i];
+        h[2 * i + 1] = h_odd[i];
+    &#125;
+
+&#125;
+</code></pre>
 
     </div>
     
