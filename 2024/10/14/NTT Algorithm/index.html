@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>AVX Learning Notes | 『1nv_qaq&#39;s Blog』</title>
+    <title>NTT Algorithm | 『1nv_qaq&#39;s Blog』</title>
     <meta name="author" content="1nv-qaq" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -161,22 +161,22 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>AVX Learning Notes</h1>
+        <h1>NTT Algorithm</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2024/7/26
+            2024/10/14
         </span>
         
         <span class="category">
-            <a href="/categories/Coding/">
+            <a href="/categories/Cryptography/">
                 <span class="icon">
                     <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
-                Coding
+                Cryptography
             </a>
         </span>
         
@@ -189,8 +189,8 @@
             
             <span class="tag">
                 
-                <a href="/tags/Coding/" style="color: #ffa2c4">
-                    Coding
+                <a href="/tags/Cryptography/" style="color: #03a9f4">
+                    Cryptography
                 </a>
             </span>
             
@@ -219,6 +219,7 @@
 <td></td>
 </tr>
 </tbody></table>
+<h1 id="begin-pmatrix-zeta-0-zeta-1-zeta-2-cdots-zeta-n-1-zeta-3-times-0-zeta-3-times-1-zeta-3-times-2-cdots-zeta-3-times-n-1-vdots-vdots-vdots-ddots-vdots-zeta-2n-1-times-0-zeta-2n-1-times-1-zeta-2n-1-times-2-cdots-zeta-2n-1-times-n-1-end-pmatrix-begin-pmatrix-f-0-f-1-vdots-f-n-1-end-pmatrix"><a href="#begin-pmatrix-zeta-0-zeta-1-zeta-2-cdots-zeta-n-1-zeta-3-times-0-zeta-3-times-1-zeta-3-times-2-cdots-zeta-3-times-n-1-vdots-vdots-vdots-ddots-vdots-zeta-2n-1-times-0-zeta-2n-1-times-1-zeta-2n-1-times-2-cdots-zeta-2n-1-times-n-1-end-pmatrix-begin-pmatrix-f-0-f-1-vdots-f-n-1-end-pmatrix" class="headerlink" title="$$\begin{pmatrix}    \zeta^{0} &amp; \zeta^{1}  &amp; \zeta^{2} &amp; \cdots &amp; \zeta^{n-1} \    \zeta^{3\times 0} &amp; \zeta^{3\times 1}  &amp; \zeta^{3\times 2} &amp; \cdots &amp; \zeta^{3\times (n-1)} \    \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots\    \zeta^{(2n-1)\times 0} &amp; \zeta^{(2n-1)\times 1}  &amp; \zeta^{(2n-1)\times 2} &amp; \cdots &amp; \zeta^{(2n-1)\times (n-1)} \\end{pmatrix}\begin{pmatrix}    f_{0} \    f_{1} \    \vdots \    f_{n-1}\end{pmatrix}"></a>$$<br>\begin{pmatrix}<br>    \zeta^{0} &amp; \zeta^{1}  &amp; \zeta^{2} &amp; \cdots &amp; \zeta^{n-1} \<br>    \zeta^{3\times 0} &amp; \zeta^{3\times 1}  &amp; \zeta^{3\times 2} &amp; \cdots &amp; \zeta^{3\times (n-1)} \<br>    \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots\<br>    \zeta^{(2n-1)\times 0} &amp; \zeta^{(2n-1)\times 1}  &amp; \zeta^{(2n-1)\times 2} &amp; \cdots &amp; \zeta^{(2n-1)\times (n-1)} \<br>\end{pmatrix}<br>\begin{pmatrix}<br>    f_{0} \<br>    f_{1} \<br>    \vdots \<br>    f_{n-1}<br>\end{pmatrix}</h1><p>\begin{pmatrix}<br>    \hat{f_{0}} \<br>    \hat{f_{1}} \<br>    \vdots \<br>    \hat{f_{n-1}}<br>\end{pmatrix}<br>$$</p>
 
     </div>
     
