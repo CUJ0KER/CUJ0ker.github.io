@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>『1nv_qaq&#39;s Blog』</title>
+    <title> | 『1nv_qaq&#39;s Blog』</title>
     <meta name="author" content="1nv-qaq" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -47,7 +47,9 @@
 
 
 
-<script src="/js/lib/home.js"></script>
+
+
+
 
 <link rel="stylesheet" href="/css/main.css" />
 
@@ -157,40 +159,11 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="home-head">
-    <div
-        id="home-background"
-        ref="homeBackground"
-        data-images="/images/background.jpg,/images/background2.jpg,/images/background3.jpg"
-    ></div>
-    <div id="home-info" @click="homeClick">
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="info">
-            <div class="wrap">
-                <h1>『1nv_qaq&#39;s Blog』</h1>
-                <h3></h3>
-                <h5></h5>
-            </div>
-        </span>
+            <div class="article">
+    <div>
+        <h1></h1>
     </div>
-</div>
-<div
-    id="home-posts-wrap"
-    ref="homePostsWrap"
-    true
->
-    <div id="home-posts">
-        
-
-<div class="post">
-    <a href="/2024/11/10/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/">
-        <h2 class="post-title"></h2>
-    </a>
-    <div class="category-and-date">
-        
+    <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
@@ -200,10 +173,9 @@
         
         
     </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>网络拓扑结构如下：</p>
+    
+    <div class="content" v-pre>
+        <p>网络拓扑结构如下：</p>
 <p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/1.png" alt="img"></p>
 <p>首先扫出来<code>192.168.1.7</code>有服务，源码看到一个疑似接口<code>?lang</code>和敏感信息（user）<code>mamadou</code></p>
 <p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/2.png" alt="img"></p>
@@ -572,182 +544,13 @@ elseif ($_SERVER[&#39;HTTP_X_FORWARDED_FOR&#39;])`，于是我们直接伪造`HT
 <p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/35.png" alt="img"></p>
 <p><code>.8</code>的服务是个数据库，服务连不上了，看了一眼都是<code>sqlmap</code>可以做的简单web，跟渗透没关系不打了</p>
 
-            
-        </div>
     </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2024/11/10/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/10/14/NTT%20Algorithm/">
-        <h2 class="post-title">NTT Algorithm</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="category">
-            <a href="/categories/Cryptography/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                Cryptography
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/10/14
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>本文的代码参数以Kyber256参数为例，简述了NTT、T-NTT、Pt-NTT等算法的实现思路与特征</p>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/Cryptography/" style="color: #00a596">Cryptography</a>
-        </span>
-        
-    </div>
-    <a href="/2024/10/14/NTT%20Algorithm/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2024/07/06/Friend%20link/">
-        <h2 class="post-title">Friend Links</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="category">
-            <a href="/categories/Friend-Links/">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                Friend Links
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2024/7/6
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h1 id="Friend-Links"><a href="#Friend-Links" class="headerlink" title="Friend Links"></a>Friend Links</h1><h4 id="Yinwww-My-GirlFriend-but-no-link🥂"><a href="#Yinwww-My-GirlFriend-but-no-link🥂" class="headerlink" title="Yinwww My GirlFriend but no link🥂"></a><a href="">Yinwww</a> My GirlFriend but no link🥂</h4><h4 id="Astrageldon-JLU-Spirit-Crypto-Math"><a href="#Astrageldon-JLU-Spirit-Crypto-Math" class="headerlink" title="Astrageldon JLU Spirit Crypto&#x2F;Math"></a><a target="_blank" rel="noopener" href="https://cosmic-excalibur.github.io/">Astrageldon</a> JLU Spirit Crypto&#x2F;Math</h4><h4 id="zysgmzb-NJUPT-W-M-Misc"><a href="#zysgmzb-NJUPT-W-M-Misc" class="headerlink" title="zysgmzb NJUPT W&amp;M Misc"></a><a target="_blank" rel="noopener" href="https://zysgmzb.club/">zysgmzb</a> NJUPT W&amp;M Misc</h4><h4 id="Libr-JLU-Spirit-V-N-Misc"><a href="#Libr-JLU-Spirit-V-N-Misc" class="headerlink" title="Libr JLU Spirit V&amp;N Misc"></a><a target="_blank" rel="noopener" href="https://nvme0n1p.dev/">Libr</a> JLU Spirit V&amp;N Misc</h4><h4 id="Tplus-JLU-Spirit-Nu1L-Binary"><a href="#Tplus-JLU-Spirit-Nu1L-Binary" class="headerlink" title="Tplus JLU Spirit Nu1L Binary"></a><a target="_blank" rel="noopener" href="https://tpluszz.top/">Tplus</a> JLU Spirit Nu1L Binary</h4><h4 id="rookey-DLUT-Scr1w-W-M-Crypto"><a href="#rookey-DLUT-Scr1w-W-M-Crypto" class="headerlink" title="rookey DLUT Scr1w W&amp;M Crypto"></a><a target="_blank" rel="noopener" href="https://sch01ar.github.io/">rookey</a> DLUT Scr1w W&amp;M Crypto</h4><h4 id="zgn-FDU-Crypto-Web3"><a href="#zgn-FDU-Crypto-Web3" class="headerlink" title="zgn FDU Crypto&#x2F;Web3"></a><a target="_blank" rel="noopener" href="http://zgn.icu/">zgn</a> FDU Crypto&#x2F;Web3</h4>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/Friend-Links/" style="color: #00bcd4">Friend Links</a>
-        </span>
-        
-    </div>
-    <a href="/2024/07/06/Friend%20link/" class="go-post">阅读全文</a>
-</div>
-
-
-        <div class="page-current">
     
-    <span class="current">1</span>
     
     
     
     
-</div>
-
-    </div>
     
-    <div id="home-card">
-        <div id="card-style">
-    <div id="card-div">
-        <div class="avatar">
-            <img src="/images/avatar.jpg" alt="avatar" />
-        </div>
-        <div class="name">1nv-qaq</div>
-        <div class="description">
-            <p>Cryptography beginner<br>Former captain of the <a target="_blank" rel="noopener" href="https://jluctf.top/">Spirit Team</a><br>FDU graduate student</p>
-
-        </div>
-        
-        <div class="icon-links">
-            
-            <span class="icon-link">
-                <a target="_blank" rel="noopener" href="https://yinwww.wang">
-                    <i
-                        class="fa-solid fa-users fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-        </div>
-        
-        
-        <div class="friend-links">
-            
-            <div class="friend-link">
-                <a target="_blank" rel="noopener" href="https://nvme0n1p.dev">Libr</a>
-            </div>
-            
-            <div class="friend-link">
-                <a target="_blank" rel="noopener" href="https://cosmic-excalibur.github.io/">Astrageldon</a>
-            </div>
-            
-            <div class="friend-link">
-                <a target="_blank" rel="noopener" href="https://tpluszz.top">Tplus</a>
-            </div>
-            
-            <div class="friend-link">
-                <a target="_blank" rel="noopener" href="https://zysgmzb.club/">zysgmzb</a>
-            </div>
-            
-            <div class="friend-link">
-                <a target="_blank" rel="noopener" href="https://d33b4t0.com/">deebato</a>
-            </div>
-            
-            <div class="friend-link">
-                <a target="_blank" rel="noopener" href="https://sch01ar.github.io">rookey</a>
-            </div>
-            
-        </div>
-        
-    </div>
-</div>
-
-    </div>
     
 </div>
 
@@ -788,6 +591,12 @@ elseif ($_SERVER[&#39;HTTP_X_FORWARDED_FOR&#39;])`，于是我们直接伪造`HT
 ></canvas>
 <script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 <script src="/js/fireworks.min.js"></script>
+
+
+
+
+    
+    
 
 
 
