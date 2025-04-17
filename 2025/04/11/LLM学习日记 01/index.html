@@ -1,0 +1,1105 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>LLM学习日记 01 | 『1nv_qaq&#39;s Blog』</title>
+    <meta name="author" content="1nv-qaq" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>wait wait wait...</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>『1NV_QAQ&#39;S BLOG』</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;『1NV_QAQ&#39;S BLOG』</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>LLM学习日记 01</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/4/11
+        </span>
+        
+        <span class="category">
+            <a href="/categories/AI-Algorithm/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                AI Algorithm
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/AI-Algorithm/" style="color: #00a596">
+                    AI Algorithm
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>LLM learning record about Tokenization and Embedding</p>
+<span id="more"></span>
+
+<h1 id="Tokenization分词"><a href="#Tokenization分词" class="headerlink" title="Tokenization分词"></a>Tokenization分词</h1><h2 id="Concept"><a href="#Concept" class="headerlink" title="Concept"></a>Concept</h2><ul>
+<li>分词的三种粒度：<ul>
+<li>词粒度：<strong>OOV问题</strong>，out of vocabulary，词表之外的词无能为力</li>
+<li>字符粒度：词表小，例如26个英文字母、5000+中文常用字可以构成词表</li>
+<li>子词粒度：介于char和word之间</li>
+</ul>
+</li>
+</ul>
+<h2 id="Algorithm"><a href="#Algorithm" class="headerlink" title="Algorithm"></a>Algorithm</h2><h3 id="Byte-Pair-Encoding-BPE"><a href="#Byte-Pair-Encoding-BPE" class="headerlink" title="Byte Pair Encoding (BPE)"></a>Byte Pair Encoding (BPE)</h3><p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2001/01.png" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1508.07909">https://arxiv.org/pdf/1508.07909</a></p>
+<h4 id="Key-Point"><a href="#Key-Point" class="headerlink" title="Key Point"></a>Key Point</h4><ul>
+<li>从一个基础的小词表开始，不断通过合并最高频的连续token对产生新的token</li>
+<li>缺点：<ul>
+<li>基于贪心的确定的符号替换策略，不能提供带概率的多个分词结果（相对ULM）</li>
+<li>解码可能面临歧义</li>
+</ul>
+</li>
+</ul>
+<h4 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h4><pre><code class="python">import re, collections
+text = &quot;The aims for this subject is for students to develop an understanding of the main algorithms used in naturallanguage processing, for use in a diverse range of applications including text classification, machine translation, and question answering. Topics to be covered include part-of-speech tagging, n-gram language modelling, syntactic parsing and deep learning. The programming language used is Python, see for more information on its use in the workshops, assignments and installation at home.&quot;
+# text = &#39;low &#39;*5 +&#39;lower &#39;*2+&#39;newest &#39;*6 +&#39;widest &#39;*3
+&#39;&#39;&#39;
+先统计词频
+&#39;&#39;&#39;
+def get_vocab(text):
+    
+    # 初始化为 0
+    vocab = collections.defaultdict(int)
+    # 去头去尾再根据空格split
+    for word in text.strip().split():
+        #note: we use the special token &lt;/w&gt; (instead of underscore in the lecture) to denote the end of a word
+        # 给list中每个元素增加空格，并在最后增加结束符号，同时统计单词出现次数
+        vocab[&#39; &#39;.join(list(word)) + &#39; &lt;/w&gt;&#39;] += 1
+    return vocab
+print(get_vocab(text))
+&quot;&quot;&quot;
+这个函数遍历词汇表中的所有单词，并计算彼此相邻的一对标记。
+EXAMPLE:
+    word = &#39;T h e &lt;\w&gt;&#39;
+    这个单词可以两两组合成： [(&#39;T&#39;, &#39;h&#39;), (&#39;h&#39;, &#39;e&#39;), (&#39;e&#39;, &#39;&lt;\w&gt;&#39;)]    
+输入:
+    vocab: Dict[str, int]  # vocab统计了词语出现的词频  
+输出:
+    pairs: Dict[Tuple[str, str], int] # 字母对，pairs统计了单词对出现的频率
+&quot;&quot;&quot;
+def get_stats(vocab):
+    pairs = collections.defaultdict(int)
+    
+    for word,freq in vocab.items():
+        
+        # 遍历每一个word里面的symbol，去凑所有的相邻两个内容
+        symbols = word.split()
+        for i in range(len(symbols)-1):
+            pairs[(symbols[i],symbols[i+1])] += freq
+
+    return pairs
+&quot;&quot;&quot;
+EXAMPLE:
+    word = &#39;T h e &lt;\w&gt;&#39;
+    pair = (&#39;e&#39;, &#39;&lt;\w&gt;&#39;)
+    word_after_merge = &#39;T h e&lt;\w&gt;&#39;    
+输入:
+    pair: Tuple[str, str] # 需要合并的字符对
+    v_in: Dict[str, int]  # 合并前的vocab   
+输出:
+    v_out: Dict[str, int] # 合并后的vocab    
+注意:
+    当合并word &#39;Th e&lt;\w&gt;&#39;中的字符对 (&#39;h&#39;, &#39;e&#39;)时，&#39;Th&#39;和&#39;e&lt;\w&gt;&#39;字符对不能被合并。
+&quot;&quot;&quot;
+def merge_vocab(pair, v_in):
+    v_out = &#123;&#125;
+    # 把pair拆开，然后用空格合并起来，然后用\把空格转义
+    bigram = re.escape(&#39; &#39;.join(pair))
+    # 自定义一个正则规则, (?&lt;!\S)h\ e(?!\S) 只有前面、后面不是非空白字符(\S)(意思前后得是没东西的)，才匹配h\ e，这样就可以把Th\ e&lt;\w&gt;排除在外
+    p = re.compile(r&#39;(?&lt;!\S)&#39; + bigram + r&#39;(?!\S)&#39;)
+    
+    for v in v_in:
+        # 遍历当前的vocabulary，找到匹配正则的v时，才用合并的pair去替换变成新的pair new，如果没有匹配上，那就保持原来的。
+        # 比如pair当前是&#39;h&#39;和&#39;e&#39;，然后遍历vocabulary，找到符合前后都没有东西只有&#39;h\ e&#39;的时候就把他们并在一起变成&#39;he&#39;
+        new = p.sub(&#39;&#39;.join(pair),v)
+        # 然后新的合并的数量就是当前vocabulary里面pair对应的数量
+        v_out[new] = v_in[v]
+    return v_out
+def get_tokens(vocab):
+    tokens = collections.defaultdict(int)
+    for word, freq in vocab.items():
+        word_tokens = word.split()
+        for token in word_tokens:
+            tokens[token] += freq
+    return tokens
+vocab = get_vocab(text)
+print(&quot;Vocab =&quot;, vocab)
+print(&#39;==========&#39;)
+print(&#39;Tokens Before BPE&#39;)
+tokens = get_tokens(vocab)
+print(&#39;Tokens: &#123;&#125;&#39;.format(tokens))
+print(&#39;Number of tokens: &#123;&#125;&#39;.format(len(tokens)))
+print(&#39;==========&#39;)
+#about 100 merges we start to see common words
+num_merges = 100
+for i in range(num_merges):
+    pairs = get_stats(vocab)
+    if not pairs:
+        break
+    
+    # vocabulary里面pair出现次数最高的作为最先合并的pair
+    best = max(pairs, key=pairs.get)
+    
+    # 先给他合并了再说，当然这里不操作也没什么，到merge_vocab里面都一样
+    new_token = &#39;&#39;.join(best)
+    vocab = merge_vocab(best, vocab)
+    print(&#39;Iter: &#123;&#125;&#39;.format(i))
+    print(&#39;Best pair: &#123;&#125;&#39;.format(best))
+    # add new token to the vocab
+    tokens[new_token] = pairs[best]
+    # deduct frequency for tokens have been merged
+    tokens[best[0]] -= pairs[best]
+    tokens[best[1]] -= pairs[best]
+    print(&#39;Tokens: &#123;&#125;&#39;.format(tokens))
+    print(&#39;Number of tokens: &#123;&#125;&#39;.format(len(tokens)))
+    print(&#39;==========&#39;)
+    print(&#39;vocab, &#39;, vocab)
+
+def get_tokens_from_vocab(vocab):
+    tokens_frequencies = collections.defaultdict(int)
+    vocab_tokenization = &#123;&#125;
+    for word, freq in vocab.items():
+        # 看vocabulary里面的token频率，相当于上面的code中的tokens去除freq为0的
+        word_tokens = word.split()
+        for token in word_tokens:
+            tokens_frequencies[token] += freq
+        # vocab和其对应的tokens
+        vocab_tokenization[&#39;&#39;.join(word_tokens)] = word_tokens
+    return tokens_frequencies, vocab_tokenization
+
+def measure_token_length(token): 
+    # 如果token最后四个元素是 &lt; / w &gt;
+    if token[-4:] == &#39;&lt;/w&gt;&#39;:
+        # 那就返回除了最后四个之外的长度再加上1(结尾)
+        return len(token[:-4]) + 1
+    else:
+        # 如果这个token里面没有结尾就直接返回当前长度
+        return len(token)
+    
+# 如果vocabulary里面找不到要拆分的词，就根据已经有的token现拆
+def tokenize_word(string, sorted_tokens, unknown_token=&#39;&lt;/u&gt;&#39;):
+    
+    # base case，没词进来了，那拆的结果就是空的
+    if string == &#39;&#39;:
+        return []
+    # 已有的sorted tokens没有了，那就真的没这个词了
+    if sorted_tokens == []:
+        return [unknown_token] * len(string)
+
+    # 记录拆分结果
+    string_tokens = []
+    
+    # iterate over all tokens to find match
+    for i in range(len(sorted_tokens)):
+        token = sorted_tokens[i]
+        
+        # 自定义一个正则，然后要把token里面包含句号的变成[.]
+        token_reg = re.escape(token.replace(&#39;.&#39;, &#39;[.]&#39;))
+        
+        # 在当前string里面遍历，找到每一个match token的开始和结束位置，比如string=good，然后token是o，输出[(2,2),(3,3)]?
+        matched_positions = [(m.start(0), m.end(0)) for m in re.finditer(token_reg, string)]
+        # if no match found in the string, go to next token
+        if len(matched_positions) == 0:
+            continue
+        # 因为要拆分这个词，匹配上的token把这个word拆开了，那就要拿到除了match部分之外的substring，所以这里要拿match的start
+        substring_end_positions = [matched_position[0] for matched_position in matched_positions]
+        substring_start_position = 0
+        
+        
+        # 如果有匹配成功的话，就会进入这个循环
+        for substring_end_position in substring_end_positions:
+            # slice for sub-word
+            substring = string[substring_start_position:substring_end_position]
+            # tokenize this sub-word with tokens remaining 接着用substring匹配剩余的sorted token，因为刚就匹配了一个
+            string_tokens += tokenize_word(string=substring, sorted_tokens=sorted_tokens[i+1:], unknown_token=unknown_token)
+            # 先把sorted token里面匹配上的记下来
+            string_tokens += [token]
+            substring_start_position = substring_end_position + len(token)
+        # tokenize the remaining string 去除前头的substring，去除已经匹配上的，后面还剩下substring_start_pos到结束的一段substring没看
+        remaining_substring = string[substring_start_position:]
+        # 接着匹配
+        string_tokens += tokenize_word(string=remaining_substring, sorted_tokens=sorted_tokens[i+1:], unknown_token=unknown_token)
+        break
+    else:
+        # return list of unknown token if no match is found for the string
+        string_tokens = [unknown_token] * len(string)
+        
+    return string_tokens
+
+&quot;&quot;&quot;
+该函数生成一个所有token的列表，按其长度（第一键）和频率（第二键）排序。
+
+EXAMPLE:
+    token frequency dictionary before sorting: &#123;&#39;natural&#39;: 3, &#39;language&#39;:2, &#39;processing&#39;: 4, &#39;lecture&#39;: 4&#125;
+    sorted tokens: [&#39;processing&#39;, &#39;language&#39;, &#39;lecture&#39;, &#39;natural&#39;]
+    
+INPUT:
+    token_frequencies: Dict[str, int] # Counter for token frequency
+    
+OUTPUT:
+    sorted_token: List[str] # Tokens sorted by length and frequency
+
+&quot;&quot;&quot;
+def sort_tokens(tokens_frequencies):
+    # 对 token_frequencies里面的东西，先进行长度排序，再进行频次，sorted是从低到高所以要reverse
+    sorted_tokens_tuple = sorted(tokens_frequencies.items(), key=lambda item:(measure_token_length(item[0]),item[1]), reverse=True)
+    
+    # 然后只要tokens不要频次
+    sorted_tokens = [token for (token, freq) in sorted_tokens_tuple]
+
+    return sorted_tokens
+
+#display the vocab
+tokens_frequencies, vocab_tokenization = get_tokens_from_vocab(vocab)
+
+#sort tokens by length and frequency
+sorted_tokens = sort_tokens(tokens_frequencies)
+print(&quot;Tokens =&quot;, sorted_tokens, &quot;\n&quot;)
+
+#print(&quot;vocab tokenization: &quot;, vocab_tokenization)
+
+sentence_1 = &#39;I like natural language processing!&#39;
+sentence_2 = &#39;I like natural languaaage processing!&#39;
+sentence_list = [sentence_1, sentence_2]
+
+for sentence in sentence_list:
+    
+    print(&#39;==========&#39;)
+    print(&quot;Sentence =&quot;, sentence)
+    
+    for word in sentence.split():
+        word = word + &quot;&lt;/w&gt;&quot;
+
+        print(&#39;Tokenizing word: &#123;&#125;...&#39;.format(word))
+        if word in vocab_tokenization:
+            print(vocab_tokenization[word])
+        else:
+            print(tokenize_word(string=word, sorted_tokens=sorted_tokens, unknown_token=&#39;&lt;/u&gt;&#39;))
+</code></pre>
+<h3 id="Byte-level-BPE-BBPE"><a href="#Byte-level-BPE-BBPE" class="headerlink" title="Byte-level BPE (BBPE)"></a>Byte-level BPE (BBPE)</h3><p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2001/02.png" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1909.03341">https://arxiv.org/pdf/1909.03341</a></p>
+<h4 id="Key-Point-1"><a href="#Key-Point-1" class="headerlink" title="Key Point"></a>Key Point</h4><ul>
+<li>将BPE算法从字符级别拓展到字节级别，即基础词表采用256的字节集，<strong>UTF-8</strong>编码</li>
+<li>优点：<ul>
+<li>减少词表</li>
+<li>多语言之间更好的共享</li>
+<li>高效的文本压缩效果</li>
+<li><strong>可以适用不同类型的数据（图像、文本）</strong></li>
+<li>无损压缩、灵活、可解码性</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>编码序列长度可能略微高于BPE</li>
+<li><strong>byte解码可能有歧义</strong>，需要通过上下文信息和动态规划来decode</li>
+</ul>
+</li>
+</ul>
+<h4 id="Code-1"><a href="#Code-1" class="headerlink" title="Code"></a>Code</h4><p><a target="_blank" rel="noopener" href="https://gitee.com/wangyizhen/fairseq/blob/master/fairseq/data/encoders/byte_utils.py">https://gitee.com/wangyizhen/fairseq/blob/master/fairseq/data/encoders/byte_utils.py</a></p>
+<p><a target="_blank" rel="noopener" href="https://gitee.com/wangyizhen/fairseq/blob/master/examples/byte_level_bpe/gru_transformer.py">https://gitee.com/wangyizhen/fairseq/blob/master/examples/byte_level_bpe/gru_transformer.py</a></p>
+<pre><code class="python">import torch
+import torch.nn as nn
+import regex as re
+import json
+from collections import Counter
+from concurrent.futures import ThreadPoolExecutor
+
+def bytes_to_unicode():
+    &quot;&quot;&quot;
+    返回utf-8字节列表和到unicode字符串的映射。我们特别避免映射到bbpe代码所依赖的空白/控制字符。
+    可逆的bbpe代码在unicode字符串上工作。这意味着如果您想避免UNKs，您需要在您的词汇表中使用大量的unicode字符。
+    当你有一个10B的token数据集时，你最终需要大约5K才能获得良好的覆盖。这是你正常情况下的一个显著比例，
+    比如说，32K的词汇量。为了避免这种情况，我们希望查找表介于utf-8字节和unicode字符串之间。
+    &quot;&quot;&quot;
+    bs = (
+            list(range(ord(&quot;!&quot;), ord(&quot;~&quot;) + 1)) + list(range(ord(&quot;¡&quot;), ord(&quot;¬&quot;) + 1)) + list(
+        range(ord(&quot;®&quot;), ord(&quot;ÿ&quot;) + 1))
+    )
+    cs = bs[:]
+    n = 0
+    for b in range(2 ** 8):
+        if b not in bs:
+            bs.append(b)
+            cs.append(2 ** 8 + n)
+            n += 1
+    cs = [chr(n) for n in cs]
+    return dict(zip(bs, cs))
+
+class BBPETokenizer(nn.Module):
+    def __init__(self, vocab_path: str, merges_path: str):
+        super().__init__()
+        with open(vocab_path, &quot;r&quot;, encoding=&quot;utf-8&quot;) as f:  # 获得词表
+            vocab = json.load(f)
+        with open(merges_path, &quot;r&quot;, encoding=&quot;utf-8&quot;) as f:  # 获得合并token规则词表
+            merges = f.read()
+
+        # 将合并存储为元组列表，删除最后一个空白行
+        merges = [tuple(merge_str.split()) for merge_str in merges.split(&quot;\n&quot;)[:-1]]
+
+        # token到BBPE解码索引映射
+        self.encoder = vocab
+        self.decoder = &#123;v: k for k, v in self.encoder.items()&#125;
+
+        # 字节到unicode字符映射，256个字符
+        self.byte_encoder = bytes_to_unicode()
+        self.byte_decoder = &#123;v: k for k, v in self.byte_encoder.items()&#125;
+
+        self.bbpe_ranks = dict(zip(merges, range(len(merges))))
+        self.cache = &#123;&#125;
+
+        # 预标记化拆分正则表达式模式
+        self.pat = re.compile(r&quot;&quot;&quot;
+                                 &#39;s|&#39;t|&#39;re|&#39;ve|&#39;m|&#39;ll|&#39;d|  # 常见的收缩
+                                 \ ?\p&#123;L&#125;+|\ ?\p&#123;N&#125;+|  # 可选空格，后跟1+ unicode字母或数字
+                                 \ ?[^\s\p&#123;L&#125;\p&#123;N&#125;]+|  # 可选空格，后面跟着1+非空白/字母/数字
+                                 \s+(?!\S)|  # 1+空白字符，后面没有非空白字符
+                                 \s+  # 1+空格字符
+                                 &quot;&quot;&quot;, re.X)
+
+    def forward(self, text):
+        if isinstance(text, list):
+            # 批量编码
+            tokens = self.encode_batch(text)
+            tokens = [token for row in tokens for token in row]
+        else:
+            # 编码字符串
+            tokens = self.encode(text)
+        return torch.tensor(tokens)
+
+    def bbpe(self, token):
+        &#39;&#39;&#39;
+        对token应用合并规则
+        &#39;&#39;&#39;
+        if token in self.cache:
+            return self.cache[token]
+
+        chars = [i for i in token]
+        # 对于每个合并规则，尝试合并任何相邻的字符对
+        for pair in self.bbpe_ranks.keys():
+            i = 0
+            while i &lt; len(chars) - 1:
+                if chars[i] == pair[0] and chars[i + 1] == pair[1]:
+                    chars = chars[:i] + [&quot;&quot;.join(pair)] + chars[i + 2:]
+                else:
+                    i += 1
+        self.cache[token] = chars
+        return chars
+
+    def encode(self, text: str) -&gt; list[int]:
+        &#39;&#39;&#39;
+        将字符串编码为BBPE token
+        &#39;&#39;&#39;
+        bbpe_tokens_id = []
+        # pattern使用要输入BBPE算法的正则表达式模式拆分文本
+        for token in re.findall(self.pat, text):
+            # 将token转换为其字节表示，将字节映射到其unicode表示
+            token = &quot;&quot;.join(self.byte_encoder[b] for b in token.encode(&quot;utf-8&quot;))
+            # 对token执行bbpe合并，然后根据编码器将结果映射到它们的bbpe索引
+            bbpe_tokens_id.extend(self.encoder[bpe_token] for bpe_token in self.bbpe(token))
+        return bbpe_tokens_id
+
+    def tokenize(self, text):
+        &quot;&quot;&quot;
+        获得编码后的字符
+        :param text: 文本
+        :return: 返回编码后的字符
+        &quot;&quot;&quot;
+        bbpe_tokens = []
+        # pattern使用要输入BBPE算法的正则表达式模式拆分文本
+        for token in re.findall(self.pat, text):
+            # 将token转换为其字节表示，将字节映射到其unicode表示
+            token = &quot;&quot;.join(self.byte_encoder[b] for b in token.encode(&quot;utf-8&quot;))
+            # 对token执行bbpe合并，然后根据编码器获得结果
+            bbpe_tokens.extend(bpe_token for bpe_token in self.bbpe(token))
+        return bbpe_tokens
+
+    def encode_batch(self, batch: list[str], num_threads=4):
+        &#39;&#39;&#39;
+        将字符串列表编码为BBPE token列表
+        &#39;&#39;&#39;
+        with ThreadPoolExecutor(max_workers=num_threads) as executor:
+            result = executor.map(self.encode, batch)
+        return list(result)
+
+    def decode(self, tokens) -&gt; str:
+        if isinstance(tokens, torch.Tensor):
+            tokens = tokens.tolist()
+        text = &quot;&quot;.join([self.decoder[token] for token in tokens])
+        text = bytearray([self.byte_decoder[c] for c in text]).decode(&quot;utf-8&quot;, errors=&quot;replace&quot;)
+        return text
+
+    @staticmethod
+    def train_tokenizer(data, vocab_size, vocab_outfile=None, merges_outfile=None):
+        &quot;&quot;&quot;
+        :param data: 训练文本
+        :param vocab_size: 保留词表的大小
+        :param vocab_outfile: 保存词表的文件名
+        :param merges_outfile: 保存合并字节的词表
+        &quot;&quot;&quot;
+
+        if vocab_size &lt; 256:
+            raise ValueError(&quot;vocab_size must be greater than 256&quot;)
+
+        # 预标记数据
+        byte_encoder = bytes_to_unicode()
+        pat_str = r&quot;&#39;s|&#39;t|&#39;re|&#39;ve|&#39;m|&#39;ll|&#39;d| ?[\p&#123;L&#125;]+| ?[\p&#123;N&#125;]+| ?[^\s\p&#123;L&#125;\p&#123;N&#125;]+|\s+(?!\S)|\s+&quot;
+        split_words = [
+            [byte_encoder[b] for b in token.encode(&quot;utf-8&quot;)] for token in re.findall(pat_str, data)
+        ]
+        # 向词汇表中添加基本词汇
+        vocab = set(byte_encoder.values())
+        merges = []
+
+        # 构建词汇表，直到满足所需的词汇量
+        while len(vocab) &lt; vocab_size:
+            print(len(vocab))
+            pair_freq = Counter()
+            # 找出最常见的一对
+            for split_word in split_words:
+                pair_freq.update(zip(split_word[:-1], split_word[1:]))
+            most_common_pair = pair_freq.most_common(1)[0][0]
+
+            #  更新词汇表和合并列表
+            new_token = most_common_pair[0] + most_common_pair[1]
+            vocab.add(new_token)
+            merges.append(most_common_pair)
+
+            # 对数据执行合并
+            new_split_words = []
+            for split_word in split_words:
+                i = 0
+                new_word = []
+                # 对于单词中的每个重字符，尝试合并
+                while i &lt; len(split_word) - 1:
+                    if (split_word[i], split_word[i + 1]) == most_common_pair:
+                        new_word.append(new_token)
+                        i += 2
+                    else:
+                        new_word.append(split_word[i])
+                        i += 1
+                if i == len(split_word) - 1:
+                    new_word.append(split_word[i])
+                new_split_words.append(new_word)
+            split_words = new_split_words
+
+        vocab = sorted(list(vocab))
+        # 保存文件
+        if merges_outfile != None:
+            with open(merges_outfile, &quot;w&quot;, encoding=&quot;utf-8&quot;) as f:
+                for merge in merges:
+                    f.write(merge[0] + &quot; &quot; + merge[1] + &quot;\n&quot;)
+        if vocab_outfile != None:
+            with open(vocab_outfile, &quot;w&quot;, encoding=&quot;utf-8&quot;) as f:
+                json.dump(&#123;v: i for i, v in enumerate(vocab)&#125;, f, ensure_ascii=False)
+</code></pre>
+<h3 id="WordPiece"><a href="#WordPiece" class="headerlink" title="WordPiece"></a>WordPiece</h3><p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2001/03.png" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2012.15524">https://arxiv.org/pdf/2012.15524</a></p>
+<h4 id="Key-Point-2"><a href="#Key-Point-2" class="headerlink" title="Key Point"></a>Key Point</h4><ul>
+<li>类似BPE也是从一个小词表出发，但不根据频率来合并token对，而是定义一种“token间的互信息来进行合并”</li>
+<li>合并两个相邻字词x和y，产生新的字词z，定义$$score&#x3D;\frac{P(t_z)}{P(t_x)P(t_y)}$$</li>
+<li>优点：<ul>
+<li>较好平衡词表大小和OOV问题</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li><strong>对拼写错误非常敏感</strong></li>
+<li>对前缀支持不好（一种策略是将复合词拆开、前缀也拆开）</li>
+</ul>
+</li>
+</ul>
+<h4 id="Code-2"><a href="#Code-2" class="headerlink" title="Code"></a>Code</h4><pre><code class="python">corpus = [
+    &quot;This is the Hugging Face Course.&quot;,
+    &quot;This chapter is about tokenization.&quot;,
+    &quot;This section shows several tokenizer algorithms.&quot;,
+    &quot;Hopefully, you will be able to understand how they are trained and generate tokens.&quot;,
+]
+from transformers import AutoTokenizer
+#First, we need to pre-tokenize the corpus into words. 
+#Since we are replicating a WordPiece tokenizer (like BERT), 
+#we will use the bert-base-cased tokenizer for the pre-tokenization
+tokenizer = AutoTokenizer.from_pretrained(&quot;bert-base-cased&quot;)
+
+from collections import defaultdict
+
+word_freqs = defaultdict(int)
+for text in corpus:
+    words_with_offsets = tokenizer.backend_tokenizer.pre_tokenizer.pre_tokenize_str(text)
+    new_words = [word for word, offset in words_with_offsets]
+    for word in new_words:
+        word_freqs[word] += 1
+
+print(word_freqs)
+
+alphabet = []
+for word in word_freqs.keys():
+    if word[0] not in alphabet:
+        alphabet.append(word[0])
+    for letter in word[1:]:
+        if f&quot;##&#123;letter&#125;&quot; not in alphabet:
+            alphabet.append(f&quot;##&#123;letter&#125;&quot;)
+
+alphabet.sort()
+alphabet
+
+print(alphabet)
+# add special tokens
+vocab = [&quot;[PAD]&quot;, &quot;[UNK]&quot;, &quot;[CLS]&quot;, &quot;[SEP]&quot;, &quot;[MASK]&quot;] + alphabet.copy()
+
+splits = &#123;
+    word: [c if i == 0 else f&quot;##&#123;c&#125;&quot; for i, c in enumerate(word)]
+    for word in word_freqs.keys()
+&#125;
+
+def compute_pair_scores(splits):
+    letter_freqs = defaultdict(int)
+    pair_freqs = defaultdict(int)
+    for word, freq in word_freqs.items():
+        split = splits[word]
+        if len(split) == 1:
+            letter_freqs[split[0]] += freq
+            continue
+        for i in range(len(split) - 1):
+            pair = (split[i], split[i + 1])
+            letter_freqs[split[i]] += freq
+            pair_freqs[pair] += freq
+        letter_freqs[split[-1]] += freq
+
+    scores = &#123;
+        pair: freq / (letter_freqs[pair[0]] * letter_freqs[pair[1]])
+        for pair, freq in pair_freqs.items()
+    &#125;
+    return scores
+pair_scores = compute_pair_scores(splits)
+for i, key in enumerate(pair_scores.keys()):
+    print(f&quot;&#123;key&#125;: &#123;pair_scores[key]&#125;&quot;)
+    if i &gt;= 5:
+        break
+best_pair = &quot;&quot;
+max_score = None
+for pair, score in pair_scores.items():
+    if max_score is None or max_score &lt; score:
+        best_pair = pair
+        max_score = score
+
+print(best_pair, max_score)
+
+def merge_pair(a, b, splits):
+    for word in word_freqs:
+        split = splits[word]
+        if len(split) == 1:
+            continue
+        i = 0
+        while i &lt; len(split) - 1:
+            if split[i] == a and split[i + 1] == b:
+                merge = a + b[2:] if b.startswith(&quot;##&quot;) else a + b
+                split = split[:i] + [merge] + split[i + 2 :]
+            else:
+                i += 1
+        splits[word] = split
+    return splits
+
+vocab_size = 70
+while len(vocab) &lt; vocab_size:
+    scores = compute_pair_scores(splits)
+    best_pair, max_score = &quot;&quot;, None
+    for pair, score in scores.items():
+        if max_score is None or max_score &lt; score:
+            best_pair = pair
+            max_score = score
+    splits = merge_pair(*best_pair, splits)
+    new_token = (
+        best_pair[0] + best_pair[1][2:]
+        if best_pair[1].startswith(&quot;##&quot;)
+        else best_pair[0] + best_pair[1]
+    )
+    vocab.append(new_token)
+print(vocab)
+
+def encode_word(word):
+    tokens = []
+    while len(word) &gt; 0:
+        i = len(word)
+        while i &gt; 0 and word[:i] not in vocab:
+            i -= 1
+        if i == 0:
+            return [&quot;[UNK]&quot;]
+        tokens.append(word[:i])
+        word = word[i:]
+        if len(word) &gt; 0:
+            word = f&quot;##&#123;word&#125;&quot;
+    return tokens
+
+print(encode_word(&quot;Hugging&quot;))
+print(encode_word(&quot;HOgging&quot;))
+
+def tokenize(text):
+    pre_tokenize_result = tokenizer._tokenizer.pre_tokenizer.pre_tokenize_str(text)
+    pre_tokenized_text = [word for word, offset in pre_tokenize_result]
+    encoded_words = [encode_word(word) for word in pre_tokenized_text]
+    return sum(encoded_words, [])
+
+print(tokenize(&quot;This is the Hugging Face Course!&quot;))
+</code></pre>
+<h3 id="Unigram-Language-Model-ULM"><a href="#Unigram-Language-Model-ULM" class="headerlink" title="Unigram Language Model (ULM)"></a>Unigram Language Model (ULM)</h3><h4 id="Key-Point-3"><a href="#Key-Point-3" class="headerlink" title="Key Point"></a>Key Point</h4><ul>
+<li>初始化一个大词表，通过unigram语言模型计算删除不同subword造成的loss</li>
+<li>保留loss较大，即重要性较高的subword</li>
+</ul>
+<pre><code class="python">corpus = [
+    &quot;This is the Hugging Face Course.&quot;,
+    &quot;This chapter is about tokenization.&quot;,
+    &quot;This section shows several tokenizer algorithms.&quot;,
+    &quot;Hopefully, you will be able to understand how they are trained and generate tokens.&quot;,
+]
+from transformers import AutoTokenizer
+
+tokenizer = AutoTokenizer.from_pretrained(&quot;xlnet-base-cased&quot;)
+
+from collections import defaultdict
+
+word_freqs = defaultdict(int)
+for text in corpus:
+    words_with_offsets = tokenizer.backend_tokenizer.pre_tokenizer.pre_tokenize_str(text)
+    new_words = [word for word, offset in words_with_offsets]
+    for word in new_words:
+        word_freqs[word] += 1
+
+print(word_freqs)
+
+char_freqs = defaultdict(int)
+subwords_freqs = defaultdict(int)
+for word, freq in word_freqs.items():
+    for i in range(len(word)):
+        char_freqs[word[i]] += freq
+        # Loop through the subwords of length at least 2
+        for j in range(i + 2, len(word) + 1):
+            subwords_freqs[word[i:j]] += freq
+
+# Sort subwords by frequency
+sorted_subwords = sorted(subwords_freqs.items(), key=lambda x: x[1], reverse=True)
+print(sorted_subwords[:10])
+
+token_freqs = list(char_freqs.items()) + sorted_subwords[: 300 - len(char_freqs)]
+token_freqs = &#123;token: freq for token, freq in token_freqs&#125;
+
+from math import log
+
+total_sum = sum([freq for token, freq in token_freqs.items()])
+model = &#123;token: -log(freq / total_sum) for token, freq in token_freqs.items()&#125;
+
+def encode_word(word, model):
+    best_segmentations = [&#123;&quot;start&quot;: 0, &quot;score&quot;: 1&#125;] + [
+        &#123;&quot;start&quot;: None, &quot;score&quot;: None&#125; for _ in range(len(word))
+    ]
+    for start_idx in range(len(word)):
+        # This should be properly filled by the previous steps of the loop
+        best_score_at_start = best_segmentations[start_idx][&quot;score&quot;]
+        for end_idx in range(start_idx + 1, len(word) + 1):
+            token = word[start_idx:end_idx]
+            if token in model and best_score_at_start is not None:
+                score = model[token] + best_score_at_start
+                # If we have found a better segmentation ending at end_idx, we update
+                if (
+                    best_segmentations[end_idx][&quot;score&quot;] is None
+                    or best_segmentations[end_idx][&quot;score&quot;] &gt; score
+                ):
+                    best_segmentations[end_idx] = &#123;&quot;start&quot;: start_idx, &quot;score&quot;: score&#125;
+
+    segmentation = best_segmentations[-1]
+    if segmentation[&quot;score&quot;] is None:
+        # We did not find a tokenization of the word -&gt; unknown
+        return [&quot;&lt;unk&gt;&quot;], None
+
+    score = segmentation[&quot;score&quot;]
+    start = segmentation[&quot;start&quot;]
+    end = len(word)
+    tokens = []
+    while start != 0:
+        tokens.insert(0, word[start:end])
+        next_start = best_segmentations[start][&quot;start&quot;]
+        end = start
+        start = next_start
+    tokens.insert(0, word[start:end])
+    return tokens, score
+
+print(encode_word(&quot;Hopefully&quot;, model))
+print(encode_word(&quot;This&quot;, model))
+
+def compute_loss(model):
+    loss = 0
+    for word, freq in word_freqs.items():
+        _, word_loss = encode_word(word, model)
+        loss += freq * word_loss
+    return loss
+print(compute_loss(model))
+
+import copy
+
+
+def compute_scores(model):
+    scores = &#123;&#125;
+    model_loss = compute_loss(model)
+    for token, score in model.items():
+        # We always keep tokens of length 1
+        if len(token) == 1:
+            continue
+        model_without_token = copy.deepcopy(model)
+        _ = model_without_token.pop(token)
+        scores[token] = compute_loss(model_without_token) - model_loss
+    return scores
+scores = compute_scores(model)
+print(scores[&quot;ll&quot;])
+print(scores[&quot;his&quot;])
+
+percent_to_remove = 0.1
+while len(model) &gt; 100:
+    scores = compute_scores(model)
+    sorted_scores = sorted(scores.items(), key=lambda x: x[1])
+    # Remove percent_to_remove tokens with the lowest scores.
+    for i in range(int(len(model) * percent_to_remove)):
+        _ = token_freqs.pop(sorted_scores[i][0])
+
+    total_sum = sum([freq for token, freq in token_freqs.items()])
+    model = &#123;token: -log(freq / total_sum) for token, freq in token_freqs.items()&#125;
+
+def tokenize(text, model):
+    words_with_offsets = tokenizer.backend_tokenizer.pre_tokenizer.pre_tokenize_str(text)
+    pre_tokenized_text = [word for word, offset in words_with_offsets]
+    encoded_words = [encode_word(word, model)[0] for word in pre_tokenized_text]
+    return sum(encoded_words, [])
+
+
+print(tokenize(&quot;This is the Hugging Face course.&quot;, model))
+</code></pre>
+<h2 id="常用的分词库"><a href="#常用的分词库" class="headerlink" title="常用的分词库"></a>常用的分词库</h2><h4 id="SentencePiece"><a href="#SentencePiece" class="headerlink" title="SentencePiece"></a>SentencePiece</h4><h4 id="Tokenizers"><a href="#Tokenizers" class="headerlink" title="Tokenizers"></a>Tokenizers</h4><ul>
+<li>normalization</li>
+</ul>
+<p>清理、删除空格、删除变音符号、小写化、Unicode  normalization</p>
+<pre><code class="python">from tokenizers import normalizers
+from tokenizers.normalizers import NFD, StripAccents, Lowercase
+
+# 定义一个normalizer
+normalizer = normalizers.Sequence([
+    NFD(),          # Unicode正规化
+    StripAccents(), # 去除读音
+    Lowercase()     # 转小写
+])
+
+# 使用normalizer处理字符串
+normalized_text = normalizer.normalize_str(&quot;Hello how are ü?&quot;)
+print(normalized_text)  # Output: &#39;hello how are u?&#39;
+
+# 假设有一个tokenizer对象，可以将这个normalizer设置给它
+# tokenizer.normalizer = normalizer  # 更新到tokenizer里
+</code></pre>
+<ul>
+<li>pre-tokenization</li>
+</ul>
+<pre><code class="python">from tokenizers.pre_tokenizers import Whitespace, Digits
+from tokenizers import pre_tokenizers
+
+# 基础用法：仅使用空格分割
+pre_tokenizer = Whitespace()
+result = pre_tokenizer.pre_tokenize_str(&quot;Hello! How are you? I&#39;m fine, thank you.&quot;)
+print(&quot;仅使用Whitespace预分词器:&quot;)
+print(result)
+
+# 进阶用法：组合多个预分词器
+pre_tokenizer = pre_tokenizers.Sequence([
+    Whitespace(),  # 空格分割
+    Digits(individual_digits=True)  # 数字分割(若individual_digits=False，&quot;911&quot;会保持为一个整体)
+])
+
+# 使用组合预分词器处理文本
+result = pre_tokenizer.pre_tokenize_str(&quot;Call 911! How are you? I&#39;m fine thank you&quot;)
+print(&quot;\n使用组合预分词器(Whitespace + Digits):&quot;)
+print(result)
+
+# 假设有一个tokenizer对象，可以将这个pre_tokenizer设置给它
+# tokenizer.pre_tokenizer = pre_tokenizer  # 更新到tokenizer里
+</code></pre>
+<ul>
+<li>model</li>
+</ul>
+<p>设置具体的分词算法，例如<code>tokenizer=Tokenizer(BPE(unk_token=&quot;[UNK]&quot;))</code></p>
+<ul>
+<li>post-processing</li>
+</ul>
+<p>后处理，实现比如加上special token([CLS]、[SEP])等</p>
+<h3 id="Total"><a href="#Total" class="headerlink" title="Total"></a>Total</h3><ul>
+<li><strong>wordpiece和BPE的对比：</strong><ul>
+<li>都是合并的思路，将语料拆分成最小单元（英文中26个字母加上各种符号，这些作为初始词表）然后进行合并，词表从小到大</li>
+<li>核心区别就在于<strong>wordpiece</strong>是按token间的<strong>互信息</strong>来进行合并而<strong>BPE</strong>是按照token一同出现的<strong>频率</strong>来合并的</li>
+</ul>
+</li>
+<li><strong>wordpiece和ULM的对比：</strong><ul>
+<li>都使用语言模型来挑选子词</li>
+<li>区别在于前者词表由小到大，而后者词表由大到小，先初始化一个大词表，根据评估准则不断丢弃词表，直到满足限定条件</li>
+<li>ULM算法考虑了句子的不同分词可能，因而能够输出带概率的多个分词结果</li>
+</ul>
+</li>
+</ul>
+<h1 id="Embedding-词嵌入"><a href="#Embedding-词嵌入" class="headerlink" title="Embedding 词嵌入"></a>Embedding 词嵌入</h1><h2 id="Concept-1"><a href="#Concept-1" class="headerlink" title="Concept"></a>Concept</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/164502624">Embedding</a>的概念</li>
+<li><code>nn.Embedding(vocab_size,embed_dim)</code>，<code>vocab_size</code>为词表大小、<code>embed_dim</code>为词向量的表征维度大小</li>
+</ul>
+<h2 id="Algorithm-1"><a href="#Algorithm-1" class="headerlink" title="Algorithm"></a>Algorithm</h2><h3 id="Onehot"><a href="#Onehot" class="headerlink" title="Onehot"></a>Onehot</h3><h4 id="Key-Point-4"><a href="#Key-Point-4" class="headerlink" title="Key Point"></a>Key Point</h4><ul>
+<li>onehot为输入，稠密向量（即词向量）为输出</li>
+<li>缺点：<ul>
+<li>词汇表过大，不能处理大规模文本数据</li>
+<li>所有词向量之间彼此正交，无法体现词与词之间的相似关系</li>
+</ul>
+</li>
+</ul>
+<h3 id="Word2Vec"><a href="#Word2Vec" class="headerlink" title="Word2Vec"></a>Word2Vec</h3><p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2001/04.png" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1301.3781">https://arxiv.org/pdf/1301.3781</a></p>
+<h4 id="Key-Point-5"><a href="#Key-Point-5" class="headerlink" title="Key Point"></a>Key Point</h4><ul>
+<li>通过训练，将原来onehot编码的每个词都映射到较短的词向量上，维度可以训练时自己指定</li>
+<li>本质是只具有一个隐含层的神经元网络</li>
+<li>两种任务类型：<ul>
+<li>CBOW→根据上下文预测当前词</li>
+<li>Skip-gram→根据当前词预测上下文</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2001/05.png" alt="img"></p>
+<ul>
+<li>可以使用Hierarchical softmax和Negative Sample加速<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/114538417">Word2Vec</a></li>
+</ul>
+<h3 id="FastText"><a href="#FastText" class="headerlink" title="FastText"></a>FastText</h3><p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2001/06.png" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1607.01759">https://arxiv.org/pdf/1607.01759</a></p>
+<h4 id="Key-Point-6"><a href="#Key-Point-6" class="headerlink" title="Key Point"></a>Key Point</h4><p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2001/07.png" alt="img"></p>
+<ul>
+<li>本质是一个快速文本分类算法，类似CBOW</li>
+<li>Loss function：交叉熵损失</li>
+<li>Hierarchical Softmax：根据文本类别的频率构造<strong>哈夫曼树</strong>代替标准的softmax，通过分层softmax将<strong>复杂度降低为对数级别</strong></li>
+</ul>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2024 - 2025 『1nv_qaq&#39;s Blog』
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;1nv-qaq
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    <script src="/js/<fireworks.min.js>"></script>
+
+
+    <canvas
+    id="fireworks"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"
+></canvas>
+<script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="/js/fireworks.min.js"></script>
+
+
+
+
+    
+    
+
+
+
+
+    
+</body>
+</html>
