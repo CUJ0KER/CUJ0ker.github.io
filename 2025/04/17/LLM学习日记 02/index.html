@@ -1,0 +1,453 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>LLM学习日记 02 | 『1nv_qaq&#39;s Blog』</title>
+    <meta name="author" content="1nv-qaq" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>wait wait wait...</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>『1NV_QAQ&#39;S BLOG』</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;『1NV_QAQ&#39;S BLOG』</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>LLM学习日记 02</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/4/17
+        </span>
+        
+        <span class="category">
+            <a href="/categories/AI-Algorithm/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                AI Algorithm
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/AI-Algorithm/" style="color: #ffa2c4">
+                    AI Algorithm
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>LLM learning record about Transformer</p>
+<span id="more"></span>
+
+<p>从这部分开始逐渐了解Transformer模型</p>
+<h1 id="Attention-注意力"><a href="#Attention-注意力" class="headerlink" title="Attention 注意力"></a>Attention 注意力</h1><p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2002/01.png" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1706.03762">https://arxiv.org/pdf/1706.03762</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1pu411o7BE/?share_source=copy_web&vd_source=e46571d631061853c8f9eead71bdb390">https://www.bilibili.com/video/BV1pu411o7BE/?share_source=copy_web&amp;vd_source=e46571d631061853c8f9eead71bdb390</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42426841/article/details/143472097">https://blog.csdn.net/weixin_42426841/article/details/143472097</a></p>
+<h2 id="Concept"><a href="#Concept" class="headerlink" title="Concept"></a>Concept</h2><ul>
+<li><code>Query</code>：寻找的信息</li>
+<li><code>Key</code>：包含的信息</li>
+<li><code>Value</code>：需要进行加权的信息</li>
+<li>序列当中某个位置的Query点积序列中其他所有位置的Keys，产生相应的权重，然后了解有关特定token的更多信息，而不是序列中任何其他token</li>
+</ul>
+<h2 id="Transformer中的Attention"><a href="#Transformer中的Attention" class="headerlink" title="Transformer中的Attention"></a>Transformer中的Attention</h2><h3 id="Scaled-Dot-Product"><a href="#Scaled-Dot-Product" class="headerlink" title="Scaled Dot-Product"></a>Scaled Dot-Product</h3><ul>
+<li>$Attention(Q,K,V)&#x3D;softmax(\frac{QK^{T}}{\sqrt{d_k}})V$</li>
+<li>Scaled指的是对注意力权重进行缩放，具体是通过除以$\sqrt{d_k}$实现的</li>
+<li>除以$\sqrt{d_k}$的原因：当Query和Key向量的维度$d_k$较大时，两个向量的长度比较长时，两个向量的相对差距变大，softmax之后值向两端（0和1）靠拢，类似onehot，计算梯度的时候比较小，容易跑不动</li>
+</ul>
+<h3 id="Self-Attention-and-Cross-Attention"><a href="#Self-Attention-and-Cross-Attention" class="headerlink" title="Self-Attention and Cross-Attention"></a>Self-Attention and Cross-Attention</h3><ul>
+<li>Encoder中的Self-Attention是当前位置token与序列全部token计算</li>
+<li>Decoder中的Self-Attention是当前位置的token只与在其之前的token计算（<strong>Mask</strong> Attention），避免解码过程中信息泄露</li>
+<li>对decoder使用<code>kv cache</code>，缓存之前序列token计算过的KV，避免重复计算</li>
+</ul>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2002/02.png" alt="img"></p>
+<h3 id="Multi-head-Attention-MHA"><a href="#Multi-head-Attention-MHA" class="headerlink" title="Multi-head Attention (MHA)"></a>Multi-head Attention (MHA)</h3><p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2002/03.png" alt="img"></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/bqw18744018044/article/details/138751458">DeepseekV2</a>提出Multi-head Latent Attention优化MQA，解决了<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/714761319">kv cache</a>随着序列长度变长导致显存不足的问题</li>
+</ul>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2002/04.png" alt="img"></p>
+<h2 id="其他的Attention机制"><a href="#其他的Attention机制" class="headerlink" title="其他的Attention机制"></a>其他的Attention机制</h2><h3 id="Dual-Chunk-Attention-DCA"><a href="#Dual-Chunk-Attention-DCA" class="headerlink" title="Dual Chunk Attention (DCA)"></a>Dual Chunk Attention (DCA)</h3><p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2002/05.png" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2402.17463">https://arxiv.org/pdf/2402.17463</a></p>
+<ul>
+<li>将<strong>长文本</strong>分割成多个较小的“块”(chunks)，然后在块内和块间分别应用注意力机制</li>
+</ul>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2002/06.png" alt="img"></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/HKUNLP/ChunkLlama/blob/main/chunkqwen_attn_replace.py">https://github.com/HKUNLP/ChunkLlama/blob/main/chunkqwen_attn_replace.py</a></li>
+</ul>
+<pre><code class="python">import torch
+import torch.nn as nn
+
+class DualChunkAttention(nn.Module):
+    def __init__(self, embed_size, num_heads, chunk_size):
+        super(DualChunkAttention, self).__init__()
+        self.embed_size = embed_size
+        self.num_heads = num_heads
+        self.chunk_size = chunk_size
+        # 定义线性层
+        self.query = nn.Linear(embed_size, embed_size)
+        self.key = nn.Linear(embed_size, embed_size)
+        self.value = nn.Linear(embed_size, embed_size)
+        # 输出线性层
+        self.out = nn.Linear(embed_size, embed_size)
+    def split_into_chunks(self, x):
+        # 切分输入x为多个块（chunk），每个块大小为chunk_size
+        batch_size, seq_len, embed_size = x.shape
+        num_chunks = seq_len // self.chunk_size
+        chunks = x.view(batch_size, num_chunks, self.chunk_size, embed_size)
+        return chunks
+    def cross_block_attention(self, Q_chunks, K_chunks, V_chunks):
+        # 跨块注意力计算
+        batch_size, num_chunks, chunk_size, embed_size = Q_chunks.shape
+        cross_attn_out = []
+        # 计算每个块之间的注意力（查询块与所有键块）
+        for i in range(num_chunks):
+            # 取出查询块
+            q_chunk = Q_chunks[:, i, :, :]  # (batch_size, chunk_size, embed_size)
+            
+            # 计算该查询块与所有键块之间的注意力
+            attn_scores = torch.matmul(q_chunk, K_chunks.transpose(2, 3)) / (self.embed_size ** 0.5)  # (batch_size, chunk_size, num_chunks, chunk_size)
+            attn_probs = torch.nn.functional.softmax(attn_scores, dim=-1)  # (batch_size, chunk_size, num_chunks, chunk_size)
+            
+            # 将注意力加权到值块上
+            cross_attn_out.append(torch.matmul(attn_probs, V_chunks[:, i, :, :]))  # (batch_size, chunk_size, embed_size)
+        
+        # 拼接所有块之间的跨块注意力输出
+        cross_attn_out = torch.cat(cross_attn_out, dim=1)  # (batch_size, num_chunks * chunk_size, embed_size)
+        return cross_attn_out
+    def forward(self, x):
+        batch_size, seq_len, embed_size = x.shape
+        
+        # 获取查询、键和值的表示
+        Q = self.query(x)
+        K = self.key(x)
+        V = self.value(x)
+
+        # 将Q, K, V分块
+        Q_chunks = self.split_into_chunks(Q)
+        K_chunks = self.split_into_chunks(K)
+        V_chunks = self.split_into_chunks(V)
+        
+        # 计算每个块内的注意力（自注意力）
+        attn_out = []
+        for q_chunk, k_chunk, v_chunk in zip(Q_chunks, K_chunks, V_chunks):
+            # 计算每个块内的注意力
+            attn_scores = torch.matmul(q_chunk, k_chunk.transpose(-1, -2)) / (self.embed_size ** 0.5)
+            attn_probs = torch.nn.functional.softmax(attn_scores, dim=-1)
+            attn_out.append(torch.matmul(attn_probs, v_chunk))
+        
+        # 拼接块内注意力结果
+        attn_out = torch.cat(attn_out, dim=2)  # (batch_size, seq_len, embed_size)
+        
+        # 计算跨块注意力
+        cross_attn_out = self.cross_block_attention(Q_chunks, K_chunks, V_chunks)
+        
+        # 将跨块的注意力和块内的注意力融合
+        combined_out = attn_out + cross_attn_out  # 可以进行加权求和或拼接
+        # 通过输出层
+        out = self.out(combined_out)        
+        return out
+</code></pre>
+<h3 id="Shifted-Soarse-Attention-S2-Attention"><a href="#Shifted-Soarse-Attention-S2-Attention" class="headerlink" title="Shifted Soarse Attention (S2-Attention)"></a>Shifted Soarse Attention (S2-Attention)</h3><p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2002/07.png" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2309.12307">https://arxiv.org/pdf/2309.12307</a></p>
+<ul>
+<li>将上下文分成几个组，每个组中单独计算注意力</li>
+<li>在半注意力头中，将token按半组大小进行位移，保证相邻组之间的信息流动</li>
+<li>虽然可能引入潜在的信息泄露，但可以通过对注意力掩码进行微调来避免</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/dvlab-research/LongLoRA">https://github.com/dvlab-research/LongLoRA</a></li>
+</ul>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2002/08.png" alt="img"></p>
+<h1 id="FFN-Add-LN"><a href="#FFN-Add-LN" class="headerlink" title="FFN &amp; Add &amp; LN"></a>FFN &amp; Add &amp; LN</h1><p>这一部分我们讨论Transformer剩下几层的内容</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2002/09.png" alt="img"></p>
+<p>还是回到Transformer的这张结构图</p>
+<h2 id="Feed-Forward-Network"><a href="#Feed-Forward-Network" class="headerlink" title="Feed Forward Network"></a>Feed Forward Network</h2><ul>
+<li>Feed Forward Network：token通过MHA把信息聚合起来后，通过前馈网络思考学习这些信息（交流+计算）</li>
+<li>一般激活函数的FFN计算公式：$$FFN(x)&#x3D;ReLU(xW_1+b_1)W_2+b_2$$</li>
+</ul>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2002/10.png" alt="img"></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/524310167">GLU</a>线性门控单元的FFN块计算公式：<ul>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2354873fe58a">https://www.jianshu.com/p/2354873fe58a</a></li>
+<li>$GLU(x)&#x3D;xV\cdot\sigma(xW+b)$</li>
+<li>$FFN_{GLU}&#x3D;(xV\cdot\sigma(xW_1+b))W_2$</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2002/11.png" alt="img"></p>
+<ul>
+<li>SwiGLU、GeGLU指的是用Swish、GeLU激活函数替换GLU中的sigmoid激活函数，现在大模型通常使用SwiGLU替换传统的FFN结构</li>
+</ul>
+<pre><code class="python">class LlamaMLP(nn.Module):
+    def __init__(
+        self,
+        hidden_size: int,  # 4096
+        intermediate_size: int,  # 11008
+        hidden_act: str,  # silu
+    ):
+        super().__init__()
+        self.gate_proj = nn.Linear(hidden_size, intermediate_size, bias=False)
+        self.down_proj = nn.Linear(intermediate_size, hidden_size, bias=False)
+        self.up_proj = nn.Linear(hidden_size, intermediate_size, bias=False)
+        self.act_fn = ACT2FN[hidden_act]
+
+    def forward(self, x):
+        return self.down_proj(self.act_fn(self.gate_proj(x)) * self.up_proj(x))
+</code></pre>
+<h3 id="常见的激活函数"><a href="#常见的激活函数" class="headerlink" title="常见的激活函数"></a>常见的激活函数</h3><ul>
+<li>Sigmoid</li>
+<li>Tanh</li>
+<li>ReLU</li>
+<li>Leaky ReLU</li>
+<li>ELU</li>
+<li>Swish：$f(x)&#x3D;x*sigmoid(x)$</li>
+<li>SwiGLU</li>
+<li>Softmax</li>
+</ul>
+<h2 id="Layer-Norm"><a href="#Layer-Norm" class="headerlink" title="Layer Norm"></a>Layer Norm</h2><ul>
+<li>Layer Norm层归一化：<ul>
+<li>加速模型收敛</li>
+<li>缓解梯度消失和爆炸的问题</li>
+<li>Layer Norm一般用于NLP，Batch Norm一般用于CV，例如CV中Batch Norm是对一个图像的不同channel（例如RGB通道）各自归一化，这得益于CV任务本身不需要channel之间的信息交互<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36560894/article/details/115017087">https://blog.csdn.net/qq_36560894/article/details/115017087</a></li>
+</ul>
+</li>
+</ul>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2002/12.png" alt="img"></p>
+<h3 id="Layer-Norm的位置"><a href="#Layer-Norm的位置" class="headerlink" title="Layer Norm的位置"></a>Layer Norm的位置</h3><p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2002/13.png" alt="img"></p>
+<ul>
+<li>Post Norm：<ul>
+<li>深层容易训练不稳定（梯度消失，初始化更新太大导致局部最优），深层的梯度范数逐渐增大</li>
+<li>一般认为模型收敛性更好</li>
+</ul>
+</li>
+<li>Pre Norm：<ul>
+<li>每层的梯度范数近似相等，训练稳定，但牺牲了深度</li>
+<li>可以防止梯度爆炸或者梯度消失，大模型训练难度大，因此用Pre Norm较多</li>
+</ul>
+</li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2102.11382">Sandwich Norm</a>：平衡，有效控制每一层的激活值，避免过大，能更好学习数据特征，但训练不稳定可能导致崩溃</li>
+<li>相同设置下，Pre Norm结构往往更容易训练，但最终效果通常不如Post Norm</li>
+</ul>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2024 - 2025 『1nv_qaq&#39;s Blog』
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;1nv-qaq
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    <script src="/js/<fireworks.min.js>"></script>
+
+
+    <canvas
+    id="fireworks"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"
+></canvas>
+<script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="/js/fireworks.min.js"></script>
+
+
+
+
+    
+    
+
+
+
+
+    
+</body>
+</html>
