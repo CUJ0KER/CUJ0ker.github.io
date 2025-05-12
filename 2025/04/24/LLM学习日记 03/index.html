@@ -189,7 +189,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/AI-Algorithm/" style="color: #ff7d73">
+                <a href="/tags/AI-Algorithm/" style="color: #03a9f4">
                     AI Algorithm
                 </a>
             </span>
@@ -213,7 +213,7 @@
 <h2 id="绝对位置编码"><a href="#绝对位置编码" class="headerlink" title="绝对位置编码"></a>绝对位置编码</h2><h3 id="Transformer的位置编码"><a href="#Transformer的位置编码" class="headerlink" title="Transformer的位置编码"></a>Transformer的位置编码</h3><ul>
 <li>$PE_{t}&#x3D;[sin(\omega_{0}t),cos(\omega_{0}t),sin(\omega_{1}t),cos(\omega_{1}t),\cdots,sin(\omega_{\frac{d_{model}}{2}-1}t),cos(\omega_{\frac{d_{model}}{2}-1}t)]$</li>
 <li>采用正余弦函数交替进行位置编码</li>
-<li>可以通过线性变换矩阵得到其他位置的表示，因为<br>$$\begin{pmatrix}sin(t+\Delta t)\cos(t+\Delta t)\end{pmatrix}&#x3D;\begin{pmatrix}cos\Delta t&amp;sin\Delta t\-sin\Delta t&amp;cos\Delta t\end{pmatrix}\begin{pmatrix}sint\cost\end{pmatrix}$$<br><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2003/01.png" alt="img"></li>
+<li>可以通过线性变换矩阵得到其他位置的表示，因为<br>$\begin{pmatrix}sin(t+\Delta t)\cos(t+\Delta t)\end{pmatrix}&#x3D;\begin{pmatrix}cos\Delta t&amp;sin\Delta t\-sin\Delta t&amp;cos\Delta t\end{pmatrix}\begin{pmatrix}sint\cost\end{pmatrix}$<br><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2003/01.png" alt="img"></li>
 </ul>
 <pre><code class="python">class PositionalEncoding(nn.Module):
 

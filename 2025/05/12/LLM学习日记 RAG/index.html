@@ -204,253 +204,473 @@
 <li>RAG评估</li>
 <li>RAG优化策略：HyDE &#x2F; Step Back Prompting &#x2F; Multi Query Retrieval &#x2F; Decomposition &#x2F; CoVe &#x2F; SAFE &#x2F; DoLa<span id="more"></span></li>
 </ul>
-<h1 id="Positional-Encoding"><a href="#Positional-Encoding" class="headerlink" title="Positional Encoding"></a>Positional Encoding</h1><p>Transformer丢掉了时序信息，而一个句子中词与词之间的顺序不同会导致千差万别的语义，为了解决时序问题，Transformer的作者采用了Positional Encoding的办法，即位置编码<br>简单概括，Positional Encoding就是将位置信息嵌入到Embedding词向量中，让Transformer保留词向量的位置信息<br>进一步，我们期望得到一种位置表示方式，满足：</p>
-<ul>
-<li>能用来表示一个token在序列中的绝对位置</li>
-<li>在序列长度不同的情况下，不同序列中token的相对位置&#x2F;距离也保持一致</li>
-<li>可以用来表示模型在训练过程中从来没有看到过的句子长度，称为长度外推问题</li>
-</ul>
-<h2 id="绝对位置编码"><a href="#绝对位置编码" class="headerlink" title="绝对位置编码"></a>绝对位置编码</h2><h3 id="Transformer的位置编码"><a href="#Transformer的位置编码" class="headerlink" title="Transformer的位置编码"></a>Transformer的位置编码</h3><ul>
-<li>$PE_{t}&#x3D;[sin(\omega_{0}t),cos(\omega_{0}t),sin(\omega_{1}t),cos(\omega_{1}t),\cdots,sin(\omega_{\frac{d_{model}}{2}-1}t),cos(\omega_{\frac{d_{model}}{2}-1}t)]$</li>
-<li>采用正余弦函数交替进行位置编码</li>
-<li>可以通过线性变换矩阵得到其他位置的表示，因为<br>$$\begin{pmatrix}sin(t+\Delta t)\cos(t+\Delta t)\end{pmatrix}&#x3D;\begin{pmatrix}cos\Delta t&amp;sin\Delta t\-sin\Delta t&amp;cos\Delta t\end{pmatrix}\begin{pmatrix}sint\cost\end{pmatrix}$$<br><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2003/01.png" alt="img"></li>
-</ul>
-<pre><code class="python">class PositionalEncoding(nn.Module):
-
-    def __init__(self, d_model, max_len=5000):
-        super(PositionalEncoding, self).__init__()       
-        pe = torch.zeros(max_len, d_model)
-        position = torch.arange(0, max_len, dtype=torch.float).unsqueeze(1)
-        div_term = torch.exp(torch.arange(0, d_model, 2).float() * (-math.log(10000.0) / d_model))
-        pe[:, 0::2] = torch.sin(position * div_term)
-        pe[:, 1::2] = torch.cos(position * div_term)
-        pe = pe.unsqueeze(0).transpose(0, 1)
-        #pe.requires_grad = False
-        self.register_buffer(&#39;pe&#39;, pe)
-
-    def forward(self, x):
-        return x + self.pe[:x.size(0), :]
-</code></pre>
-<ul>
-<li>Transformer位置编码的缺点：位置编码点积的无向性，$PE_{t}^{T}*PE_{t+\Delta t}&#x3D;PE_{t}^{T}*PE_{t-\Delta t}$，即两个位置编码的乘积仅取决于$\Delta T$，不能用来表示位置的方向性</li>
-</ul>
-<h3 id="BERT的可学习位置编码"><a href="#BERT的可学习位置编码" class="headerlink" title="BERT的可学习位置编码"></a>BERT的可学习位置编码</h3><ul>
-<li>将位置编码当作可训练参数</li>
-<li>缺点是没有长度外推性</li>
-</ul>
-<h1 id="Structure"><a href="#Structure" class="headerlink" title="Structure"></a>Structure</h1><p>LLM的结构可以分为四类：</p>
-<ul>
-<li>Decoder-only<ul>
-<li>从左到右的单向注意力</li>
-<li>自回归语言模型</li>
-<li>文本生产效果好</li>
-<li>训练效率高</li>
-<li>GPT、llama、BLOOM、OPT<br><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2003/02.png" alt="img"></li>
+<h1 id="RAG概述"><a href="#RAG概述" class="headerlink" title="RAG概述"></a>RAG概述</h1><p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%20RAG/01.png" alt="img"></p>
+<h2 id="RAG流程"><a href="#RAG流程" class="headerlink" title="RAG流程"></a>RAG流程</h2><ul>
+<li>准备知识文档：<ul>
+<li>文档切片</li>
 </ul>
 </li>
-<li>Encoder-only<ul>
-<li>经典模型BERT</li>
-<li>目标是生成语言模型，预训练的语言模型</li>
+<li>Embedding模型：<ul>
+<li>核心任务将文本转换为向量形式</li>
+<li>Word2Vec、BERT、GPT系列等</li>
 </ul>
 </li>
-<li>Encoder-Decoder<ul>
-<li>输入双向注意力、输出单向注意力</li>
-<li>对问题的编码理解更充分，在偏理解的任务上表现较好</li>
-<li>训练效率低</li>
-<li>文本生成任务表现差</li>
-<li>T5、Flan-T5、BART</li>
+<li>向量数据库</li>
+<li>查询检索</li>
+<li>生成回答</li>
+</ul>
+<h2 id="RAG分类"><a href="#RAG分类" class="headerlink" title="RAG分类"></a>RAG分类</h2><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2312.10997">Retrieval-Augmented Generation for Large Language Models: A Survey</a></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%20RAG/02.png" alt="img"></p>
+<p>文中将RAG分为下文提及的三类</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%20RAG/03.png" alt="img"></p>
+<h2 id="Naive-RAG"><a href="#Naive-RAG" class="headerlink" title="Naive RAG"></a>Naive RAG</h2><ul>
+<li>经典的RAG，主要涉及“检索-阅读”过程</li>
+<li>索引：将文档库分割为较短的chunk</li>
+<li>检索：根据问题和chunk的相似度检索相关文档片段</li>
+<li>生成：以检索到的上下文为条件，生成问题的回答</li>
+</ul>
+<h2 id="Advanced-RAG"><a href="#Advanced-RAG" class="headerlink" title="Advanced RAG"></a>Advanced RAG</h2><ul>
+<li>检索前：使用问题的重写、路由和扩充等方式对齐问题和文档块之间的语义差异</li>
+<li>检索后：将检索得到的文档库进行重排序</li>
+</ul>
+<h2 id="Modular-RAG"><a href="#Modular-RAG" class="headerlink" title="Modular RAG"></a>Modular RAG</h2><ul>
+<li>引入查询搜索引擎等更多功能模块</li>
+<li>结合强化学习等技术</li>
+</ul>
+<h1 id="RAG评估"><a href="#RAG评估" class="headerlink" title="RAG评估"></a>RAG评估</h1><h2 id="RAG难点问题"><a href="#RAG难点问题" class="headerlink" title="RAG难点问题"></a>RAG难点问题</h2><ul>
+<li>建立知识向量库：<ul>
+<li>如何切分不同类型的文件</li>
+<li>如何设置chunk-size大小</li>
+<li>选用何种向量化工具构建</li>
+<li>embedding模型是否需要微调</li>
+<li>…</li>
 </ul>
 </li>
-<li>Prefix LM（特殊的Encoder-Decoder）<ul>
-<li>GLM、U-PaLm</li>
+<li>检索优化：<ul>
+<li>如何应对模糊的、指向不明的问题</li>
 </ul>
 </li>
-<li>MOE (Mixture of Experts)<ul>
-<li>Deepseek V2&#x2F;V3、Mistral<br><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%2003/03.png" alt="img"></li>
+<li>归纳总结：<ul>
+<li>内容全面性</li>
+<li>生成内容格式</li>
+<li>模型输出内容的可控性不够好</li>
 </ul>
 </li>
 </ul>
-<h1 id="解码采样策略"><a href="#解码采样策略" class="headerlink" title="解码采样策略"></a>解码采样策略</h1><h2 id="Greedy-Search"><a href="#Greedy-Search" class="headerlink" title="Greedy Search"></a>Greedy Search</h2><ul>
-<li>每次选择概率最大的token解码</li>
-<li>简单高效</li>
-<li>导致生成的文本过于单调和重复</li>
+<h2 id="对检索环节的评估"><a href="#对检索环节的评估" class="headerlink" title="对检索环节的评估"></a>对检索环节的评估</h2><h3 id="MRR-Mean-Reciprocal-Rank"><a href="#MRR-Mean-Reciprocal-Rank" class="headerlink" title="MRR (Mean Reciprocal Rank)"></a>MRR (Mean Reciprocal Rank)</h3><ul>
+<li>用于评估根据查询返回的多个结果的相关性</li>
+<li>定义结果列表中第$i$个结果匹配分数为$\frac{1}{i}$</li>
 </ul>
-<pre><code class="python">import torch
-import torch.nn.functional as F
-
-def greedy_search(logits, max_len=20, eos_token_id=2):
-    batch_size = logits.size(0)
-    seq_len = logits.size(1)
-    vocab_size = logits.size(2)
-    
-    # 初始化生成的序列，存储每个时间步选择的词索引
-    generated_sequence = torch.zeros(batch_size, max_len, dtype=torch.long)
-    # 记录当前生成的序列，初始化为开始 token（一般为0或者某个特殊的起始符号）
-    current_input = torch.zeros(batch_size, dtype=torch.long)  # 起始token id  
-    for t in range(max_len):
-        # 获取当前步骤的 logits
-        current_logits = logits[:, t, :]        
-        # 计算每个词的概率分布（通过softmax）
-        probs = F.softmax(current_logits, dim=-1)       
-        # 选择概率最高的词索引（greedy）
-        next_token = torch.argmax(probs, dim=-1)        
-        # 将选择的词加入到生成的序列中
-        generated_sequence[:, t] = next_token        
-        # 检查是否遇到结束标记，若遇到则停止生成
-        if (next_token == eos_token_id).all():
-            break        
-        # 更新当前输入（下一个时间步的输入）
-        current_input = next_token
-    return generated_sequence
-</code></pre>
-<h2 id="Beam-Search"><a href="#Beam-Search" class="headerlink" title="Beam Search"></a>Beam Search</h2><ul>
-<li>维护一个大小为$k$的候选序列集合，每一步从每个候选序列的概率分布中选择概率最高的$k$个单词</li>
-<li>保留总概率最高的$k$个候选序列</li>
-<li>平衡生成的质量和多样性</li>
-<li>可能导致生成的文本过于保守和不自然</li>
-</ul>
-<pre><code class="python">def pred(input):
-    batch,seq_len=input.shape
-    generate=torch.randn(size=(batch,1,10))
-    return generate
-
-def beam_search(input_ids,max_length,num_beams):
-    batch=input_ids.shape[0]
-
-    #输入扩展：效果是把input_ids复制成 batch_size * beam_size的个数
-    expand_size=num_beams
-    expanded_return_idx = (
-        torch.arange(input_ids.shape[0]).view(-1, 1).repeat(1, expand_size).view(-1).to(input_ids.device)
-    )
-    input_ids = input_ids.index_select(0, expanded_return_idx)
-    print(input_ids)
-
-    batch_beam_size,cur_len=input_ids.shape
-    beam_scores=torch.zeros(size=(batch,num_beams),dtype=torch.float,device=input_ids.device)
-    beam_scores[:,1:]=-1e9
-
-    beam_scores=beam_scores.view(size=(batch*num_beams,))
-    next_tokens=torch.zeros(size=(batch,num_beams),dtype=torch.long,device=input_ids.device)
-    next_indices=torch.zeros(size=(batch,num_beams),dtype=torch.long,device=input_ids.device)
-
-    while cur_len&lt;max_length:
-
-        logits=pred(input_ids)    #batch,seq_len,vocab
-        next_token_logits=logits[:,-1,:]  #当前时刻的输出
-
-        #归一化
-        next_token_scores=F.log_softmax(next_token_logits,dim=-1)   # (batch_size * num_beams, vocab_size)
-        #求概率
-        next_token_scores = next_token_scores + beam_scores[:, None].expand_as(next_token_scores)  # 当前概率+先前概率
-
-        # reshape for beam search
-        vocab_size = next_token_scores.shape[-1]
-        next_token_scores = next_token_scores.view(batch, num_beams * vocab_size)
-
-        # 当前时刻的token 得分，  token_id
-        next_token_scores, next_tokens = torch.topk(
-            next_token_scores, num_beams, dim=1, largest=True, sorted=True
-        )
-
-        next_indices = next_tokens // vocab_size  #对应的beam_id
-        next_tokens = next_tokens % vocab_size    #对应的indices
-
-        #集束搜索核心
-        def process(input_ids,next_scores,next_tokens,next_indices):
-            batch_size=3
-            group_size=3
-            next_beam_scores = torch.zeros((batch_size, num_beams), dtype=next_scores.dtype)
-            next_beam_tokens = torch.zeros((batch_size, num_beams), dtype=next_tokens.dtype)
-            next_beam_indices = torch.zeros((batch_size,num_beams), dtype=next_indices.dtype)
-
-            for batch_idx in range(batch_size):
-                beam_idx=0
-                for beam_token_rank, (next_token, next_score, next_index) in enumerate(
-                        zip(next_tokens[batch_idx], next_scores[batch_idx], next_indices[batch_idx])
-                ):
-                    batch_beam_idx=batch_idx*num_beams+next_index
-
-                    next_beam_scores[batch_idx, beam_idx] = next_score      #当前路径得分
-                    next_beam_tokens[batch_idx, beam_idx] = next_token      #当前时刻的token
-                    next_beam_indices[batch_idx, beam_idx] = batch_beam_idx  #先前对应的id
-
-                    beam_idx += 1
-
-            return next_beam_scores.view(-1), next_beam_tokens.view(-1), next_beam_indices.view(-1)
-
-        beam_scores, beam_next_tokens, beam_idx=process(input_ids,next_token_scores,next_tokens,next_indices)
-
-        # 更新输入， 找到对应的beam_idx, 选择的tokens, 拼接为新的输入      #(batch*beam,seq_len)
-        input_ids = torch.cat([input_ids[beam_idx, :], beam_next_tokens.unsqueeze(-1)], dim=-1)
-        cur_len = cur_len + 1
-    #输出
-    return input_ids,beam_scores
-
-if __name__ == &#39;__main__&#39;:
-    input_ids=torch.randint(0,100,size=(3,1))
-    print(input_ids)
-    input_ids,beam_scores=beam_search(input_ids,max_length=10,num_beams=3)
-    print(input_ids)
-</code></pre>
-<h2 id="Top-K-Sampling"><a href="#Top-K-Sampling" class="headerlink" title="Top-K Sampling"></a>Top-K Sampling</h2><ul>
-<li>从排名前$k$的token中进行抽样，允许其他分数或概率较高的token被选中</li>
-<li>将采样池限制为固定大小的k可能在分布比较尖锐的时候胡言乱语，另一方面在分布比较平坦的时候限制模型的创造力</li>
-</ul>
-<pre><code class="python">#@torch.inference_mode()
-    @torch.no_grad()
-    def generate(self, idx, 
-                 eos, max_new_tokens, temperature=1.0, top_k=None):
-        for _ in range(max_new_tokens):
-            # if the sequence context is growing too long we must crop it at block_size
-            idx_cond = idx if idx.size(1) &lt;= self.params.max_seq_len else idx[:, -self.params.max_seq_len:]
-            # forward the model to get the logits for the index in the sequence
-            logits = self(idx_cond)##===================================
-            logits = logits[:, -1, :] # crop to just the final time step
-            if temperature == 0.0:
-                # &quot;sample&quot; the single most likely index
-                _, idx_next = torch.topk(logits, k=1, dim=-1)
-            else:
-                # pluck the logits at the final step and scale by desired temperature
-                logits = logits / temperature
-                # optionally crop the logits to only the top k options
-                if top_k is not None:
-                    v, _ = torch.topk(logits, min(top_k, logits.size(-1)))
-                    logits[logits &lt; v[:, [-1]]] = -float(&#39;Inf&#39;)
-                # apply softmax to convert logits to (normalized) probabilities
-                probs = F.softmax(logits, dim=-1)
-                idx_next = torch.multinomial(probs, num_samples=1)
-            # append sampled index to the running sequence and continue
-            idx = torch.cat((idx, idx_next), dim=1)
-            if idx_next==eos:
+<pre><code class="python">def mean_reciprocal_rank(ranked_lists):
+    mrr = 0.0
+    for ranked_list in ranked_lists:
+        reciprocal_rank = 0
+        for rank, item in enumerate(ranked_list, start=1):
+            if item == 1:  # Correct answer found
+                reciprocal_rank = 1 / rank
                 break
-        return idx
+        mrr += reciprocal_rank
+    return mrr / len(ranked_lists)
 </code></pre>
-<h2 id="Top-P-Sampling"><a href="#Top-P-Sampling" class="headerlink" title="Top-P Sampling"></a>Top-P Sampling</h2><ul>
-<li>在累积概率超过设定值$P$的最小单词集中采样</li>
+<h3 id="Hits-Rate"><a href="#Hits-Rate" class="headerlink" title="Hits Rate"></a>Hits Rate</h3><ul>
+<li>前K项中包含正确信息的项的占比</li>
+<li>可用于评估召回相关文档的比率</li>
 </ul>
-<pre><code class="python">import torch
-import torch.nn.functional as F
+<h2 id="开源RAG评估框架"><a href="#开源RAG评估框架" class="headerlink" title="开源RAG评估框架"></a>开源RAG评估框架</h2><h3 id="Ragas"><a href="#Ragas" class="headerlink" title="Ragas"></a>Ragas</h3><p><a target="_blank" rel="noopener" href="https://github.com/nayeon7lee/FactualityPrompt">Ragas</a>主要评估忠实性、答案相关性、上下文相关性</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42608414/article/details/135355723">https://blog.csdn.net/weixin_42608414/article/details/135355723</a></p>
+<ul>
+<li>忠实性：答案应基于给定的上下文</li>
+<li>答案相关性</li>
+<li>上下文相关性：<ul>
+<li>LLMs处理长篇上下文信息的成本高</li>
+<li>LLMs对于上下文段落中间提供的信息利用效率低</li>
+</ul>
+</li>
+</ul>
+<h3 id="LangSmith"><a href="#LangSmith" class="headerlink" title="LangSmith"></a>LangSmith</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/fengshi_fengshi/article/details/144493414">https://blog.csdn.net/fengshi_fengshi/article/details/144493414</a></p>
+<p>可用来调试、测试、评估和监控基于任何LLM框架构建的chain和Agent</p>
+<h1 id="RAG优化"><a href="#RAG优化" class="headerlink" title="RAG优化"></a>RAG优化</h1><h2 id="文档分块策略"><a href="#文档分块策略" class="headerlink" title="文档分块策略"></a>文档分块策略</h2><p>RAG系统中，文档需要被分成多个文本块之后再进行向量嵌入</p>
+<ul>
+<li>固定大小的分块</li>
+<li>内容分块：<ul>
+<li>根据标点符号分块</li>
+<li>使用NLTK、spaCy库的句子分割功能</li>
+</ul>
+</li>
+<li>递归分块：<ul>
+<li>通过重复运用分块规则递归地分解文本</li>
+<li>例如：langchain先通过段落换行符<code>(\n\n)</code>进行分割，进一步，对于大小超过阈值的块使用单换行符<code>(\n)</code>进行再次分割</li>
+<li>如何制定合理的递归分块规则</li>
+</ul>
+</li>
+<li>特殊结构分块：<ul>
+<li>针对特定结构化内容的专门分块器</li>
+<li>langchain提供的特殊分块器：Markdown文件、LaTex文件、各种主流代码语言分块器</li>
+</ul>
+</li>
+<li>分块大小的选择：<ul>
+<li>不同的嵌入模型有不同的最佳输入大小，例如OpenAI的text-embedding-ada-002模型在256和512的分块上效果最佳</li>
+<li>文档类型和用户查询长度以及复杂性也是决定分块大小的重要因素，例如长篇文章和书籍适合较大的分块，社交媒体帖子适合较小的分块</li>
+</ul>
+</li>
+</ul>
+<h2 id="Embedding模型阶段"><a href="#Embedding模型阶段" class="headerlink" title="Embedding模型阶段"></a>Embedding模型阶段</h2><p>嵌入模型将文本转换成向量</p>
+<p>可以参考Hugging Face给出的嵌入模型排行榜MTEB</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/spaces/mteb/leaderboard">https://huggingface.co/spaces/mteb/leaderboard</a></p>
+<h2 id="查询索引阶段（检索召回、重排）"><a href="#查询索引阶段（检索召回、重排）" class="headerlink" title="查询索引阶段（检索召回、重排）"></a>查询索引阶段（检索召回、重排）</h2><p>用户的查询问题被转化为向量，检索过程中可能存在的问题：</p>
+<ul>
+<li>query和doc存在不对称问题</li>
+<li>query表达不清</li>
+<li>query过于具体，索引中不存在以回答该具体query为主要内容的doc</li>
+<li>query偏长尾、复杂，需要多步推理，索引中不存在能够直接提供答案的doc</li>
+</ul>
+<p>基于上述存在的问题，我们可以从：</p>
+<ul>
+<li>Query Expansion</li>
+<li>StepBack</li>
+<li>Query Decomposation</li>
+<li>Multi Query Retrieval</li>
+</ul>
+<p>等角度给出RAG优化策略</p>
+<h3 id="HyDE"><a href="#HyDE" class="headerlink" title="HyDE"></a>HyDE</h3><p>假设文档嵌入</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%20RAG/04.png" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2212.10496">https://arxiv.org/pdf/2212.10496</a></p>
+<ul>
+<li>接收到用户提问后，先让LLM在没有外部知识的情况下生成一个假设性回复</li>
+<li>然后将这个假设性回复和原始查询一起用于向量检索</li>
+<li>假设回复中虽然可能包含虚假信息，但蕴含着LLM认为相关的信息和文档模式，有助于在知识库中寻找类似的文档</li>
+</ul>
+<ol>
+<li><strong>生成伪文档</strong></li>
+</ol>
+<pre><code class="python">from langchain.prompts import ChatPromptTemplate
 
-def top_p_sampling(logits, p=0.9):
-    # 应用softmax得到概率分布
-    probs = F.softmax(logits, dim=-1)
-    # 对概率分布进行排序
-    sorted_probs, sorted_indices = torch.sort(probs, descending=True, dim=-1)    
-    # 计算累积概率
-    cumulative_probs = torch.cumsum(sorted_probs, dim=-1)    
-    # 找到第一个使得累积概率大于p的位置
-    cutoff_idx = torch.sum(cumulative_probs &lt;= p, dim=-1)
-    # 根据cutoff_idx截断概率分布
-    masked_probs = torch.gather(probs, dim=-1, index=sorted_indices[:, :cutoff_idx + 1])    
-    # 重新归一化剩余概率
-    masked_probs = masked_probs / masked_probs.sum(dim=-1, keepdim=True)
-    # 从候选词中随机选择一个词
-    selected_idx = torch.multinomial(masked_probs, 1)    
-    return sorted_indices.gather(-1, selected_idx)
+# HyDE document generation
+template = &quot;&quot;&quot;请撰写一段科学论文内容来回答以下问题。
+Question: &#123;question&#125;
+Passage:&quot;&quot;&quot;
+prompt_hyde = ChatPromptTemplate.from_template(template)
+
+from langchain_core.output_parsers import StrOutputParser
+from langchain_openai import ChatOpenAI
+
+generate_docs_for_retrieval = (
+    prompt_hyde 
+    | ChatOpenAI(temperature=0) 
+    | StrOutputParser()
+)
+
+# Run
+question = &quot;LLM代理的任务分解是什么?&quot;
+generate_docs_for_retrieval.invoke(&#123;&quot;question&quot;: question&#125;)
 </code></pre>
-<h2 id="Majority-Vote"><a href="#Majority-Vote" class="headerlink" title="Majority Vote"></a>Majority Vote</h2><ul>
-<li>多数投票，输出多个回答，选择答案一致性最多的作为最终答案</li>
+<ol start="2">
+<li><strong>检索</strong></li>
+</ol>
+<pre><code class="python"># Retrieve
+retrieval_chain = generate_docs_for_retrieval | retriever
+retrieved_docs = retrieval_chain.invoke(&#123;&quot;question&quot;: question&#125;)
+retrieved_docs
+
+# RAG
+template = &quot;&quot;&quot;Answer the following question based on this context:
+
+&#123;context&#125;
+
+Question: &#123;question&#125;
+&quot;&quot;&quot;
+
+prompt = ChatPromptTemplate.from_template(template)
+
+final_rag_chain = (
+    prompt
+    | llm
+    | StrOutputParser()
+)
+
+final_rag_chain.invoke(&#123;&quot;context&quot;: retrieved_docs, &quot;question&quot;: question&#125;)
+</code></pre>
+<h3 id="Step-Back-Prompting"><a href="#Step-Back-Prompting" class="headerlink" title="Step Back Prompting"></a>Step Back Prompting</h3><p>退后提示</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%20RAG/05.png" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2310.06117">https://arxiv.org/pdf/2310.06117</a></p>
+<ul>
+<li>原始查询太复杂、返回的信息太广泛，我们可以选择生成一个抽象层次更高的“退后问题”</li>
+<li>将“退后问题”与原始问题一起用于检索，以增加返回结果的数量</li>
+<li>例如“ABC在两年前就读于哪所学校”，可以给出退后问题：ABC的教育历史</li>
 </ul>
+<ol>
+<li><strong>构造few-shot</strong></li>
+</ol>
+<pre><code class="python"># Few Shot Examples
+from langchain_core.prompts import ChatPromptTemplate, FewShotChatMessagePromptTemplate
+
+examples = [
+    &#123;
+        &quot;input&quot;: &quot;Could the members of The Police perform lawful arrests&quot;,
+        &quot;output&quot;: &quot;what can the members of The Police do?&quot;,
+    &#125;,
+    &#123;
+        &quot;input&quot;: &quot;Jan Sindel&#39;s was born in what country?&quot;,
+        &quot;output&quot;: &quot;what is Jan Sindel&#39;s personal history?&quot;,
+    &#125;,
+]
+
+# We now transform these to example messages
+example_prompt = ChatPromptTemplate.from_messages(
+    [
+        (&quot;human&quot;, &quot;&#123;input&#125;&quot;),
+        (&quot;ai&quot;, &quot;&#123;output&#125;&quot;),
+    ]
+)
+
+few_shot_prompt = FewShotChatMessagePromptTemplate(
+    example_prompt=example_prompt,
+    examples=examples,
+)
+</code></pre>
+<ol start="2">
+<li><strong>构造prompt</strong></li>
+</ol>
+<pre><code class="python">prompt = ChatPromptTemplate.from_messages(
+    [
+        (&quot;system&quot;, &quot;&quot;&quot;你是一位世界知识领域的专家。你的任务是退一步，将问题改写为更通用的、便于回答的&quot;退一步&quot;问题。以下是一些示例：&quot;&quot;&quot;,
+        ),
+        # Few shot examples
+        few_shot_prompt,
+        # New question
+        (&quot;user&quot;, &quot;&#123;question&#125;&quot;),
+    ]
+)
+
+generate_queries_step_back = prompt | ChatOpenAI(temperature=0) | StrOutputParser()
+question = &quot;LLM代理的任务分解是什么？&quot;
+generate_queries_step_back.invoke(&#123;&quot;question&quot;: question&#125;)
+
+# Response prompt
+response_prompt_template = &quot;&quot;&quot;你是一位世界知识领域的专家。我将向你提问一个问题。你的回答应当全面，并且在相关情况下不得与以下内容矛盾。如果这些内容与问题无关，则可以忽略它们。
+
+# &#123;normal_context&#125;
+# &#123;step_back_context&#125;
+
+# Original Question: &#123;question&#125;
+# Answer:&quot;&quot;&quot;
+response_prompt = ChatPromptTemplate.from_template(response_prompt_template)
+
+chain = (
+    &#123;
+        # Retrieve context using the normal question
+        &quot;normal_context&quot;: RunnableLambda(lambda x: x[&quot;question&quot;]) | retriever,
+        # Retrieve context using the step-back question
+        &quot;step_back_context&quot;: generate_queries_step_back | retriever,
+        # Pass on the question
+        &quot;question&quot;: lambda x: x[&quot;question&quot;],
+    &#125;
+    | response_prompt
+    | ChatOpenAI(temperature=0)
+    | StrOutputParser()
+)
+
+chain.invoke(&#123;&quot;question&quot;: question&#125;)
+</code></pre>
+<h3 id="Multi-Query-Retrieval"><a href="#Multi-Query-Retrieval" class="headerlink" title="Multi Query Retrieval"></a>Multi Query Retrieval</h3><p>多查询检索&#x2F;多路召回</p>
+<p><a target="_blank" rel="noopener" href="https://python.langchain.com/docs/how_to/MultiQueryRetriever/">https://python.langchain.com/docs/how_to/MultiQueryRetriever/</a></p>
+<ul>
+<li>使用LLM生成多个搜索查询</li>
+<li>适用于一个问题需要依赖多个子问题</li>
+</ul>
+<ol>
+<li><strong>Indexing</strong></li>
+</ol>
+<pre><code class="python"># Load blog
+import bs4
+from langchain_community.document_loaders import WebBaseLoader
+loader = WebBaseLoader(
+    web_paths=(&quot;https://lilianweng.github.io/posts/2023-06-23-agent/&quot;,),
+    bs_kwargs=dict(
+        parse_only=bs4.SoupStrainer(
+            class_=(&quot;post-content&quot;, &quot;post-title&quot;, &quot;post-header&quot;)
+        )
+    ),
+)
+blog_docs = loader.load()
+
+# Split
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
+    chunk_size=300,
+    chunk_overlap=50)
+
+# Make splits
+splits = text_splitter.split_documents(blog_docs)
+
+# Index
+from langchain_openai import OpenAIEmbeddings
+from langchain_community.vectorstores import Chroma
+vectorstore = Chroma.from_documents(documents=splits,embedding=OpenAIEmbeddings())
+
+retriever = vectorstore.as_retriever()
+</code></pre>
+<ol start="2">
+<li><strong>Prompt构造</strong></li>
+</ol>
+<pre><code class="python">from langchain.prompts import ChatPromptTemplate
+
+# Multi Query: Different Perspectives
+template = &quot;&quot;&quot;你是一款AI语言模型助手。你的任务是为用户提供的问题生成五个不同版本的改写，以便从向量数据库中检索相关文档。通过从多个较读改写用户问题，你的目标是帮助用户克服基于距离的相似性搜索的一些局限性。
+请将这些改写问题用换行符分隔。原始问题：&#123;question&#125;&quot;&quot;&quot; 
+prompt_perspectives = ChatPromptTemplate.from_template(template)
+
+from langchain_core.output_parsers import StrOutputParser
+from langchain_openai import ChatOpenAI
+
+generate_queries = (
+    prompt_perspectives
+    | ChatOpenAI(temperature=0)
+    | StrOutputParser()
+    | (lambda x: x.split(&quot;\n&quot;))
+)
+</code></pre>
+<ol start="3">
+<li><strong>检索文档</strong></li>
+</ol>
+<pre><code class="python">from langchain.load import dumps, loads
+
+def get_unique_union(documents: list[list]):
+    &quot;&quot;&quot; Unique union of retrieved docs &quot;&quot;&quot;
+    # Flatten list of lists, and convert each Document to string
+    flattened_docs = [dumps(doc) for sublist in documents for doc in sublist]
+    # Get unique documents
+    unique_docs = list(set(flattened_docs))
+    # Return
+    return [loads(doc) for doc in unique_docs]
+
+# Retrieve
+question = &quot;What is task decomposition for LLM agents?&quot;
+retrieval_chain = generate_queries | retriever.map() | get_unique_union
+docs = retrieval_chain.invoke(&#123;&quot;question&quot;: question&#125;)
+len(docs)
+</code></pre>
+<ol start="4">
+<li><strong>内容生成</strong></li>
+</ol>
+<pre><code class="python">from operator import itemgetter
+from langchain_openai import ChatOpenAI
+from langchain_core.runnables import RunnablePassthrough
+
+# RAG
+template = &quot;&quot;&quot;Answer the following question based on this context:
+
+&#123;context&#125;
+
+Question: &#123;question&#125;
+&quot;&quot;&quot;
+
+prompt = ChatPromptTemplate.from_template(template)
+
+llm = ChatOpenAI(temperature=0)
+
+final_rag_chain = (
+    &#123;&quot;context&quot;: retrieval_chain,
+     &quot;question&quot;: itemgetter(&quot;question&quot;)&#125;
+    | prompt
+    | llm
+    | StrOutputParser()
+)
+
+final_rag_chain.invoke(&#123;&quot;question&quot;: question&#125;)
+</code></pre>
+<h3 id="Decomposition"><a href="#Decomposition" class="headerlink" title="Decomposition"></a>Decomposition</h3><p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%20RAG/06.png" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2305.14283">https://arxiv.org/pdf/2305.14283</a></p>
+<ul>
+<li>将一个复杂问题分解成多个子问题</li>
+<li>可以按顺序串行解决（使用第一个问题的检索来回答第二个问题）</li>
+<li>可以按并行解决（每个答案合并为最终答案），向下分解</li>
+</ul>
+<ol>
+<li><strong>构造答案迭代式回答的prompt</strong></li>
+</ol>
+<pre><code class="python">from langchain.prompts import ChatPromptTemplate
+
+# Prompt
+template = &quot;&quot;&quot;Here is the question you need to answer:
+
+\n --- \n &#123;question&#125; \n --- \n
+
+Here is any available background question + answer pairs:
+
+\n --- \n &#123;q_a_pairs&#125; \n --- \n
+
+Here is additional context relevant to the question:
+
+\n --- \n &#123;context&#125; \n --- \n
+
+Use the above context and any background question + answer pairs to answer the question: &quot;&quot;&quot;
+
+decomposition_prompt = ChatPromptTemplate.from_template(template)
+</code></pre>
+<ol start="2">
+<li><strong>生成答案</strong></li>
+</ol>
+<pre><code class="python">from operator import itemgetter
+from langchain_core.output_parsers import StrOutputParser
+
+def format_qa_pair(question, answer):
+    &quot;&quot;&quot;Format Q and A pair&quot;&quot;&quot;
+    formatted_string = &quot;&quot;
+    formatted_string += f&quot;Question: &#123;question&#125;\nAnswer: &#123;answer&#125;\n\n&quot;
+    return formatted_string.strip()
+
+# llm
+llm = ChatOpenAI(model_name=&quot;gpt-3.5-turbo&quot;, temperature=0)
+
+q_a_pairs = &quot;&quot;
+for q in questions:
+
+    rag_chain = (
+        &#123;&quot;context&quot;: itemgetter(&quot;question&quot;) | retriever,
+         &quot;question&quot;: itemgetter(&quot;question&quot;),
+         &quot;q_a_pairs&quot;: itemgetter(&quot;q_a_pairs&quot;)&#125;
+        | decomposition_prompt
+        | llm
+        | StrOutputParser()
+    )
+
+    answer = rag_chain.invoke(&#123;&quot;question&quot;: q, &quot;q_a_pairs&quot;: q_a_pairs&#125;)
+    q_a_pair = format_qa_pair(q, answer)
+    q_a_pairs = q_a_pairs + &quot;\n--\n&quot; + q_a_pair
+</code></pre>
+<h2 id="生成回答阶段"><a href="#生成回答阶段" class="headerlink" title="生成回答阶段"></a>生成回答阶段</h2><ul>
+<li>减少模型产生主观回答和幻觉，RAG系统中的提示词应明确指出回答仅基于搜索结果，例如：“你是一名智能客服。你的目标是提供准确的信息，并尽可能帮助提问者解决问题。你应保持友善，但不要过于啰嗦。请根据提供的上下文信息，在不考虑已有知识的情况下，回答相关查询”</li>
+<li>可以使用few-shot的方法，将想要的问答例子加入提示词中，从而指导LLM如何利用检索到的知识，提高模型在特定情境下的实用性</li>
+</ul>
+<h3 id="链式验证方法-CoVe"><a href="#链式验证方法-CoVe" class="headerlink" title="链式验证方法 (CoVe)"></a>链式验证方法 (CoVe)</h3><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2309.11495">https://arxiv.org/pdf/2309.11495</a></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%20RAG/07.png" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/675085581">https://zhuanlan.zhihu.com/p/675085581</a></p>
+<ol>
+<li>模型首先生成基准回答（baseline answer）</li>
+<li>生成验证问题来核实生成的结果</li>
+<li>模型独立回答上述问题</li>
+<li>最终生成验证后的回答</li>
+</ol>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%20RAG/08.png" alt="img"></p>
+<h3 id="搜索增强事实-SAFE"><a href="#搜索增强事实-SAFE" class="headerlink" title="搜索增强事实 (SAFE)"></a>搜索增强事实 (SAFE)</h3><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2403.18802">https://arxiv.org/pdf/2403.18802</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/google-deepmind/long-form-factuality">https://github.com/google-deepmind/long-form-factuality</a></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%20RAG/09.png" alt="img"></p>
+<ul>
+<li>CoVe的升级方法，在链式验证中引入检索增强</li>
+<li>通过将LLM生成的response拆分成多个事实，剔除与问题无关的事实内容</li>
+<li>对每个相关事实进行检索增强，判断检索结果是否支持该事实</li>
+</ul>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%20RAG/10.png" alt="img"></p>
+<h3 id="层对比解码-Decoding-by-Contrasting-Layers-DoLa"><a href="#层对比解码-Decoding-by-Contrasting-Layers-DoLa" class="headerlink" title="层对比解码 (Decoding by Contrasting Layers, DoLa)"></a>层对比解码 (Decoding by Contrasting Layers, DoLa)</h3><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2309.03883">https://arxiv.org/pdf/2309.03883</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/voidism/DoLa">https://github.com/voidism/DoLa</a></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%20RAG/11.png" alt="img"></p>
+<ul>
+<li>在生成结果解码时同时关注Transformer高层与底层的知识</li>
+<li>强调较高层中的知识并淡化低层中的知识</li>
+<li>不检索外部知识或进行额外微调的情况下，有效减少语言模型的幻觉</li>
+</ul>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%20RAG/12.png" alt="img"></p>
 
     </div>
     
