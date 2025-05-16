@@ -1,0 +1,516 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>LLM学习日记 Pre-Training | 『1nv_qaq&#39;s Blog』</title>
+    <meta name="author" content="1nv-qaq" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>wait wait wait...</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>『1NV_QAQ&#39;S BLOG』</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;『1NV_QAQ&#39;S BLOG』</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>LLM学习日记 Pre-Training</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/2
+        </span>
+        
+        <span class="category">
+            <a href="/categories/AI-Algorithm/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                AI Algorithm
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/AI-Algorithm/" style="color: #00bcd4">
+                    AI Algorithm
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <ul>
+<li>数据爬取</li>
+<li>数据清洗<span id="more"></span></li>
+</ul>
+<h1 id="Pre-Training-Data"><a href="#Pre-Training-Data" class="headerlink" title="Pre Training Data"></a>Pre Training Data</h1><h2 id="数据爬取"><a href="#数据爬取" class="headerlink" title="数据爬取"></a>数据爬取</h2><ul>
+<li>一些开源通用数据</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Skywork&#x2F;SkyPile-150B</th>
+<th><a target="_blank" rel="noopener" href="https://huggingface.co/datasets/Skywork/SkyPile-150B">https://huggingface.co/datasets/Skywork/SkyPile-150B</a></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>wikipedia-cn-20230720-filtered</td>
+<td><a target="_blank" rel="noopener" href="https://huggingface.co/datasets/pleisto/wikipedia-cn-20230720-filtered">https://huggingface.co/datasets/pleisto/wikipedia-cn-20230720-filtered</a></td>
+</tr>
+<tr>
+<td>C4</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/allenai/allennlp/discussions/5056">https://github.com/allenai/allennlp/discussions/5056</a></td>
+</tr>
+<tr>
+<td>RedPajama</td>
+<td><a target="_blank" rel="noopener" href="https://huggingface.co/datasets/togethercomputer/RedPajama-Data-V2">https://huggingface.co/datasets/togethercomputer/RedPajama-Data-V2</a></td>
+</tr>
+<tr>
+<td>WuDaoCorporaText</td>
+<td><a target="_blank" rel="noopener" href="https://data.baai.ac.cn/details/WuDaoCorporaText">https://data.baai.ac.cn/details/WuDaoCorporaText</a></td>
+</tr>
+<tr>
+<td>PRM800K</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/openai/prm800k?tab=readme-ov-file">https://github.com/openai/prm800k?tab=readme-ov-file</a></td>
+</tr>
+<tr>
+<td>YeungNLP&#x2F;firefly-pretrain-dataset</td>
+<td><a target="_blank" rel="noopener" href="https://huggingface.co/datasets/YeungNLP/firefly-pretrain-dataset">https://huggingface.co/datasets/YeungNLP/firefly-pretrain-dataset</a></td>
+</tr>
+</tbody></table>
+<ul>
+<li>定向网站爬虫demo</li>
+</ul>
+<pre><code class="python"># -*- coding: utf-8 -*-
+import io
+import requests
+from bs4 import BeautifulSoup
+import urllib
+import ssl
+import pandas as pd
+import tqdm
+ssl._create_default_https_context = ssl._create_unverified_context
+
+def download_pdf(save_path, pdf_name, pdf_url):
+    headers = &#123;
+        &#39;User-Agent&#39;: &#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) &#39;
+                      &#39;Chrome/88.0.4324.146 Safari/537.36&#39;
+    &#125;
+    response = requests.get(pdf_url, headers=headers)
+    bytes_io = io.BytesIO(response.content)
+    with open(&quot;./事故报告_pdf/&quot; + &quot;%s.pdf&quot; % pdf_name, mode=&#39;wb&#39;) as f:
+        f.write(bytes_io.getvalue())
+        print(&#39;%s.pdf,下载成功！&#39; % (pdf_name))
+
+def request_douban(url):
+    headers = &#123;
+        &#39;User-Agent&#39;: &#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) &#39;
+                      &#39;Chrome/88.0.4324.146 Safari/537.36&#39;
+    &#125;
+
+    try:
+        response = requests.get(url=url, headers=headers, allow_redirects=False)
+        response.encoding = response.apparent_encoding
+        if response.status_code == 200:
+            return response.text
+    except requests.RequestException:
+        return None
+
+def askURL(url):
+    head = &#123; 
+   &quot;User-Agent&quot;:&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36&quot;&#125;
+    request=urllib.request.Request(url,headers=head)
+    html=&quot;&quot;
+    try:
+        response=urllib.request.urlopen(request)
+        html=response.read().decode(&quot;utf-8&quot;)
+        # print(html)
+    except urllib.error.URLError as e:
+        if hasattr(e,&quot;code&quot;):
+            print(e.code)
+        if hasattr(e,&quot;reason&quot;):
+            print(e.reason)
+
+    return html
+
+if __name__ == &#39;__main__&#39;:
+    save_path = &#39;./事故报告&#39;
+    urls = []
+    for i in range(1, 117):
+        urls.append(f&quot;https://openstd.samr.gov.cn/bzgk/gb/std_list_type?r=0.03316401348913578&amp;page=&#123;i&#125;&amp;pageSize=10&amp;p.p1=1&amp;p.p6=13&amp;p.p90=circulation_date&amp;p.p91=desc&quot;)
+
+    names = []
+    nums = []
+    dodates = []
+    # q = tqdm(urls, desc=&#39;Processing&#39;)
+    for idx, url in enumerate(urls):
+        html = askURL(url)
+        bs = BeautifulSoup(html, &#39;html.parser&#39;)
+        contents = bs.find(&#39;table&#39;, class_=&#39;table result_list table-striped table-hover&#39;).find_all(&#39;tr&#39;)
+        for content in contents:
+            try:
+                th = content.find_all(&#39;td&#39;)
+                nums.append(th[1].text.strip())
+                names.append(th[3].text.strip())
+                dodates.append(th[6].text.strip()[:10])
+            except:
+                pass
+        print(f&quot;完成第&#123;idx&#125;篇&quot;)
+
+    df = pd.DataFrame(columns=[&quot;编号&quot;,&quot;名称&quot;, &quot;实施日期&quot;])
+    for i in range(len(nums)):
+        df.loc[i] = [nums[i], names[i], dodates[i]]
+    
+    df.to_csv(&#39;result.csv&#39;, index=False)
+</code></pre>
+<ul>
+<li>基于关键词爬取指定网站：<a target="_blank" rel="noopener" href="https://github.com/NanmiCoder/MediaCrawler">https://github.com/NanmiCoder/MediaCrawler</a></li>
+</ul>
+<h2 id="数据清洗"><a href="#数据清洗" class="headerlink" title="数据清洗"></a>数据清洗</h2><ul>
+<li>URL过滤（llama 3.1）</li>
+<li>内容抽取：<ul>
+<li>得到过滤后的URL集合后，需要过滤、丢弃“目录”、“标题”、“广告”等无关内容</li>
+<li>使用<code>trafilatura</code>库进行内容抓取</li>
+</ul>
+</li>
+</ul>
+<pre><code class="Python">from trafilatura import fetch_url,extract
+
+url=&quot;&quot;
+downloaded=fetch_url(url)
+
+result=extract(downloaded)
+print(result)
+</code></pre>
+<ul>
+<li>语言识别：<ul>
+<li><p>使用<code>FastText</code>训练一个语言识别模型，去掉语言阈值得分较低的文章</p>
+</li>
+<li><p>使用<code>langid</code>识别语言种类</p>
+</li>
+<li><pre><code class="Python">import landid
+
+text=&quot;abc&quot;
+language=langid.classify(text)[0]
+
+print(language)
+</code></pre>
+</li>
+<li><p>使用<code>\data-juicer-main\data_juicer\ops\filter\language_id_score_filter.py</code>进行识别</p>
+</li>
+<li><pre><code class="python">from typing import List, Union
+
+from data_juicer.utils.constant import Fields, StatsKeys
+from data_juicer.utils.lazy_loader import LazyLoader
+from data_juicer.utils.model_utils import get_model, prepare_model
+
+from ..base_op import OPERATORS, Filter
+
+fasttext = LazyLoader(&#39;fasttext&#39;, &#39;fasttext&#39;)
+
+OP_NAME = &#39;language_id_score_filter&#39;
+
+
+@OPERATORS.register_module(OP_NAME)
+class LanguageIDScoreFilter(Filter):
+    &quot;&quot;&quot;Filter to keep samples in a specific language with confidence score
+    larger than a specific min value.&quot;&quot;&quot;
+
+    def __init__(self,
+                 lang: Union[str, List[str]] = &#39;&#39;,
+                 min_score: float = 0.8,
+                 *args,
+                 **kwargs):
+        &quot;&quot;&quot;
+        Initialization method.
+
+        :param lang: Samples in which languages to keep.
+        :param min_score: The min language identification confidence
+            scores of samples to keep.
+        :param args: extra args
+        :param kwargs: extra args
+        &quot;&quot;&quot;
+        super().__init__(*args, **kwargs)
+        if not lang:
+            # lang is [], &#39;&#39; or None
+            self.lang = None
+        elif isinstance(lang, str):
+            # lang is a single language string
+            self.lang = [lang]
+        else:
+            # lang is a list of multiple languages
+            self.lang = lang
+        self.min_score = min_score
+        self.model_key = prepare_model(model_type=&#39;fasttext&#39;)
+
+    def compute_stats_single(self, sample):
+        # check if it&#39;s computed already
+        if StatsKeys.lang in sample[
+                Fields.stats] and StatsKeys.lang_score in sample[Fields.stats]:
+            return sample
+
+        text = sample[self.text_key].lower().replace(&#39;\n&#39;, &#39; &#39;)
+        ft_model = get_model(self.model_key)
+        if ft_model is None:
+            err_msg = &#39;Model not loaded. Please retry later.&#39;
+            raise ValueError(err_msg)
+        pred = ft_model.predict(text)
+        lang_id = pred[0][0].replace(&#39;__label__&#39;, &#39;&#39;)
+        lang_score = pred[1][0]
+
+        sample[Fields.stats][StatsKeys.lang] = lang_id
+        sample[Fields.stats][StatsKeys.lang_score] = lang_score
+
+        return sample
+
+    def process_single(self, sample):
+        if self.lang:
+            return sample[Fields.stats][StatsKeys.lang] in self.lang \
+                   and sample[Fields.stats][StatsKeys.lang_score] &gt;= \
+                   self.min_score
+        else:
+            return sample[Fields.stats][StatsKeys.lang_score] &gt;= self.min_score
+</code></pre>
+</li>
+</ul>
+</li>
+<li>低质过滤：<ul>
+<li>篇章级别过滤</li>
+<li>句子级别过滤</li>
+</ul>
+</li>
+<li>模型打分：<ul>
+<li>利用模型对pretrain的数据指令进行打分（llama3、qwen2等）</li>
+<li>相较于transformer-decoder，推荐使用BERT结构的模型，或者利用GPT4o等强闭源模型</li>
+<li>给出DeepSeek-Math的流程作为参考</li>
+<li><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/LLM%20Pre-Training/01.png" alt="img"></li>
+</ul>
+</li>
+<li>数据去重：<ul>
+<li>训练数据集中的重复</li>
+<li>训练迭代设置的重复</li>
+<li>训练与测试集的重复</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2024 - 2025 『1nv_qaq&#39;s Blog』
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;1nv-qaq
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    <script src="/js/<fireworks.min.js>"></script>
+
+
+    <canvas
+    id="fireworks"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"
+></canvas>
+<script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="/js/fireworks.min.js"></script>
+
+
+
+
+    
+    
+
+
+
+
+    
+</body>
+</html>
